@@ -15,24 +15,24 @@ import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
-    AbstractJpaDao<Product> dao;
+    ProductDAO dao;
 
     @Autowired
-    public void setDao(AbstractJpaDao<Product> productDAO) {
+    public void setDao(ProductDAO productDAO) {
         dao = productDAO;
-        dao.setClazz(Product.class);
+        productDAO.setClazz(Product.class);
     }
 
     public Product getProductById(int id) {
         return dao.findOne(id);
     }
 
-    public List<ProductDto> pagGetAllProducts(int p) {
+    public List<ProductDto> pagGetAllProducts(int p, List<Object> paramsList) {
         int total = 8;
         if (p != 1) {
             p = (p - 1) * total + 1;
         }
 
-        return dao.pagfindAll(p - 1, total).stream().map(ProductDto::new).collect(Collectors.toList());
+        return dao.pagfindAll(p - 1, total,paramsList).stream().map(ProductDto::new).collect(Collectors.toList());
     }
 }

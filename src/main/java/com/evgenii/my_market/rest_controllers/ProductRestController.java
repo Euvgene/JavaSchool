@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,7 +22,7 @@ public class ProductRestController {
 
     @GetMapping("/{id}")
     public Product getProductBtId(@PathVariable int id) {
-      return productService.getProductById(id);
+        return productService.getProductById(id);
     }
 
  /*   @GetMapping
@@ -29,7 +31,16 @@ public class ProductRestController {
     }*/
 
     @GetMapping()
-    public List<ProductDto> pagination(@RequestParam(name = "p", defaultValue = "1") int page){
-        return productService.pagGetAllProducts(page);
+    public List<ProductDto> pagination(@RequestParam(name = "p", defaultValue = "1") int page,
+                                       @RequestParam(name = "name", defaultValue = "") String name,
+                                       @RequestParam(name = "gender", defaultValue = "") String gender,
+                                       @RequestParam(name = "min_price", defaultValue = 0 + "") BigDecimal minPrice,
+                                       @RequestParam(name = "max_price", defaultValue = Integer.MAX_VALUE + "") BigDecimal maxPrice) {
+        List<Object> paramList = new ArrayList<>();
+        paramList.add(name);
+        paramList.add(gender);
+        paramList.add(minPrice);
+        paramList.add(maxPrice);
+        return productService.pagGetAllProducts(page, paramList);
     }
 }
