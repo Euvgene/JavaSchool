@@ -18,7 +18,7 @@ public class Product implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int productId;
 
-    @Column(name = "title")
+    @Column(name = "productTitle")
     private String productTitle;
 
     @Column(name = "price")
@@ -27,8 +27,9 @@ public class Product implements Serializable {
     @Column(name = "category")
     private byte category;
 
-    @Column(name = "parameters")
-    private byte productParameters;
+    @OneToOne()
+    @JoinColumn(name = "product_param")
+    private Parameters productParams;
 
 
     @Column(name = "quantity")

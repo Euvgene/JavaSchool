@@ -1,11 +1,16 @@
 package com.evgenii.my_market.dao;
 
+import com.evgenii.my_market.dto.ProductDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class AbstractJpaDao< T extends Serializable> {
+public abstract class AbstractJpaDao< T extends Serializable>   {
     private Class< T > clazz;
 
     @PersistenceContext
@@ -20,6 +25,11 @@ public abstract class AbstractJpaDao< T extends Serializable> {
     }
     public List< T > findAll(){
         return entityManager.createQuery( "from " + clazz.getName() )
+                .getResultList();
+    }
+
+    public List< T > pagfindAll(int p, int t){
+        return  entityManager.createQuery( "from " + clazz.getName() ).setFirstResult(p).setMaxResults(t)
                 .getResultList();
     }
 
