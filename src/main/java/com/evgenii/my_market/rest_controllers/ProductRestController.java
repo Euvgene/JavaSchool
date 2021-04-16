@@ -32,7 +32,7 @@ public class ProductRestController {
 
     @GetMapping()
     public List<ProductDto> pagination(@RequestParam(name = "p", defaultValue = "1") int page,
-                                       @RequestParam(name = "name", defaultValue = "") String name,
+                                       @RequestParam(name = "product_title", defaultValue = "") String name,
                                        @RequestParam(name = "gender", defaultValue = "") String gender,
                                        @RequestParam(name = "min_price", defaultValue = 0 + "") BigDecimal minPrice,
                                        @RequestParam(name = "max_price", defaultValue = Integer.MAX_VALUE + "") BigDecimal maxPrice) {
