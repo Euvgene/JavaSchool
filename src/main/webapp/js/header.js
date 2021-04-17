@@ -69,11 +69,23 @@ function hiddenForUser() {
 function ordersHidden() {
     $("#orders").hide();
 }
+
+function addProduct() {
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8189/addproducts",
+            headers: {
+                "Authorization": "Bearer " + localStorage.token
+            },
+        success: function () {
+            location.assign("http://localhost:8189/addproducts");
+        }
+    });
+}
+
 $(document).ready(function () {
     isUserLoggedIn();
-   /* if (!localStorage.pageIndx) {
-        localStorage.setItem("pageIndx", 1);
-    } */
+
 
     $("#logIn").click(function (event) {
         event.preventDefault();
@@ -83,6 +95,10 @@ $(document).ready(function () {
     $("#exitButton").click(function (event) {
         event.preventDefault();
         logOut()
+    });
+    $("#addProduct").click(function (event) {
+        event.preventDefault();
+        addProduct()
     });
 
 });
