@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @NoArgsConstructor
 @Data
@@ -13,7 +14,7 @@ public class ProductDto {
     private int fotoId;
     private String name;
     private String gender;
-    private String birthday;
+    private LocalDate birthday;
     private String lifeSpan;
 
     public ProductDto(Product p) {

@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "users")
@@ -29,7 +30,7 @@ public class Users {
     private String email;
 
     @Column(name = "birthday")
-    private String birthday;
+    private LocalDate birthday;
 
     @OneToOne()
     @JoinColumn(name = "user_adress")

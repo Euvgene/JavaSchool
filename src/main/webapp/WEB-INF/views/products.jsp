@@ -6,64 +6,11 @@
     <script type="text/javascript" src="/js/products.js"></script>
 </header>
 <head>
+    <%@ include file="header.jsp" %>
     <title>Products</title>
 </head>
 
-<body class="d-flex flex-column h-100" onload="ajaxGet1() ">
-
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item">
-                        <a class="py-2" href="http://localhost:8189/" aria-label="Product">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="d-block mx-auto" role="img" viewBox="0 0 24 24"><title>Product</title><circle cx="12" cy="12" r="10"></circle><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83m13.79-4l-5.74 9.94"></path></svg>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/products">Product</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" id="myOrders" aria-current="page" href="#">Orders</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Cart</a>
-                    </li>
-                    <li id="addProduct" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Add product</a>
-                    </li>
-                    <li id="changeOrder" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Change Orders</a>
-                    </li>
-                    <li id="statistic" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Orders Statistic</a>
-                    </li>
-                    <li id="changeAccount" class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Change info</a>
-                </li>
-                </ul>
-                <form class="d-flex "  id="navLoginSubmit">
-                    <input id="username" class="form-control mt-2" type="text"
-                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;" placeholder="Login">
-
-                    <input id="password" class="form-control mt-2" type="password"
-                            aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;" placeholder="Password">
-                    <button id="logIn" class="btn btn-outline-success mt-2" type="submit" style="margin-left: 10px;white-space: nowrap">
-                        Log in
-                    </button>
-                    <button id="regButton" class="btn btn-outline-success mt-2" style="margin-left: 10px; white-space: nowrap"
-                          type="submit">Sign up
-                    </button>
-                    <button id="exitButton" class="btn btn-outline-success mt-2" style="margin-left: 10px; white-space: nowrap"
-                            type="submit">Exit
-                    </button>
-                </form>
-            </div>
-        </div>
-    </nav>
-</header>
-
+<body class="d-flex flex-column h-100" onload="ajaxGet1()">
 <main class="flex-shrink-0">
 
     <div class="container mt-5">

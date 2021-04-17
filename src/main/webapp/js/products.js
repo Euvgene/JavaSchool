@@ -30,7 +30,8 @@ function ajaxGet1() {
                             "<p ><img src=\"/images/" + data[i].fotoId + ".jpg" + " \" width=\"150\" height=\"150\" /></p>" +
                             "<p> Name: " + data[i].name + "</p>" +
                             "<p> Gender: " + data[i].gender + "</p>" +
-                            "<p> Date of birth:  " + data[i].birthday + "</p>" +
+                            "<p> Date of birth:  " + data[i].birthday.dayOfMonth + '.' + data[i].birthday.monthValue + '.' +
+                            data[i].birthday.year + "</p>" +
                             "<p> Lifespan:  " + data[i].lifeSpan + "</p>" +
                             "<p> Price:  " + data[i].productPrice + "</p>" +
                             "<form name='f'  onsubmit=\"tryToAuth()\">" +
@@ -61,44 +62,15 @@ function ajaxGet1() {
     });
 }
 
-$(document).ready(function () {
-    isUserLoggedIn();
-    if (!localStorage.pageIndx) {
-        localStorage.setItem("pageIndx", 1);
-    }
-    // GET REQUEST
-    $("#prePage").click(function (event) {
-        if (localStorage.pageIndx < 2) {
-            $(this).attr('disabled', true);
-        } else {
-            $(this).attr('disabled', false);
-            const pageIndx = Number(localStorage.getItem("pageIndx"));
-            localStorage.setItem("pageIndx", String(pageIndx-1));
-            event.preventDefault();
-            ajaxGet1();
-        }
-    });
 
-    $("#filterButton").click(function (event) {
-        localStorage.setItem("pageIndx", 1);
-        event.preventDefault();
-        ajaxGet1()
-    });
+/*
+function logOut() {
+    delete localStorage.currentUserName;
+    delete localStorage.token;
+    delete localStorage.role;
+    location.assign("http://localhost:8189");
+}
 
-    $("#logIn").click(function (event) {
-        event.preventDefault();
-        tryToAuth()
-    });
-
-    $("#nextPage").click(function (event) {
-        let pageIndx = Number(localStorage.getItem("pageIndx"));
-        localStorage.setItem("pageIndx", ++pageIndx);
-        event.preventDefault();
-
-        ajaxGet1();
-    });
-
-});
 
 function tryToAuth() {
     let formData = {
@@ -124,13 +96,18 @@ function tryToAuth() {
     });
 }
 
-
 function isUserLoggedIn() {
     if (localStorage.currentUserName) {
-        if(localStorage.role === "[ROLE_USER]"){
-            $("#addProduct").hide();
-            $("#changeOrder").hide();
-            $("#statistic").hide();
+        if (localStorage.role === "[ROLE_USER]") {
+            $("#orders").show();
+            hiddenForUser();
+        } else if (localStorage.role === "[ROLE_ADMIN]") {
+            ordersHidden()
+            $("#products").hide();
+            $("#cart").hide();
+            $("#addProduct").show();
+            $("#changeOrder").show();
+            $("#statistic").show();
         }
         $("#username").hide();
         $("#password").hide();
@@ -138,11 +115,8 @@ function isUserLoggedIn() {
         $("#regButton").hide();
         $("#exitButton").show();
     } else {
-        if(localStorage.role === "[ROLE_USER]"){
-            $("#addProduct").show();
-            $("#changeOrder").show();
-            $("#statistic").show();
-        }
+        hiddenForUser();
+        ordersHidden();
         $("#username").show();
         $("#password").show();
         $("#logIn").show();
@@ -150,3 +124,59 @@ function isUserLoggedIn() {
         $("#exitButton").hide();
     }
 }
+
+function hiddenForUser() {
+    $("#addProduct").hide();
+    $("#changeOrder").hide();
+    $("#statistic").hide();
+    $("#changeAccount").hide();
+}
+
+function ordersHidden() {
+    $("#orders").hide();
+}
+*/
+
+$(document).ready(function () {
+   /* isUserLoggedIn();*/
+    if (!localStorage.pageIndx) {
+        localStorage.setItem("pageIndx", 1);
+    }
+    // GET REQUEST
+    $("#prePage").click(function (event) {
+        if (localStorage.pageIndx < 2) {
+            $(this).attr('disabled', true);
+        } else {
+            $(this).attr('disabled', false);
+            const pageIndx = Number(localStorage.getItem("pageIndx"));
+            localStorage.setItem("pageIndx", String(pageIndx - 1));
+            event.preventDefault();
+            ajaxGet1();
+        }
+    });
+
+    $("#filterButton").click(function (event) {
+        localStorage.setItem("pageIndx", 1);
+        event.preventDefault();
+        ajaxGet1()
+    });
+
+  /*  $("#logIn").click(function (event) {
+        event.preventDefault();
+        tryToAuth()
+    });
+
+    $("#exitButton").click(function (event) {
+        event.preventDefault();
+        logOut()
+    });*/
+
+    $("#nextPage").click(function (event) {
+        let pageIndx = Number(localStorage.getItem("pageIndx"));
+        localStorage.setItem("pageIndx", ++pageIndx);
+        event.preventDefault();
+
+        ajaxGet1();
+    });
+
+});

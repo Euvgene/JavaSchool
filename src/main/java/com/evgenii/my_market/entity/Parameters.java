@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "parameters")
@@ -21,7 +22,7 @@ public class Parameters implements Serializable {
     private String productGender;
 
     @Column(name = "birthday")
-    private String productBirthday;
+    private LocalDate productBirthday;
 
     @Column(name = "type")
     private String productType;
