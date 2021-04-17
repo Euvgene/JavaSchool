@@ -30,27 +30,33 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Cart</a>
                     </li>
-                    <li class="nav-item">
+                    <li id="addProduct" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Add product</a>
                     </li>
-                    <li class="nav-item">
+                    <li id="changeOrder" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Change Orders</a>
                     </li>
-                    <li class="nav-item">
+                    <li id="statistic" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Orders Statistic</a>
                     </li>
+                    <li id="changeAccount" class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Change info</a>
+                </li>
                 </ul>
                 <form class="d-flex "  id="navLoginSubmit">
-                    <input class="form-control mt-2" type="text"
+                    <input id="username" class="form-control mt-2" type="text"
                            aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;" placeholder="Login">
 
-                    <input  class="form-control mt-2" type="password"
+                    <input id="password" class="form-control mt-2" type="password"
                             aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;" placeholder="Password">
                     <button id="logIn" class="btn btn-outline-success mt-2" type="submit" style="margin-left: 10px;white-space: nowrap">
                         Log in
                     </button>
                     <button id="regButton" class="btn btn-outline-success mt-2" style="margin-left: 10px; white-space: nowrap"
                           type="submit">Sign up
+                    </button>
+                    <button id="exitButton" class="btn btn-outline-success mt-2" style="margin-left: 10px; white-space: nowrap"
+                            type="submit">Exit
                     </button>
                 </form>
             </div>
