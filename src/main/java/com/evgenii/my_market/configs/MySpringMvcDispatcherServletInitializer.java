@@ -3,6 +3,8 @@ package com.evgenii.my_market.configs;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.Filter;
+
 public class MySpringMvcDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
 	@Override
@@ -19,7 +21,6 @@ public class MySpringMvcDispatcherServletInitializer extends AbstractAnnotationC
 	protected String[] getServletMappings() {
 		return new String[] { "/" };
 	}
-
 
 }
 

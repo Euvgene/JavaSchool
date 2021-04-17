@@ -1,3 +1,4 @@
+/*
 package com.evgenii.my_market.dao;
 
 import com.evgenii.my_market.dto.ProductDto;
@@ -48,4 +49,4 @@ public abstract class AbstractJpaDao< T extends Serializable>   {
         T entity = findOne( entityId );
         delete( entity );
     }
-}
+}*/

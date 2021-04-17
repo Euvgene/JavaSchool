@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class ProductDAO extends AbstractJpaDao<Product> {
+public class ProductDAO  {
     @PersistenceContext
     EntityManager entityManager;
 

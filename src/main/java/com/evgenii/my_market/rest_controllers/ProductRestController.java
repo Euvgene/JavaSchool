@@ -20,10 +20,10 @@ public class ProductRestController {
 
     private final ProductService productService;
 
-    @GetMapping("/{id}")
+  /*  @GetMapping("/{id}")
     public Product getProductBtId(@PathVariable int id) {
         return productService.getProductById(id);
-    }
+    }*/
 
  /*   @GetMapping
     public List<Product> getAllProducts(){
