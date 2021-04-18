@@ -26,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/asd").hasRole("USER")
                 .antMatchers("/addproducts").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/api/v1/auth").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)

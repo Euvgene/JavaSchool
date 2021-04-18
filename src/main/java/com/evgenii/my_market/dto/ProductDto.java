@@ -18,7 +18,7 @@ public class ProductDto {
     private String lifeSpan;
 
     public ProductDto(Product p) {
-        this.fotoId = p.getProductId();
+        this.fotoId = p.getFotoId();
         this.productPrice = p.getProductPrice();
         this.name = p.getProductTitle();
         this.gender = p.getProductParams().getProductGender();

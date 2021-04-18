@@ -31,6 +31,8 @@ public class Product implements Serializable {
     @JoinColumn(name = "product_param")
     private Parameters productParams;
 
+    @Column(name = "foto_id")
+    private int fotoId;
 
     @Column(name = "quantity")
     private byte productQuantity;
