@@ -27,7 +27,7 @@ function ajaxGet1() {
                             rd = $('<tr class=""></tr>');
                         }
                         rd.append('<td>' +
-                            "<p ><img src=\"/images/" + data[i].fotoId + ".jpg" + " \" width=\"150\" height=\"150\" /></p>" +
+                            "<p ><img src=\"/images/" + data[i].fotoId + ".png" + "\" + width=\"150\" height=\"150\"></p>" +
                             "<p> Name: " + data[i].name + "</p>" +
                             "<p> Gender: " + data[i].gender + "</p>" +
                             "<p> Date of birth:  " + data[i].birthday.dayOfMonth + '.' + data[i].birthday.monthValue + '.' +
@@ -54,88 +54,12 @@ function ajaxGet1() {
 
                 let pageIndx = Number(localStorage.getItem("pageIndx"));
                 localStorage.setItem("pageIndx", --pageIndx);
-            } else if (data.length === 0) {
-                window.alert("No result")
             }
             console.log(result);
         }
     });
 }
 
-
-/*
-function logOut() {
-    delete localStorage.currentUserName;
-    delete localStorage.token;
-    delete localStorage.role;
-    location.assign("http://localhost:8189");
-}
-
-
-function tryToAuth() {
-    let formData = {
-        username: $("#username").val(),
-        password: $("#password").val()
-    }
-    console.log(JSON.stringify(formData));
-    // DO POST
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: "http://localhost:8189/api/v1/auth",
-        data: JSON.stringify(formData),
-        dataType: 'json',
-        success: function (result) {
-            console.log(result);
-            localStorage.currentUserName = formData.username;
-            localStorage.token = result.token;
-            localStorage.role = result.userRole;
-
-            window.location.reload();
-        }
-    });
-}
-
-function isUserLoggedIn() {
-    if (localStorage.currentUserName) {
-        if (localStorage.role === "[ROLE_USER]") {
-            $("#orders").show();
-            hiddenForUser();
-        } else if (localStorage.role === "[ROLE_ADMIN]") {
-            ordersHidden()
-            $("#products").hide();
-            $("#cart").hide();
-            $("#addProduct").show();
-            $("#changeOrder").show();
-            $("#statistic").show();
-        }
-        $("#username").hide();
-        $("#password").hide();
-        $("#logIn").hide();
-        $("#regButton").hide();
-        $("#exitButton").show();
-    } else {
-        hiddenForUser();
-        ordersHidden();
-        $("#username").show();
-        $("#password").show();
-        $("#logIn").show();
-        $("#regButton").show();
-        $("#exitButton").hide();
-    }
-}
-
-function hiddenForUser() {
-    $("#addProduct").hide();
-    $("#changeOrder").hide();
-    $("#statistic").hide();
-    $("#changeAccount").hide();
-}
-
-function ordersHidden() {
-    $("#orders").hide();
-}
-*/
 
 $(document).ready(function () {
    /* isUserLoggedIn();*/
@@ -160,16 +84,6 @@ $(document).ready(function () {
         event.preventDefault();
         ajaxGet1()
     });
-
-  /*  $("#logIn").click(function (event) {
-        event.preventDefault();
-        tryToAuth()
-    });
-
-    $("#exitButton").click(function (event) {
-        event.preventDefault();
-        logOut()
-    });*/
 
     $("#nextPage").click(function (event) {
         let pageIndx = Number(localStorage.getItem("pageIndx"));
