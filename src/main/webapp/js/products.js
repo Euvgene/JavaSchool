@@ -17,7 +17,7 @@ function ajaxGet1() {
             let count = 0;
             while (count < data.length) {
                 $('#example>tbody').empty();
-                $('#current').empty(); // TODO rename
+                $('#currentPage').empty(); // TODO rename
                 let rd = $('<tr class=""></tr>');
                 if (data.length > 0) {
                     for (let i = 0; i < data.length; i++) {
@@ -59,9 +59,7 @@ function ajaxGet1() {
     });
 }
 
-
 $(document).ready(function () {
-   /* isUserLoggedIn();*/
     if (!localStorage.pageIndx) {
         localStorage.setItem("pageIndx", 1);
     }

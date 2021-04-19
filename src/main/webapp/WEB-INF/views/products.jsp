@@ -1,3 +1,4 @@
+
 <html>
 <header>
     <meta charset="utf-8" >
@@ -5,8 +6,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <script type="text/javascript" src="/js/products.js"></script>
 </header>
-<head>
-    <%@ include file="header.jsp" %>
+<head id="header">
+    <jsp:include page="userHeader.jsp" />
     <title>Products</title>
 </head>
 
@@ -14,8 +15,6 @@
 <main class="flex-shrink-0">
 
     <div class="container mt-5">
-
-
             <h3  style="margin-top: 100px;">Filter</h3>
             <div class="form-group row">
                 <div class="form-group col-md-3">
@@ -51,7 +50,7 @@
                 <li class="page-item" id="prePage">
                     <button class="page-link" tabindex="-1" >Previous</button>
                 </li>
-                <li class="page-item active" aria-current="page" id="current">
+                <li class="page-item active" aria-current="page" id="currentPage">
                 </li>
                 <li class="page-item" id="nextPage">
                     <button class="page-link" >Next</button>

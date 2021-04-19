@@ -19,4 +19,15 @@ public class MainController {
         return "new_product";
     }
 
+
+
+    @GetMapping("/userMain")
+    public String getUserPage() {
+        return "user_main";
+    }
+
+    @GetMapping("/adminMain")
+    public String getAdminPage() {
+        return "admin_main";
+    }
 }

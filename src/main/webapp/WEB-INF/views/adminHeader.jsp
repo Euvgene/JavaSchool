@@ -11,7 +11,6 @@
     <meta charset="utf-8" >
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-    <script type="text/javascript" src="/js/header.js"></script>
 </header>
 <head>
     <title></title>
@@ -30,21 +29,22 @@
                     <li id="products" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="http://localhost:8189/products">Product</a>
                     </li>
-                    <li id="cart" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Cart</a>
+                    <li id="addProduct" class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/addproducts">Add product</a>
+                    </li>
+                    <li id="changeOrder" class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Change Orders</a>
+                    </li>
+                    <li id="statistic" class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Orders Statistic</a>
+                    </li>
+                    <li id="changeAccount" class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Change info</a>
                     </li>
                 </ul>
                 <form class="d-flex "  id="navLoginSubmit">
-                    <input id="username" class="form-control mt-2" type="text"
-                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;" placeholder="Login">
-
-                    <input id="password" class="form-control mt-2" type="password"
-                           aria-describedby="inputGroup-sizing-sm" style="margin-left: 10px;" placeholder="Password">
-                    <button id="logIn" class="btn btn-outline-success mt-2" type="submit" style="margin-left: 10px;white-space: nowrap">
-                        Log in
-                    </button>
-                    <button id="regButton" class="btn btn-outline-success mt-2" style="margin-left: 10px; white-space: nowrap"
-                            type="submit">Sign up
+                    <button id="exitButton" class="btn btn-outline-success mt-2" style="margin-left: 10px; white-space: nowrap"
+                            type="submit">Exit
                     </button>
                 </form>
             </div>
