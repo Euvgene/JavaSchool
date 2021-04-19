@@ -4,11 +4,13 @@ import com.evgenii.my_market.dto.ProductDto;
 import com.evgenii.my_market.entity.Parameters;
 import com.evgenii.my_market.entity.Product;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
@@ -17,9 +19,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
+@RequiredArgsConstructor
 public class ProductDAO  {
     @PersistenceContext
     EntityManager entityManager;
+    private final EntityManagerFactory entityManagerFactory;
 
     public List<Product> pagfindAll(int p, int t, List<Object> paramsList) {
         TypedQuery<Product> query = entityManager.createQuery(
@@ -41,5 +45,12 @@ public class ProductDAO  {
                 .getResultList();
 
 
+    }
+
+    public void saveNewProduct(Product newProduct) {
+        EntityManager entityManager =  entityManagerFactory.createEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(newProduct);
+        entityManager.getTransaction().commit();
     }
 }

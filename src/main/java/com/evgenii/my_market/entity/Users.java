@@ -32,7 +32,7 @@ public class Users {
     @Column(name = "birthday")
     private LocalDate birthday;
 
-    @OneToOne()
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_adress")
     private Address userAddress;
 

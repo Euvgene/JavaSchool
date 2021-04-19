@@ -14,7 +14,7 @@ public class ProductDto {
     private int fotoId;
     private String name;
     private String gender;
-    private LocalDate birthday;
+    private byte age;
     private String lifeSpan;
 
     public ProductDto(Product p) {
@@ -22,7 +22,7 @@ public class ProductDto {
         this.productPrice = p.getProductPrice();
         this.name = p.getProductTitle();
         this.gender = p.getProductParams().getProductGender();
-        this.birthday = p.getProductParams().getProductBirthday();
+        this.age = p.getProductParams().getProductAge();
         this.lifeSpan = p.getProductParams().getProductLifespan();
     }
 }

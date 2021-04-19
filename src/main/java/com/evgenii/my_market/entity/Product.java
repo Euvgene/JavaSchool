@@ -1,5 +1,6 @@
 package com.evgenii.my_market.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,8 +25,9 @@ public class Product implements Serializable {
     @Column(name = "price")
     private BigDecimal productPrice;
 
-    @Column(name = "category")
-    private byte category;
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @JoinColumn(name = "category")
+    private Category category;
 
     @OneToOne()
     @JoinColumn(name = "product_param")
@@ -36,4 +38,5 @@ public class Product implements Serializable {
 
     @Column(name = "quantity")
     private byte productQuantity;
+
 }

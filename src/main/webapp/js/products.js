@@ -30,8 +30,7 @@ function ajaxGet1() {
                             "<p ><img src=\"/images/" + data[i].fotoId + ".png" + "\" + width=\"150\" height=\"150\"></p>" +
                             "<p> Name: " + data[i].name + "</p>" +
                             "<p> Gender: " + data[i].gender + "</p>" +
-                            "<p> Date of birth:  " + data[i].birthday.dayOfMonth + '.' + data[i].birthday.monthValue + '.' +
-                            data[i].birthday.year + "</p>" +
+                            "<p> Age:  " + data[i].age  + "</p>" +
                             "<p> Lifespan:  " + data[i].lifeSpan + "</p>" +
                             "<p> Price:  " + data[i].productPrice + "</p>" +
                             "<form name='f'  onsubmit=\"tryToAuth()\">" +

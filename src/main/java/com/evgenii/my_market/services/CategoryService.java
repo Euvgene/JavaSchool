@@ -19,6 +19,6 @@ public class CategoryService {
 
 
     public void save(Category newCategory) {
-   categoryDAO.saveNewCategory(newCategory);
+        categoryDAO.saveNewCategory(newCategory);
     }
 }

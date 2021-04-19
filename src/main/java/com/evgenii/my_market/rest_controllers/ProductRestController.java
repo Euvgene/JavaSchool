@@ -2,10 +2,13 @@ package com.evgenii.my_market.rest_controllers;
 
 import com.evgenii.my_market.dao.ProductDAO;
 import com.evgenii.my_market.dto.ProductDto;
+import com.evgenii.my_market.entity.Category;
 import com.evgenii.my_market.entity.Product;
 import com.evgenii.my_market.services.ProductService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,5 +45,11 @@ public class ProductRestController {
         paramList.add(minPrice);
         paramList.add(maxPrice);
         return productService.pagGetAllProducts(page, paramList);
+    }
+
+    @PostMapping
+  /*  @ResponseStatus(HttpStatus.CREATED)*/
+    public void saveProduct(@RequestBody Product newProduct) {
+        productService.save(newProduct);
     }
 }
