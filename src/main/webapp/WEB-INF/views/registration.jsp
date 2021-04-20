@@ -30,10 +30,10 @@
                 <form class="needs-validation" novalidate="">
                     <div class="row g-3">
                         <div class="col-sm-3">
-                            <label for="username" class="form-label">First Name/Username</label>
+                            <label for="firstName" class="form-label">First Name/Username</label>
                             <div class="input-group has-validation">
 
-                                <input type="text" class="form-control" id="username" placeholder="First Name/Username" required="">
+                                <input type="text" class="form-control" id="firstName" placeholder="First Name/Username" required="">
                                 <div class="invalid-feedback">
                                     Your username is required.
                                 </div>
