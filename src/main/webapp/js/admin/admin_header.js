@@ -12,8 +12,6 @@ function addProduct() {
     });
 }
 
-
-
 $(document).ready(function () {
     $("#addProduct").click(function (event) {
         event.preventDefault();

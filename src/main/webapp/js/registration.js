@@ -1,25 +1,25 @@
 function checkout() {
-    let formData = {
 
+    let formData = {
         firstName: $("#firstName").val(),
         lastName: $("#lastName").val(),
-        password: $("#password").val(),
+        password: $("#userPassword").val(),
         email: $("#email").val(),
         birthday: document.getElementById('birthday').value,
         userAddress: {
-            addressId: 1,
-            country: "Russia",
-            city: "SinCity",
-            postalCode: "165-15-15",
-            streetName: "Nevskii",
-            houseNumber: 13,
-            flatNumber: 13
+            country: $("#country").val(),
+            city: $("#city").val(),
+            postalCode: $("#zip").val(),
+            streetName: $("#street").val(),
+            houseNumber:$("#house_number").val(),
+            flatNumber:$("#flat").val(),
         },
         role: {
             id: 1,
             roleName: "ROLE_USER"
         }
     }
+
     console.log(JSON.stringify(formData));
     // DO POST
     $.ajax({
@@ -30,14 +30,6 @@ function checkout() {
         dataType: 'json',
         success: function (result) {
 
-           /* localStorage.currentUserName = formData.username;
-            localStorage.token = result.token;
-            localStorage.role = result.userRole;
-            if (result.userRole == "[ROLE_USER]") {
-                window.location.href = "userMain"
-            } else {
-                window.location.href = "adminMain"
-            }*/
         }
     });
 }

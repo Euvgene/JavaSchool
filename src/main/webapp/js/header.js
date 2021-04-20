@@ -17,7 +17,7 @@ function tryToAuth() {
             localStorage.currentUserName = formData.username;
             localStorage.token = result.token;
             localStorage.role = result.userRole;
-            if (result.userRole == "[ROLE_USER]") {
+            if (result.userRole === "[ROLE_USER]") {
                 window.location.href = "userMain"
             } else {
                 window.location.href = "adminMain"

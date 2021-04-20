@@ -50,8 +50,8 @@
 
 
                         <div class="col-sm-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="text" class="form-control" id="password" placeholder="Password" value="" required="">
+                            <label for="userPassword" class="form-label">Password</label>
+                            <input type="text" class="form-control" id="userPassword" placeholder="Password" value="" required="">
                             <div class="invalid-feedback">
                                 Valid last name is required.
                             </div>
@@ -75,8 +75,8 @@
 
                         <div class="row g-3" style="margin-top: 0">
                             <div class="col-md-7" style="white-space: nowrap">
-                                <label for="productName" class="form-label">Street name</label>
-                                <input type="text" class="form-control" id="productName" placeholder="" value="" required="">
+                                <label for="street" class="form-label">Street name</label>
+                                <input  type="text" class="form-control" id="street" placeholder="" value="" required="">
                                 <div class="invalid-feedback">
                                     Valid first name is required.
                                 </div>
@@ -92,8 +92,8 @@
                             </div>
 
                             <div class="col-md-2">
-                                <label for="age" class="form-label">Flat</label>
-                                <input type="number" class="form-control" id="age" value="" required="" style="min-width: 140px">
+                                <label for="flat" class="form-label">Flat</label>
+                                <input type="number" class="form-control" id="flat" value="" required="" style="min-width: 140px">
 
                                 <div class="invalid-feedback">
                                     Please provide a valid state.

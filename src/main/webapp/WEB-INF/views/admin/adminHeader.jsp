@@ -40,9 +40,6 @@
                     <li id="statistic" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Orders Statistic</a>
                     </li>
-                    <li id="changeAccount" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Change info</a>
-                    </li>
                 </ul>
                 <form class="d-flex "  id="navLoginSubmit">
                     <button id="exitButton" class="btn btn-outline-success mt-2" style="margin-left: 10px; white-space: nowrap"

@@ -43,6 +43,7 @@ public class UserDAO {
             EntityManager entityManager =  entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.persist(newUsers);
+            entityManager.flush();
             entityManager.getTransaction().commit();
 
     }

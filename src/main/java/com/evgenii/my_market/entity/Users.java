@@ -38,11 +38,11 @@ public class Users {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date birthday;
 
-    @OneToOne()
+    @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_adress")
     private Address userAddress;
 
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "user_roles")
     private Role role;
 

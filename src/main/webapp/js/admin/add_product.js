@@ -36,38 +36,25 @@ function createNewCategory() {
         url: "http://localhost:8189/api/v1/category",
         data: JSON.stringify(formData),
         dataType: 'json',
-        success: function (result) {
+        success: function () {
             hideCategoryForm();
         }
     });
 }
 
 function createProduct() {
-    const paramsData = {
-        productGender: $("#femail").val() ? "femail" : "mail",
-        productAge: $("#age").val(),
-        productWeight: $("#weight").val(),
-        productLifespan: $("#lifespan").val(),
-    }
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: "http://localhost:8189/api/v1/params",
-        data: JSON.stringify(paramsData),
-        dataType: 'json',
-        success: function (result) {
-            localStorage.setItem("params", JSON.stringify(result));
-        }
-    });
     let categories = JSON.parse(localStorage.getItem("categories"));
-
-    let params = JSON.parse(localStorage.getItem("params") || "[]");
     const name = document.getElementById('fl_inp');
     const prodData = {
         productTitle: $("#productName").val(),
         productPrice: $("#price").val(),
         category: categories.find(item => item.categoryName === $("#category").val()),
-        productParams: params,
+        productParams: {
+            productGender: $("#femail").val() ? "femail" : "mail",
+            productAge: $("#age").val(),
+            productWeight: $("#weight").val(),
+            productLifespan: $("#lifespan").val(),
+        },
         fotoId: name.files.item(0).name,
         productQuantity: $("#count").val(),
     }

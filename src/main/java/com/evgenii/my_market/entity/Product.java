@@ -25,11 +25,11 @@ public class Product implements Serializable {
     @Column(name = "price")
     private BigDecimal productPrice;
 
-    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToOne()
     @JoinColumn(name = "category")
     private Category category;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_param")
     private Parameters productParams;
 
