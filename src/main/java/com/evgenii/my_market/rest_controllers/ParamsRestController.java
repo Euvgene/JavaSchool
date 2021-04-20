@@ -22,8 +22,8 @@ public class ParamsRestController {
     private final ParamsService paramsService;
 
     @GetMapping()
-    public List<Parameters> pagination() {
-        return paramsService.getAllParams();
+    public List<Parameters> findAllParams() {
+        return paramsService.findAllParams();
     }
 
     @PostMapping

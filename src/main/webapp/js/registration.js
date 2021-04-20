@@ -1,8 +1,13 @@
 
-function tryToAuth() {
-    let formData = {
-        username: $("#username").val(),
-        password: $("#password").val()
+function checkout() {
+    const name = document.getElementById('birthday').value;
+   ;
+    console.log(name)
+   /* let formData = {
+        firstName: $("#username").val(),
+        lastName: $("#lastName").val(),
+        password: $("#password").val(),
+        email:$("#email").val(),
     }
     console.log(JSON.stringify(formData));
     // DO POST
@@ -23,37 +28,17 @@ function tryToAuth() {
                 window.location.href = "adminMain"
             }
         }
-    });
-}
-
-function isUserLoggedIn() {
-    if (localStorage.currentUserName) {
-        if (localStorage.role === "[ROLE_USER]") {
-            location.assign("http://localhost:8189/userMain");
-
-        } else if (localStorage.role === "[ROLE_ADMIN]") {
-            location.assign("http://localhost:8189/adminMain");
-        }
-    }
+    });*/
 }
 
 
-function goToRegistration() {
-    window.location.href = "registration"
-}
+
 
 $(document).ready(function () {
-    isUserLoggedIn();
 
-
-    $("#logIn").click(function (event) {
+    $("#checkout").click(function (event) {
         event.preventDefault();
-        tryToAuth()
-    });
-
-    $("#regButton").click(function (event) {
-        event.preventDefault();
-        goToRegistration()
+        checkout();
     });
 
 });

@@ -17,7 +17,7 @@ public class ParamsDAO {
     EntityManager entityManager;
     private final EntityManagerFactory entityManagerFactory;
 
-    public List<Parameters> pagfindAll() {
+    public List<Parameters> findAllParams() {
         TypedQuery<Parameters> query = entityManager.createQuery(
                 "SELECT p FROM Parameters p ", Parameters.class);
         return query

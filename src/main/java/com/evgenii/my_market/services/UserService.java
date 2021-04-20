@@ -11,11 +11,13 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,7 +30,7 @@ public class UserService implements UserDetailsService{
 /*
 *//*
 */
-/*    private final BCryptPasswordEncoder passwordEncoder;*/
+    private final BCryptPasswordEncoder passwordEncoder;
 
 
 
@@ -51,6 +53,15 @@ public class UserService implements UserDetailsService{
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
+    }
+
+    public List<Users> getAll() {
+        return userDAO.getAllUsers();
+    }
+
+    public void save(Users newUsers) {
+        newUsers.setPassword(passwordEncoder.encode(newUsers.getPassword()));
+        userDAO.saveUser(newUsers);
     }
 
 /*public void saveUser(User user) {

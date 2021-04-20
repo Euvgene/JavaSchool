@@ -31,5 +31,5 @@ public class Address {
     private int houseNumber;
 
     @Column(name = "flat")
-    private String flatNumber;
+    private byte flatNumber;
 }

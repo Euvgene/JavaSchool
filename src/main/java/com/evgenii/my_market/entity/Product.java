@@ -34,7 +34,7 @@ public class Product implements Serializable {
     private Parameters productParams;
 
     @Column(name = "foto_id")
-    private int fotoId;
+    private String fotoId;
 
     @Column(name = "quantity")
     private byte productQuantity;

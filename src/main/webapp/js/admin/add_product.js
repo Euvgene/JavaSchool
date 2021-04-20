@@ -37,11 +37,9 @@ function createNewCategory() {
         data: JSON.stringify(formData),
         dataType: 'json',
         success: function (result) {
-
+            hideCategoryForm();
         }
     });
-
-
 }
 
 function createProduct() {
@@ -64,16 +62,16 @@ function createProduct() {
     let categories = JSON.parse(localStorage.getItem("categories"));
 
     let params = JSON.parse(localStorage.getItem("params") || "[]");
-
+    const name = document.getElementById('fl_inp');
     const prodData = {
         productTitle: $("#productName").val(),
         productPrice: $("#price").val(),
-        category:categories.find(item => item.categoryName/*.some(deepItem => deepItem.label*/ === $("#category").val()),
+        category: categories.find(item => item.categoryName === $("#category").val()),
         productParams: params,
-        fotoId: $("#fotoId").val(),
+        fotoId: name.files.item(0).name,
         productQuantity: $("#count").val(),
     }
-
+console.log(prodData)
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -87,12 +85,15 @@ function createProduct() {
 
 $(document).ready(function () {
     hideCategoryForm();
+    $("#fl_inp").change(function(){
+        var filename = $(this).val().replace(/.*\\/, "");
+        $("#fl_nm").html(filename);
+    });
     $("#showNewCategoryForm").click(function (event) {
         event.preventDefault();
         showNewCategoryForm()
     });
 
-    hideCategoryForm();
     $("#createProduct").click(function (event) {
         event.preventDefault();
         createProduct()

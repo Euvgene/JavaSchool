@@ -1,6 +1,5 @@
 package com.evgenii.my_market.controllers;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -9,25 +8,35 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 public class MainController {
 
-    @GetMapping("/products")
-    public String getProductsPage() {
-        return "products";
+    @GetMapping("/user_products")
+    public String getProductsForUser() {
+        return "user/user_products";
+    }
+
+    @GetMapping("/admin_products")
+    public String getProductsForAdmin() {
+        return "admin/admin_products";
     }
 
     @GetMapping("/addproducts")
     public String getNewProductsPage() {
-        return "new_product";
+        return "admin/new_product";
     }
 
 
 
     @GetMapping("/userMain")
     public String getUserPage() {
-        return "user_main";
+        return "user/user_main";
     }
 
     @GetMapping("/adminMain")
     public String getAdminPage() {
-        return "admin_main";
+        return "admin/admin_main";
+    }
+
+    @GetMapping("/registration")
+    public String getRegistrationPage() {
+        return "registration";
     }
 }

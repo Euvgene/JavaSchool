@@ -27,17 +27,16 @@ function ajaxGet1() {
                             rd = $('<tr class=""></tr>');
                         }
                         rd.append('<td>' +
-                            "<p ><img src=\"/images/" + data[i].fotoId + ".png" + "\" + width=\"150\" height=\"150\"></p>" +
+                            "<p ><img src=\"/images/" + data[i].fotoId + "\" + width=\"150\" height=\"150\"></p>" +
                             "<p> Name: " + data[i].name + "</p>" +
                             "<p> Gender: " + data[i].gender + "</p>" +
-                            "<p> Age:  " + data[i].age  + "</p>" +
+                            "<p> Age:  " + data[i].age + "</p>" +
                             "<p> Lifespan:  " + data[i].lifeSpan + "</p>" +
                             "<p> Price:  " + data[i].productPrice + "</p>" +
                             "<form name='f'  onsubmit=\"tryToAuth()\">" +
                             "<input type='submit'  value='Add to cart' />" +
                             "</form>" +
                             '</td>');
-
                         $('#example').append(rd);
                     }
                     $("#nextPage").attr('disabled', false);
@@ -45,7 +44,7 @@ function ajaxGet1() {
                 count++;
             }
             if (data.length > 0) {
-                $('#current').append("<span class=\"page-link\">" + localStorage.pageIndx + "</span>");
+                $('#currentPage').append("<span class=\"page-link\">" + localStorage.pageIndx + "</span>");
             }
 
             if (data.length === 0 && localStorage.pageIndx > 1) {
@@ -86,7 +85,6 @@ $(document).ready(function () {
         let pageIndx = Number(localStorage.getItem("pageIndx"));
         localStorage.setItem("pageIndx", ++pageIndx);
         event.preventDefault();
-
         ajaxGet1();
     });
 

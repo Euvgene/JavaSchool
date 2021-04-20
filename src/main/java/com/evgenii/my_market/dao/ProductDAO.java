@@ -1,12 +1,7 @@
 package com.evgenii.my_market.dao;
 
-import com.evgenii.my_market.dto.ProductDto;
-import com.evgenii.my_market.entity.Parameters;
 import com.evgenii.my_market.entity.Product;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -14,8 +9,6 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository

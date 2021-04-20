@@ -18,10 +18,8 @@ import java.util.stream.Collectors;
 public class ParamsService {
    private final ParamsDAO dao;
 
-    public List<Parameters> getAllParams() {
-
-
-        return dao.pagfindAll();
+    public List<Parameters> findAllParams() {
+        return dao.findAllParams();
     }
 
     public Parameters save(Parameters newParameters) {
