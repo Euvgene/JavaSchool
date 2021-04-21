@@ -17,7 +17,7 @@ public class CategoryService {
         return categoryDAO.findAll();
     }
 
-
+    @Transactional
     public void save(Category newCategory) {
         categoryDAO.saveNewCategory(newCategory);
     }

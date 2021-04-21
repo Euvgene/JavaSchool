@@ -15,7 +15,6 @@ import java.util.List;
 public class ParamsDAO {
     @PersistenceContext
     EntityManager entityManager;
-    private final EntityManagerFactory entityManagerFactory;
 
     public List<Parameters> findAllParams() {
         TypedQuery<Parameters> query = entityManager.createQuery(
@@ -26,7 +25,6 @@ public class ParamsDAO {
     }
 
     public Parameters saveNewCategory(Parameters newParameters) {
-            EntityManager entityManager =  entityManagerFactory.createEntityManager();
             entityManager.getTransaction().begin();
             entityManager.persist(newParameters);
             entityManager.getTransaction().commit();

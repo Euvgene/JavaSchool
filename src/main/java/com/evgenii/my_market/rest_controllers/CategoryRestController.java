@@ -22,7 +22,6 @@ public class CategoryRestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void saveCategory(@RequestBody Category newCategory) {
-        System.out.println(newCategory.toString());
         categoryService.save(newCategory);
     }
 }

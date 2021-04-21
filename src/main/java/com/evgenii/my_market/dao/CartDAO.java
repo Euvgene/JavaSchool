@@ -19,8 +19,6 @@ public class CartDAO {
     @PersistenceContext
     EntityManager entityManager;
 
-
-
     public void delete(Cart cart) {
         entityManager.remove(cart);
         entityManager.flush();

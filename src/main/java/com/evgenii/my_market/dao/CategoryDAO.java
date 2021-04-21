@@ -14,8 +14,6 @@ public class CategoryDAO {
     @PersistenceContext
     EntityManager entityManager;
 
-    private final EntityManagerFactory entityManagerFactory;
-
     public List<Category> findAll() {
         TypedQuery<Category> query = entityManager.createQuery(
                 "SELECT c FROM Category c", Category.class);
@@ -25,10 +23,7 @@ public class CategoryDAO {
     }
 
     public void saveNewCategory(Category newCategory) {
-        EntityManager entityManager =  entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
         entityManager.persist(newCategory);
-        entityManager.getTransaction().commit();
-
+        entityManager.flush();
     }
 }
