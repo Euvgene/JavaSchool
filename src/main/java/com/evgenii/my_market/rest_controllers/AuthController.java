@@ -4,6 +4,7 @@ import com.evgenii.my_market.beans.JwtTokenUtil;
 import com.evgenii.my_market.dto.JwtRequest;
 import com.evgenii.my_market.dto.JwtResponse;
 import com.evgenii.my_market.exception_handling.MarketError;
+import com.evgenii.my_market.services.CartService;
 import com.evgenii.my_market.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
-/*    private final CartService cartService;*/
+    private final CartService cartService;
 
 
     @PostMapping("/auth")
@@ -37,9 +38,9 @@ public class AuthController {
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
         System.out.println(userDetails.getAuthorities());
         String token = jwtTokenUtil.generateToken(userDetails);
-/*  cartService.getCartForUser(authRequest.getUsername(),authRequest.getCartId() );*/
+        cartService.getCartForUser(authRequest.getUsername(), authRequest.getCartId());
 
 
-        return ResponseEntity.ok(new JwtResponse(token,userDetails.getAuthorities().toString()));
+        return ResponseEntity.ok(new JwtResponse(token, userDetails.getAuthorities().toString()));
     }
 }

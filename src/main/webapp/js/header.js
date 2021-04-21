@@ -1,8 +1,8 @@
-
 function tryToAuth() {
     let formData = {
         username: $("#username").val(),
-        password: $("#password").val()
+        password: $("#password").val(),
+        cartId: localStorage.marketCartUuid
     }
     console.log(JSON.stringify(formData));
     // DO POST
@@ -13,7 +13,7 @@ function tryToAuth() {
         data: JSON.stringify(formData),
         dataType: 'json',
         success: function (result) {
-
+            console.log(localStorage.marketCartUuid)
             localStorage.currentUserName = formData.username;
             localStorage.token = result.token;
             localStorage.role = result.userRole;
@@ -43,8 +43,9 @@ function goToRegistration() {
 }
 
 $(document).ready(function () {
-    isUserLoggedIn();
 
+    isUserLoggedIn();
+console.log(localStorage.marketCartUuid)
 
     $("#logIn").click(function (event) {
         event.preventDefault();
