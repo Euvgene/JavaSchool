@@ -29,6 +29,12 @@ function checkout() {
         data: JSON.stringify(formData),
         dataType: 'json',
         success: function (result) {
+            console.log(result)
+            $("#username").val($("#firstName").val());
+            $("#password").val($("#userPassword").val());
+/*            document.getElementById('username').value = $("#firstName").val();
+            document.getElementById('password').value = $("#userPassword").val();*/
+            tryToAuth();
 
         }
     });

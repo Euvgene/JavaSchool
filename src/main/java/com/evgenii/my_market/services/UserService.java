@@ -7,13 +7,11 @@ import com.evgenii.my_market.entity.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,6 +36,11 @@ public class UserService implements UserDetailsService{
     public Optional<Users> findByUsername(String username) {
         return userDAO.findByUsername(username);
     }
+
+
+    public List<Users> findByUsernameAndEmail(String username, String email) {
+        return userDAO.findByUsernameAndEmail(username,email);
+    }
 /*public Optional<User> findByUsernameAndEmail(String name,String email) {
         return userRepository.findByUsernameAndEmail(name,email);
     }*/
@@ -61,7 +64,7 @@ public class UserService implements UserDetailsService{
 
     public void save(Users newUsers) {
         newUsers.setPassword(passwordEncoder.encode(newUsers.getPassword()));
-        userDAO.saveUser(newUsers);
+         userDAO.saveUser(newUsers);
     }
 
 /*public void saveUser(User user) {
