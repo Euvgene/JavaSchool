@@ -13,6 +13,11 @@ public class MainController {
         return "user/user_products";
     }
 
+    @GetMapping("/products")
+    public String getProducts() {
+        return "products";
+    }
+
     @GetMapping("/admin_products")
     public String getProductsForAdmin() {
         return "admin/admin_products";
@@ -38,5 +43,10 @@ public class MainController {
     @GetMapping("/registration")
     public String getRegistrationPage() {
         return "registration";
+    }
+
+    @GetMapping("/user_cart")
+    public String getUserCartPage() {
+        return "user/user_cart";
     }
 }

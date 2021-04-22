@@ -1,6 +1,6 @@
 const ELEMENTS_NUMBER_PER_LINE = 4
 let productList = null;
-function ajaxGet1() {
+function getProducts() {
     $.ajax({
         type: "GET",
         url: 'http://localhost:8189/api/v1/products',
@@ -88,21 +88,21 @@ $(document).ready(function () {
             const pageIndx = Number(localStorage.getItem("pageIndx"));
             localStorage.setItem("pageIndx", String(pageIndx - 1));
             event.preventDefault();
-            ajaxGet1();
+            getProducts();
         }
     });
 
     $("#filterButton").click(function (event) {
         localStorage.setItem("pageIndx", 1);
         event.preventDefault();
-        ajaxGet1()
+        getProducts()
     });
 
     $("#nextPage").click(function (event) {
         let pageIndx = Number(localStorage.getItem("pageIndx"));
         localStorage.setItem("pageIndx", ++pageIndx);
         event.preventDefault();
-        ajaxGet1();
+        getProducts();
     });
 
     $("#addButton").click(function (event) {

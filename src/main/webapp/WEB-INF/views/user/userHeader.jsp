@@ -11,7 +11,7 @@
     <meta charset="utf-8" >
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
-        <script type="text/javascript" src="/js/user/user_header.js"></script>
+      <%--  <script type="text/javascript" src="/js/user/user_header.js"></script>--%>
         <script type="text/javascript" src="/js/common/common.js"></script>
 </header>
 <head>
@@ -35,7 +35,7 @@
                         <a class="nav-link active" id="myOrders" aria-current="page" href="#">Orders</a>
                     </li>
                     <li id="cart" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Cart</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/user_cart">Cart</a>
                     </li>
                     <li id="changeAccount" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Change info</a>

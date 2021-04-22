@@ -11,7 +11,7 @@
     <title>Products</title>
 </head>
 
-<body class="d-flex flex-column h-100" onload="ajaxGet1()">
+<body class="d-flex flex-column h-100" onload="getProducts()">
 <main class="flex-shrink-0">
 
     <div class="container mt-5">

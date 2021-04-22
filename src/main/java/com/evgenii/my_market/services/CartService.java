@@ -23,10 +23,12 @@ public class CartService {
     private final UserService userService;
     private final CartItemDAO cartItemDAO;
 
+    @Transactional
     public Cart save(Cart cart) {
         return cartDAO.save(cart);
     }
 
+    @Transactional
     public Optional<Cart> findById(UUID id) {
 
         return cartDAO.findById(id);
@@ -42,11 +44,10 @@ public class CartService {
             return;
         }
 
-        try{
+        try {
             Product p = productService.findProductById(productId).get(0);
             cart.add(new CartItem(p));
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new ResourceNotFoundException("Unable to add product with id: " + productId + " to cart. Product doesn't exist");
         }
 /*
@@ -56,12 +57,12 @@ public class CartService {
 
     }
 
-  /*  @Transactional
-    public void clearCart(UUID cartId) {
-        Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
-        cart.clear();
-    }*/
-
+    /*  @Transactional
+      public void clearCart(UUID cartId) {
+          Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+          cart.clear();
+      }*/
+    @Transactional
     public List<Cart> findByUserId(int id) {
         return cartDAO.findByUserId(id);
     }
@@ -72,7 +73,7 @@ public class CartService {
         if (username != null && cartUuid != null) {
             Users user = userService.findByUsername(username).get();
             Cart cart = findById(cartUuid).get();
-          List<Cart> oldCartList = findByUserId(user.getUserId());
+            List<Cart> oldCartList = findByUserId(user.getUserId());
 
             if (!oldCartList.isEmpty()) {
                 Cart oldCart = oldCartList.get(0);

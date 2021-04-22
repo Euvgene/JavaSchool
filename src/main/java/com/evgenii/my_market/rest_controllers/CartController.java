@@ -1,5 +1,8 @@
 package com.evgenii.my_market.rest_controllers;
 
+import com.evgenii.my_market.dto.CartDto;
+import com.evgenii.my_market.entity.Cart;
+import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.services.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +25,11 @@ public class CartController {
         return cartService.getCartForUser(principal.getName(), null);
     }
 
-   /* @GetMapping("/{uuid}")
+    @GetMapping("/{uuid}")
     public CartDto getCurrentCart(@PathVariable UUID uuid) {
         Cart cart = cartService.findById(uuid).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + uuid));
         return new CartDto(cart);
-    }*/
+    }
 
     @PostMapping("/add")
     public void addProductToCart(@RequestParam(name = "uuid")  UUID uuid, @RequestParam(name = "prod_id") int productId) {
