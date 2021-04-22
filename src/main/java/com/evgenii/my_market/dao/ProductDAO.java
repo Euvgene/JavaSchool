@@ -1,5 +1,6 @@
 package com.evgenii.my_market.dao;
 
+import com.evgenii.my_market.entity.Cart;
 import com.evgenii.my_market.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 @RequiredArgsConstructor
@@ -44,6 +47,16 @@ public class ProductDAO  {
 
         entityManager.persist(newProduct);
         entityManager.flush();
+
+    }
+
+    public List<Product> findProductById(int productId) {
+
+            TypedQuery<Product> query = entityManager.createQuery(
+                    "SELECT p FROM Product p where p.productId = :id", Product.class);
+            return query
+                    .setParameter("id",productId)
+                    .getResultList();
 
     }
 }

@@ -17,10 +17,9 @@ public class UserDAO {
 
     @PersistenceContext
     EntityManager entityManager;
-/*    private final EntityManagerFactory entityManagerFactory;*/
 
     public Optional<Users> findByUsername(String username) {
-/*        EntityManager entityManager = entityManagerFactory.createEntityManager();*/
+
         TypedQuery<Users> query = entityManager.createQuery(
                 "SELECT u FROM Users u WHERE" +
                         " u.firstName = :username ", Users.class);
@@ -31,7 +30,7 @@ public class UserDAO {
     }
 
     public List<Users> findByUsernameAndEmail(String username, String email) {
-      /*  EntityManager entityManager = entityManagerFactory.createEntityManager();*/
+
         TypedQuery<Users> query = entityManager.createQuery(
                 "SELECT u FROM Users u WHERE" +
                         " u.firstName = :username  or u.email = :email", Users.class);

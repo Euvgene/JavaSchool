@@ -1,5 +1,5 @@
 const ELEMENTS_NUMBER_PER_LINE = 4
-
+let productList = null;
 function ajaxGet1() {
     $.ajax({
         type: "GET",
@@ -12,51 +12,68 @@ function ajaxGet1() {
             gender: $("#filterGender").val() ? $("#filterGender").val() : null,
         },
         success: function (result) {
-            const data = result;
+             productList = result;
             let elementsNumber = ELEMENTS_NUMBER_PER_LINE;
             let count = 0;
-            while (count < data.length) {
+            while (count < productList.length) {
                 $('#example>tbody').empty();
                 $('#currentPage').empty(); // TODO rename
                 let rd = $('<tr class=""></tr>');
-                if (data.length > 0) {
-                    for (let i = 0; i < data.length; i++) {
+                if (productList.length > 0) {
+                    for (let k = 0; k < productList.length; k++) {
+                        console.log(productList[k].productId);
                         count++;
                         if (count > elementsNumber) {
                             elementsNumber = elementsNumber + 4;
                             rd = $('<tr class=""></tr>');
                         }
                         rd.append('<td>' +
-                            "<p ><img src=\"/images/" + data[i].fotoId + "\" + width=\"150\" height=\"150\"></p>" +
-                            "<p> Name: " + data[i].name + "</p>" +
-                            "<p> Gender: " + data[i].gender + "</p>" +
-                            "<p> Age:  " + data[i].age + "</p>" +
-                            "<p> Lifespan:  " + data[i].lifeSpan + "</p>" +
-                            "<p> Price:  " + data[i].productPrice + "</p>" +
-                            "<form name='f'  onsubmit=\"tryToAuth()\">" +
-                            "<input type='submit'  value='Add to cart' />" +
-                            "</form>" +
+                            "<p ><img src=\"/images/" + productList[k].fotoId + "\" + width=\"150\" height=\"150\"></p>" +
+                            "<p> Name: " + productList[k].name + "</p>" +
+                            "<p> Gender: " + productList[k].gender + "</p>" +
+                            "<p> Age:  " + productList[k].age + "</p>" +
+                            "<p> Lifespan:  " + productList[k].lifeSpan + "</p>" +
+                            "<p> Price:  " + productList[k].productPrice + "</p>" +
+                            "<input type='submit' onclick= \"addToCart(" + productList[k].productId + ")\"  + value='Add to cart' />" +
                             '</td>');
+
                         $('#example').append(rd);
                     }
                     $("#nextPage").attr('disabled', false);
                 }
                 count++;
             }
-            if (data.length > 0) {
+            if (productList.length > 0) {
                 $('#currentPage').append("<span class=\"page-link\">" + localStorage.pageIndx + "</span>");
             }
 
-            if (data.length === 0 && localStorage.pageIndx > 1) {
+            if (productList.length === 0 && localStorage.pageIndx > 1) {
                 $("#nextPage").attr('disabled', true);
 
                 let pageIndx = Number(localStorage.getItem("pageIndx"));
                 localStorage.setItem("pageIndx", --pageIndx);
             }
             console.log(result);
+
         }
     });
 }
+
+addToCart = function (id) {
+    console.log(localStorage.marketCartUuid)
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8189/api/v1/cart/add",
+        data: {
+            uuid: localStorage.marketCartUuid,
+            prod_id: id
+        },
+        success: function () {
+            console.log("added")
+        }
+    });
+}
+
 
 $(document).ready(function () {
     if (!localStorage.pageIndx) {
@@ -88,4 +105,7 @@ $(document).ready(function () {
         ajaxGet1();
     });
 
+    $("#addButton").click(function (event) {
+        addToCart(1)
+    });
 });

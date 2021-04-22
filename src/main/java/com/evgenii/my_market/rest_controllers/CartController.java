@@ -26,19 +26,19 @@ public class CartController {
     public CartDto getCurrentCart(@PathVariable UUID uuid) {
         Cart cart = cartService.findById(uuid).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + uuid));
         return new CartDto(cart);
-    }
+    }*/
 
     @PostMapping("/add")
-    public void addProductToCart(@RequestParam UUID uuid, @RequestParam(name = "product_id") Long productId) {
+    public void addProductToCart(@RequestParam(name = "uuid")  UUID uuid, @RequestParam(name = "prod_id") int productId) {
         cartService.addToCart(uuid, productId);
     }
 
-    @PostMapping("/clear")
+    /*@PostMapping("/clear")
     public void clearCart(@RequestParam UUID uuid) {
         cartService.clearCart(uuid);
-    }
+    }*/
 
-    @PostMapping("/delete")
+    /*@PostMapping("/delete")
     public void updateQuantityOrDeleteProductInCart(@RequestParam UUID uuid, @RequestParam(name = "product_id") Long productId, @RequestParam(name = "updateNumber",defaultValue = "0") int number) {
         cartService.updateQuantityOrDeleteProductInCart(uuid, productId,number);
     }*/

@@ -3,7 +3,10 @@ package com.evgenii.my_market.services;
 import com.evgenii.my_market.dao.CartDAO;
 import com.evgenii.my_market.dao.CartItemDAO;
 import com.evgenii.my_market.entity.Cart;
+import com.evgenii.my_market.entity.CartItem;
+import com.evgenii.my_market.entity.Product;
 import com.evgenii.my_market.entity.Users;
+import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +32,8 @@ public class CartService {
         return cartDAO.findById(id);
     }
 
-  /*  @Transactional
-    public void addToCart(UUID cartId, Long productId) {
+    @Transactional
+    public void addToCart(UUID cartId, int productId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
         CartItem cartItem = cart.getItemByProductId(productId);
         if (cartItem != null) {
@@ -38,10 +41,20 @@ public class CartService {
             cart.recalculate();
             return;
         }
-        Product p = productService.findProductById(productId).orElseThrow(() -> new ResourceNotFoundException("Unable to add product with id: " + productId + " to cart. Product doesn't exist"));
 
-        cart.add(new CartItem(p));
-    }*/
+        try{
+            Product p = productService.findProductById(productId).get(0);
+            cart.add(new CartItem(p));
+        }
+        catch (Exception e){
+            throw new ResourceNotFoundException("Unable to add product with id: " + productId + " to cart. Product doesn't exist");
+        }
+/*
+        Product p = productService.findProductById(productId).orElseThrow(() -> new ResourceNotFoundException("Unable to add product with id: " + productId + " to cart. Product doesn't exist"));
+*/
+
+
+    }
 
   /*  @Transactional
     public void clearCart(UUID cartId) {
@@ -82,6 +95,8 @@ public class CartService {
         save(newCart);
         return newCart.getCartId();
     }
+
+
 
     /*@Transactional
     public void updateQuantityOrDeleteProductInCart(UUID cartId, Long productId, int number) {
