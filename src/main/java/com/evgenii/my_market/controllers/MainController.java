@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableWebMvc
 public class MainController {
 
-    @GetMapping("/user_products")
+    @GetMapping("/user_products") //TODO google how to naming urls
     public String getProductsForUser() {
         return "user/user_products";
     }
@@ -48,5 +48,10 @@ public class MainController {
     @GetMapping("/user_cart")
     public String getUserCartPage() {
         return "user/user_cart";
+    }
+
+    @GetMapping("/cart")
+    public String geCartPage() {
+        return "cart";
     }
 }

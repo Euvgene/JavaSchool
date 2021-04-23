@@ -1,6 +1,5 @@
 package com.evgenii.my_market.beans;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

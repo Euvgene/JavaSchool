@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Table(name = "parameters")
 @Data
 @NoArgsConstructor
-public class Parameters implements Serializable {
+public class Parameters  {
 
     @Id
     @Column(name = "parameters_id")

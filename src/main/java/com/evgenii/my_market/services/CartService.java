@@ -5,7 +5,7 @@ import com.evgenii.my_market.dao.CartItemDAO;
 import com.evgenii.my_market.entity.Cart;
 import com.evgenii.my_market.entity.CartItem;
 import com.evgenii.my_market.entity.Product;
-import com.evgenii.my_market.entity.Users;
+import com.evgenii.my_market.entity.User;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -71,7 +71,7 @@ public class CartService {
     @Transactional
     public UUID getCartForUser(String username, UUID cartUuid) {
         if (username != null && cartUuid != null) {
-            Users user = userService.findByUsername(username).get();
+            User user = userService.findByUsername(username).get();
             Cart cart = findById(cartUuid).get();
             List<Cart> oldCartList = findByUserId(user.getUserId());
 
@@ -86,7 +86,7 @@ public class CartService {
             Cart cart = save(new Cart());
             return cart.getCartId();
         }
-        Users user = userService.findByUsername(username).get();
+        User user = userService.findByUsername(username).get();
         List<Cart> cart = findByUserId(user.getUserId());
         if (!cart.isEmpty()) {
             return cart.get(0).getCartId();
@@ -99,23 +99,23 @@ public class CartService {
 
 
 
-    /*@Transactional
-    public void updateQuantityOrDeleteProductInCart(UUID cartId, Long productId, int number) {
+    @Transactional
+    public void updateQuantityOrDeleteProductInCart(UUID cartId, int productId, int number) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
         CartItem cartItem = cart.getItemByProductId(productId);
-        Product p = productService.findProductById(productId).orElseThrow(() -> new ResourceNotFoundException("Unable to add product with id: " + productId + " to cart. Product doesn't exist"));
+        Product p = productService.findProductById(productId).get(0);
         if (number != 0) {
             cart.deleteProduct(p);
-            cartItemRepository.deleteCartItem(cartItem.getId());
+            cartItemDAO.deleteCartItem(cartItem.getId());
             cart.recalculate();
         } else if (cartItem.getQuantity() > 1) {
             cartItem.decrementQuantity();
             cart.recalculate();
-        } else {
+        } else  {
             cart.deleteProduct(p);
-            cartItemRepository.deleteCartItem(cartItem.getId());
+            cartItemDAO.deleteCartItem(cartItem.getId());
             cart.recalculate();
         }
-    }*/
+    }
 
 }

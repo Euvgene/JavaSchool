@@ -4,7 +4,7 @@ import com.evgenii.my_market.entity.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
+import javax.persistence.*; // todo fixed ""*""
 import java.util.List;
 
 @Repository

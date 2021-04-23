@@ -1,11 +1,10 @@
 package com.evgenii.my_market.dao;
 
-import com.evgenii.my_market.entity.Users;
+import com.evgenii.my_market.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -18,22 +17,22 @@ public class UserDAO {
     @PersistenceContext
     EntityManager entityManager;
 
-    public Optional<Users> findByUsername(String username) {
+    public Optional<User> findByUsername(String username) {
 
-        TypedQuery<Users> query = entityManager.createQuery(
-                "SELECT u FROM Users u WHERE" +
-                        " u.firstName = :username ", Users.class);
+        TypedQuery<User> query = entityManager.createQuery(
+                "SELECT u FROM User u WHERE" +
+                        " u.firstName = :username ", User.class);
 
         return Optional.of(query
                 .setParameter("username", username)
                 .getSingleResult());
     }
 
-    public List<Users> findByUsernameAndEmail(String username, String email) {
+    public List<User> findByUsernameAndEmail(String username, String email) {
 
-        TypedQuery<Users> query = entityManager.createQuery(
-                "SELECT u FROM Users u WHERE" +
-                        " u.firstName = :username  or u.email = :email", Users.class);
+        TypedQuery<User> query = entityManager.createQuery(
+                "SELECT u FROM User u WHERE" +
+                        " u.firstName = :username  or u.email = :email", User.class);
 
         return query
                 .setParameter("username", username)
@@ -41,15 +40,15 @@ public class UserDAO {
                 .getResultList();
     }
 
-    public List<Users> getAllUsers() {
+    public List<User> getAllUsers() {
 
-        TypedQuery<Users> query = entityManager.createQuery(
-                "SELECT u FROM Users u ", Users.class);
+        TypedQuery<User> query = entityManager.createQuery(
+                "SELECT u FROM User u ", User.class);
         return query
                 .getResultList();
     }
 
-    public void saveUser(Users newUsers) {
+    public void saveUser(User newUsers) {
 
         entityManager.persist(newUsers);
         entityManager.flush();

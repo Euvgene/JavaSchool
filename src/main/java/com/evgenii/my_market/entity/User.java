@@ -15,7 +15,7 @@ import java.util.Date;
 @Table(name = "users")
 @Data
 @NoArgsConstructor
-public class Users {
+public class User {
 
     @Id
     @Column(name = "user_id")

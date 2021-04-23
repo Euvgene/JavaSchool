@@ -36,10 +36,10 @@ public class AuthController {
             return new ResponseEntity<>(new MarketError(HttpStatus.UNAUTHORIZED.value(), "Incorrect username or password"), HttpStatus.UNAUTHORIZED);
         }
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
-        System.out.println(userDetails.getAuthorities());
         String token = jwtTokenUtil.generateToken(userDetails);
-        cartService.getCartForUser(authRequest.getUsername(), authRequest.getCartId());
-
+        if (!userDetails.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+            cartService.getCartForUser(authRequest.getUsername(), authRequest.getCartId());
+        }
 
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getAuthorities().toString()));
     }

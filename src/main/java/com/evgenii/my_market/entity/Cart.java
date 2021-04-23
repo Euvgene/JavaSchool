@@ -24,7 +24,7 @@ public class Cart {
     @Column(name = "cart_id")
     private UUID cartId;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "cart",fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<CartItem> cartItems;
 
     @Column(name = "price")
@@ -32,7 +32,7 @@ public class Cart {
 
     @OneToOne()
     @JoinColumn(name = "owner_id")
-    private Users user;
+    private User user;
 
 
     public void add(CartItem cartItem) {
@@ -80,9 +80,9 @@ public class Cart {
 
     public void deleteProduct(Product p) {
         for (CartItem ci : cartItems) {
-            if (ci.getProduct().equals(p)) {
+            if (ci.getProduct().getProductId() == p.getProductId()) {
                ci.setCart(null);
-               ci.setPrice(new BigDecimal(0));
+               ci.setPrice(BigDecimal.valueOf(0));
             }
         }
     }

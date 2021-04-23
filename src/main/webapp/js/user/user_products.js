@@ -34,7 +34,7 @@ function getProducts() {
                             "<p> Age:  " + productList[k].age + "</p>" +
                             "<p> Lifespan:  " + productList[k].lifeSpan + "</p>" +
                             "<p> Price:  " + productList[k].productPrice + "</p>" +
-                            "<input type='submit' onclick= \"addToCart(" + productList[k].productId + ")\"  + value='Add to cart' />" +
+                            "<input type='submit' onclick= \"addToCart(" + productList[k].productId + ")\"  value='Add to cart' />" +
                             '</td>');
 
                         $('#example').append(rd);
@@ -69,7 +69,6 @@ addToCart = function (id) {
             prod_id: id
         },
         success: function () {
-            console.log("added")
         }
     });
 }

@@ -22,3 +22,4 @@ public class CategoryService {
         categoryDAO.saveNewCategory(newCategory);
     }
 }
+// todo pacage name without s

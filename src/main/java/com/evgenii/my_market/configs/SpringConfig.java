@@ -1,4 +1,5 @@
 package com.evgenii.my_market.configs;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -33,7 +34,6 @@ public class SpringConfig implements WebMvcConfigurer {
 
     private final Environment env;
 
-    // define a bean for ViewResolver
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -57,9 +57,8 @@ public class SpringConfig implements WebMvcConfigurer {
         // set the jdbc driver
         try {
             myDataSource.setDriverClass("com.mysql.jdbc.Driver");
-        }
-        catch (PropertyVetoException exc) {
-            throw new RuntimeException(exc);
+        } catch (PropertyVetoException exc) {
+            throw new RuntimeException(exc); //TODO specify exception, google do not stop the app on DB connection lost
         }
 
         // set database connection props

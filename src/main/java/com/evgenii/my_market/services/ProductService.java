@@ -15,15 +15,17 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
-   private final ProductDAO dao;
+    private final ProductDAO dao;
 
-    public List<ProductDto> pagGetAllProducts(int p, List<Object> paramsList) {
+    public List<ProductDto> pagGetAllProducts(int p, List<Object> paramsList) { // todo rename p  and magic NUMBERS
         int total = 8;
         if (p != 1) {
             p = (p - 1) * total + 1;
         }
 
-        return dao.pagfindAll(p - 1, total,paramsList).stream().map(ProductDto::new).collect(Collectors.toList());
+        return dao.pagfindAll(p - 1, total, paramsList).stream() // todo rename method name
+                .map(ProductDto::new)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -31,7 +33,7 @@ public class ProductService {
         dao.saveNewProduct(newProduct);
     }
 
-    public  List<Product> findProductById(int productId) {
+    public List<Product> findProductById(int productId) {
         return dao.findProductById(productId);
     }
 }

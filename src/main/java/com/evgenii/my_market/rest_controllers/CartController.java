@@ -41,8 +41,10 @@ public class CartController {
         cartService.clearCart(uuid);
     }*/
 
-    /*@PostMapping("/delete")
-    public void updateQuantityOrDeleteProductInCart(@RequestParam UUID uuid, @RequestParam(name = "product_id") Long productId, @RequestParam(name = "updateNumber",defaultValue = "0") int number) {
+    @PostMapping("/delete")
+    public void updateQuantityOrDeleteProductInCart(@RequestParam(name = "uuid") UUID uuid,
+                                                    @RequestParam(name = "product_id") int productId,
+                                                    @RequestParam(name = "updateNumber",defaultValue = "0") int number) {
         cartService.updateQuantityOrDeleteProductInCart(uuid, productId,number);
-    }*/
+    }
 }

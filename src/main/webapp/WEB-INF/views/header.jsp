@@ -32,7 +32,7 @@
                         <a class="nav-link active" aria-current="page" href="http://localhost:8189/products">Product</a>
                     </li>
                     <li id="cart" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Cart</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/cart">Cart</a>
                     </li>
                 </ul>
                 <form class="d-flex "  id="navLoginSubmit">

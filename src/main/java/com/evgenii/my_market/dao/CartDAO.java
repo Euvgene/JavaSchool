@@ -1,12 +1,10 @@
 package com.evgenii.my_market.dao;
 
 import com.evgenii.my_market.entity.Cart;
-import com.evgenii.my_market.entity.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -17,16 +15,17 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CartDAO {
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     public void delete(Cart cart) {
         entityManager.remove(cart);
-        entityManager.flush();
+         entityManager.flush();
     }
 
     public Cart save(Cart cart) {
         entityManager.persist(cart);
         entityManager.flush();
+
         return cart;
     }
 
@@ -34,7 +33,7 @@ public class CartDAO {
         TypedQuery<Cart> query = entityManager.createQuery(
                 "SELECT c FROM Cart c where c.cartId = :id", Cart.class);
         return Optional.of(query
-                .setParameter("id",id)
+                .setParameter("id", id)
                 .getSingleResult());
     }
 
@@ -42,7 +41,7 @@ public class CartDAO {
         TypedQuery<Cart> query = entityManager.createQuery(
                 "SELECT c FROM Cart c where c.user.userId= :id", Cart.class);
         return query
-                .setParameter("id",id)
+                .setParameter("id", id)
                 .getResultList();
     }
 }
