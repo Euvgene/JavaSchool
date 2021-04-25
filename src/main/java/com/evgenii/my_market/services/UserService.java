@@ -24,11 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     private final UserDAO userDAO;
-    /*    private final RoleRepository roleRepository;*//*
-     */
-    /*
-     *//*
-     */
+
     private final BCryptPasswordEncoder passwordEncoder;
 
     public Optional<User> findByUsername(String username) {
@@ -39,10 +35,6 @@ public class UserService implements UserDetailsService {
     public List<User> findByUsernameAndEmail(String username, String email) {
         return userDAO.findByUsernameAndEmail(username, email);
     }
-/*public Optional<User> findByUsernameAndEmail(String name,String email) {
-        return userRepository.findByUsernameAndEmail(name,email);
-    }*/
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -68,13 +60,4 @@ public class UserService implements UserDetailsService {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         userDAO.saveUser(newUser);
     }
-
-/*public void saveUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        String roleName = "ROLE_USER";
-        Role role = roleRepository.findByName(roleName).orElseThrow(() -> new ResourceNotFoundException("Unable to find role " + roleName + " add to user"));
-        user.setRoles(List.of(role));
-        userRepository.save(user);
-    }*/
-
 }

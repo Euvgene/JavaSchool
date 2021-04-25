@@ -49,3 +49,48 @@ function getOrderProducts() {
         }
     });
 }
+
+$(document).ready(function () {
+    $('#deliveryToHome').click(function(){
+        if ($(this).is(':checked')){
+            $('#address').show(100);
+            $('#fromStore').prop("checked", false)
+        } else {
+            $('#address').hide(100);
+            $('#fromStore').prop("checked", true)
+        }
+    });
+
+    $('#fromStore').click(function(){
+        if ($(this).is(':checked')){
+            $('#deliveryToHome').prop("checked", false)
+            $('#address').hide(100);
+        } else {
+            $('#deliveryToHome').prop("checked", true)
+
+        }
+    });
+
+    $('#creditCart').click(function(){
+        if ($(this).is(':checked')){
+            $('#cash').prop("checked", false)
+            $('#creditCartPayment').show(100);
+        } else {
+            $('#cash').prop("checked", true)
+            $('#creditCartPayment').hide(100);
+        }
+    });
+
+    $('#cash').click(function(){
+        if ($(this).is(':checked')){
+            $('#creditCart').prop("checked", false)
+            $('#creditCartPayment').hide(100);
+        } else {
+            $('#creditCart').prop("checked", true)
+        }
+    });
+
+});
+
+
+

@@ -12,7 +12,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@RequiredArgsConstructor
 public class CartDAO {
     @PersistenceContext
     private EntityManager entityManager;

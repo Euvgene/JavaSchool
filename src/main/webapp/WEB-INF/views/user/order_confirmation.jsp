@@ -18,12 +18,13 @@
         <h3 id="cartHeader" style="margin-top: 100px;"></h3>
 
         <div>
-            <table  class="table table-success table-striped" cellpadding="0" cellspacing="0"
-                    style="border-collapse: separate;">
+            <table class="table table-success table-striped" cellpadding="0" cellspacing="0"
+                   style="border-collapse: separate;">
                 <style>
                     thead {
                         font-size: 1.3rem;
                     }
+
                     .justify-content-md-center {
                         height: 55px;
                         align-items: center;
@@ -33,11 +34,34 @@
                 <tbody id="example"></tbody>
             </table>
         </div>
-        <div class="form-group" style="margin-bottom: 15px">
+        <h4 class="mb-3">Delivery terms</h4>
+        <div class="my-3">
+            <div>
+                <input id="deliveryToHome" type="checkbox"  class="form-check-input">
+                <label class="form-check-label" for="deliveryToHome" style="margin-left: 10px">Need delivery</label>
+            </div>
+            <div class="form-check">
+                <input id="fromStore" type="checkbox" class="form-check-input" checked="">
+                <label class="form-check-label" for="fromStore" style="margin-left: 6px">Pick up from the store</label>
+            </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 15px; display: none" id="address">
             <label for="orderAddress" style="margin-bottom: 10px">Delivery address</label>
             <input class="form-control" type="text" id="orderAddress">
         </div>
-        <div class="row gy-3">
+        <h4 class="mb-3">Payment</h4>
+        <div class="my-3">
+            <div class="form-check">
+                <input id="creditCart" type="checkbox"  class="form-check-input" checked="">
+                <label class="form-check-label" for="creditCart" style="margin-left: 10px">Credit card</label>
+            </div>
+            <div class="form-check">
+                <input id="cash" type="checkbox"  class="form-check-input">
+                <label class="form-check-label" for="cash" style="margin-left: 10px">Cash</label>
+            </div>
+        </div>
+        <div class="row gy-3" id="creditCartPayment">
             <div class="col-md-6">
                 <label for="cc-name" class="form-label">Name on card</label>
                 <input type="text" class="form-control" id="cc-name" placeholder="" required="">
@@ -72,7 +96,7 @@
             </div>
         </div>
         <div style="margin-top: 20px">
-        <button class="w-100 btn btn-primary btn-lg" type="submit" id="createOrder">Creat order</button>
+            <button class="w-100 btn btn-primary btn-lg" type="submit" id="createOrder">Creat order</button>
         </div>
     </div>
 </main>

@@ -3,9 +3,11 @@ package com.evgenii.my_market.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,12 +49,20 @@ public class Order {
     @JoinColumn(name = "order_state")
     private OrderState orderState;
 
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
-    public Order(Cart cart, User user, Address address) {
+
+    public Order(Cart cart, User user, Address address,
+                 String deliveryMethode,String paymentMethod,  boolean paymentState) {
         this.items = new ArrayList<>();
         this.owner = user;
         this.address = address;
+        this.deliveryMethode = deliveryMethode;
         this.price = cart.getPrice();
+        this.paymentMethod = paymentMethod;
+        this.paymentState = paymentState;
         for (CartItem ci : cart.getCartItems()) {
             OrderItem oi = new OrderItem(ci);
             oi.setOrder(this);

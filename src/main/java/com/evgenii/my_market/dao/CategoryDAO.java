@@ -8,7 +8,6 @@ import javax.persistence.*; // todo fixed ""*""
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
 public class CategoryDAO {
 
     @PersistenceContext

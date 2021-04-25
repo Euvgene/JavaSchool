@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@RequiredArgsConstructor
 public class UserDAO {
 
     @PersistenceContext
