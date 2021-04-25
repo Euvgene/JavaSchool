@@ -24,7 +24,7 @@ public class Cart {
     @Column(name = "cart_id")
     private UUID cartId;
 
-    @OneToMany(mappedBy = "cart",fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems;
 
     @Column(name = "price")
@@ -37,7 +37,7 @@ public class Cart {
 
     public void add(CartItem cartItem) {
         for (CartItem ci : cartItems) {
-            if (ci.getProduct().getProductId()==(cartItem.getProduct().getProductId())) {
+            if (ci.getProduct().getProductId() == (cartItem.getProduct().getProductId())) {
                 ci.incrementQuantity(cartItem.getQuantity());
                 recalculate();
                 return;
@@ -51,7 +51,7 @@ public class Cart {
     public void recalculate() {
         price = BigDecimal.valueOf(0);
         for (CartItem ci : cartItems) {
-            price =BigDecimal.valueOf(price.doubleValue()+ ci.getPrice().doubleValue());
+            price = BigDecimal.valueOf(price.doubleValue() + ci.getPrice().doubleValue());
         }
     }
 
@@ -81,8 +81,8 @@ public class Cart {
     public void deleteProduct(Product p) {
         for (CartItem ci : cartItems) {
             if (ci.getProduct().getProductId() == p.getProductId()) {
-               ci.setCart(null);
-               ci.setPrice(BigDecimal.valueOf(0));
+                ci.setCart(null);
+                ci.setPrice(BigDecimal.valueOf(0));
             }
         }
     }

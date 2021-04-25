@@ -30,12 +30,12 @@ public class MainController {
 
 
 
-    @GetMapping("/userMain")
+    @GetMapping("/user_main")
     public String getUserPage() {
         return "user/user_main";
     }
 
-    @GetMapping("/adminMain")
+    @GetMapping("/admin_main")
     public String getAdminPage() {
         return "admin/admin_main";
     }
@@ -53,5 +53,10 @@ public class MainController {
     @GetMapping("/cart")
     public String geCartPage() {
         return "cart";
+    }
+
+    @GetMapping("/order_confirmation")
+    public String getOrderConfirmationPage() {
+        return "user/order_confirmation";
     }
 }

@@ -36,10 +36,10 @@ public class CartController {
         cartService.addToCart(uuid, productId);
     }
 
-    /*@PostMapping("/clear")
-    public void clearCart(@RequestParam UUID uuid) {
+    @PostMapping("/clear")
+    public void clearCart(@RequestParam(name = "uuid")  UUID uuid) {
         cartService.clearCart(uuid);
-    }*/
+    }
 
     @PostMapping("/delete")
     public void updateQuantityOrDeleteProductInCart(@RequestParam(name = "uuid") UUID uuid,

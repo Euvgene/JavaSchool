@@ -57,11 +57,11 @@ public class CartService {
 
     }
 
-    /*  @Transactional
+      @Transactional
       public void clearCart(UUID cartId) {
           Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
           cart.clear();
-      }*/
+      }
     @Transactional
     public List<Cart> findByUserId(int id) {
         return cartDAO.findByUserId(id);

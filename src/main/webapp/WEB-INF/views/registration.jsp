@@ -51,7 +51,7 @@
 
                         <div class="col-sm-3">
                             <label for="userPassword" class="form-label">Password</label>
-                            <input type="text" class="form-control" id="userPassword" placeholder="Password" value="" required="">
+                            <input type="password" class="form-control" id="userPassword" placeholder="Password" value="" required="">
                             <div class="invalid-feedback">
                                 Valid last name is required.
                             </div>

@@ -13,26 +13,41 @@ function tryToAuth() {
         data: JSON.stringify(formData),
         dataType: 'json',
         success: function (result) {
-            console.log(localStorage.marketCartUuid)
+
             localStorage.currentUserName = formData.username;
             localStorage.token = result.token;
             localStorage.role = result.userRole;
-            if (result.userRole === "[ROLE_USER]") {
-                window.location.href = "userMain"
+            if (window.location.href.endsWith("/cart")) {
+                    if(localStorage.role === "[ROLE_USER]"){
+                        window.location.href = "user_cart";
+                    } else {
+                        window.location.href = "admin_main";
+                    }
+            } else if (window.location.href.endsWith("/products")){
+                if(localStorage.role === "[ROLE_USER]"){
+                    window.location.href = "user_products";
+                } else {
+                    window.location.href = "user_products";
+                }
             } else {
-                window.location.href = "adminMain"
+                if(localStorage.role === "[ROLE_USER]"){
+                    window.location.href = "user_products";
+                } else {
+                    window.location.href = "admin_products";
+                }
             }
         }
+
     });
 }
 
 function isUserLoggedIn() {
     if (localStorage.currentUserName) {
         if (localStorage.role === "[ROLE_USER]") {
-            location.assign("http://localhost:8189/userMain");
+            location.assign("http://localhost:8189/user_main");
 
         } else if (localStorage.role === "[ROLE_ADMIN]") {
-            location.assign("http://localhost:8189/adminMain");
+            location.assign("http://localhost:8189/admin_main");
         }
     }
 }
@@ -43,7 +58,9 @@ function goToRegistration() {
 }
 
 $(document).ready(function () {
-
+/*
+   delete localStorage.marketCartUuid
+*/
     isUserLoggedIn();
 console.log(localStorage.marketCartUuid)
 
