@@ -16,11 +16,11 @@ import java.time.LocalDateTime;
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "order_items_id")
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "order-items_id")
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToOne
@@ -39,10 +39,6 @@ public class OrderItem {
     @CreationTimestamp
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     public OrderItem(CartItem cartItem) {
         this.product = cartItem.getProduct();

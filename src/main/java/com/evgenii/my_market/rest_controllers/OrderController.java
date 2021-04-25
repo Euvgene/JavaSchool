@@ -7,11 +7,8 @@ import com.evgenii.my_market.services.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
 
 
 @RestController
@@ -23,11 +20,12 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDto createOrderFromCart(@RequestParam String userName,
-                                        @RequestParam UUID cartUuid,
-                                        @RequestParam(defaultValue = "from store") String address,
-                                        @RequestParam(defaultValue = "cash" ) String paymentMethod,
-                                        @RequestParam(defaultValue = "false") boolean paymentState) {
+    public OrderDto createOrderFromCart(@RequestParam(name = "username") String userName,
+                                        @RequestParam(name = "uuid") UUID cartUuid,
+                                        @RequestParam(name = "address",defaultValue = "from store") String address,
+                                        @RequestParam(name = "paymentMethod",defaultValue = "cash" ) String paymentMethod,
+                                        @RequestParam(name = "paymentState",defaultValue = "false") boolean paymentState) {
+
         Order order = orderService.createFromUserCart(userName, cartUuid, address,paymentMethod,paymentState);
         cartService.clearCart(cartUuid);
         return new OrderDto(order);

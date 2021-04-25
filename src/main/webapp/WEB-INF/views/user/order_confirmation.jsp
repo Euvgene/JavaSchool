@@ -53,11 +53,11 @@
         <h4 class="mb-3">Payment</h4>
         <div class="my-3">
             <div class="form-check">
-                <input id="creditCart" type="checkbox"  class="form-check-input" checked="">
+                <input id="creditCart" type="checkbox" value="card" class="form-check-input" checked="">
                 <label class="form-check-label" for="creditCart" style="margin-left: 10px">Credit card</label>
             </div>
             <div class="form-check">
-                <input id="cash" type="checkbox"  class="form-check-input">
+                <input id="cash" type="checkbox" value="cash"  class="form-check-input">
                 <label class="form-check-label" for="cash" style="margin-left: 10px">Cash</label>
             </div>
         </div>
@@ -96,7 +96,7 @@
             </div>
         </div>
         <div style="margin-top: 20px">
-            <button class="w-100 btn btn-primary btn-lg" type="submit" id="createOrder">Creat order</button>
+            <button class="w-100 btn btn-primary btn-lg" type="submit" id="confirmOrder" onclick="createOrder()">Creat order</button>
         </div>
     </div>
 </main>

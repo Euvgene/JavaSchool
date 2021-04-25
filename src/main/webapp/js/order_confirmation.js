@@ -22,7 +22,6 @@ function getOrderProducts() {
                         let rd = $('<tr class="" style="height: 55px; vertical-align: 30;"></tr>');
                         count++;
                         rd.append(
-
                             "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
                             "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
                             "font-weight: bold \">"
@@ -50,9 +49,26 @@ function getOrderProducts() {
     });
 }
 
+function createOrder() {
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8189/api/v1/orders",
+        data: {
+            username: localStorage.currentUserName,
+            uuid: localStorage.marketCartUuid,
+            address: $('#orderAddress').val(),
+            paymentMethod: $('#creditCart').is(':checked') ? "credit card": "cash",
+            paymentState: $('#creditCart').is(':checked') ? "true" : "false"
+        },
+        success: function () {
+         console.log("order +++")
+        }
+    });
+}
+
 $(document).ready(function () {
-    $('#deliveryToHome').click(function(){
-        if ($(this).is(':checked')){
+    $('#deliveryToHome').click(function () {
+        if ($(this).is(':checked')) {
             $('#address').show(100);
             $('#fromStore').prop("checked", false)
         } else {
@@ -61,8 +77,8 @@ $(document).ready(function () {
         }
     });
 
-    $('#fromStore').click(function(){
-        if ($(this).is(':checked')){
+    $('#fromStore').click(function () {
+        if ($(this).is(':checked')) {
             $('#deliveryToHome').prop("checked", false)
             $('#address').hide(100);
         } else {
@@ -71,8 +87,8 @@ $(document).ready(function () {
         }
     });
 
-    $('#creditCart').click(function(){
-        if ($(this).is(':checked')){
+    $('#creditCart').click(function () {
+        if ($(this).is(':checked')) {
             $('#cash').prop("checked", false)
             $('#creditCartPayment').show(100);
         } else {
@@ -81,8 +97,8 @@ $(document).ready(function () {
         }
     });
 
-    $('#cash').click(function(){
-        if ($(this).is(':checked')){
+    $('#cash').click(function () {
+        if ($(this).is(':checked')) {
             $('#creditCart').prop("checked", false)
             $('#creditCartPayment').hide(100);
         } else {

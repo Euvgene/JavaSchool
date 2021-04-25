@@ -14,8 +14,13 @@ public class OrderState {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "state_id")
-    private byte id;
+    private int id;
 
     @Column(name = "state_name")
     private String stateName;
+
+    public OrderState(int id, String stateName) {
+        this.id = id;
+        this.stateName = stateName;
+    }
 }

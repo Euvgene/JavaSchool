@@ -13,9 +13,8 @@ public class OrderDAO {
     EntityManager entityManager;
 
     public Order saveOrder(Order order) {
-        entityManager.getTransaction().begin();
         entityManager.persist(order);
-        entityManager.getTransaction().commit();
+        entityManager.flush();
         return order;
     }
 }
