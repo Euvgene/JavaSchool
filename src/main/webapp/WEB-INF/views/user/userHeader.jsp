@@ -31,7 +31,7 @@
                         <a class="nav-link active" aria-current="page" href="http://localhost:8189/user-products">Product</a>
                     </li>
                     <li id="orders" class="nav-item">
-                        <a class="nav-link active" id="myOrders" aria-current="page" href="#">Orders</a>
+                        <a class="nav-link active" id="myOrders" aria-current="page" href="http://localhost:8189/user-orders">Orders</a>
                     </li>
                     <li id="cart" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="http://localhost:8189/user-cart">Cart</a>

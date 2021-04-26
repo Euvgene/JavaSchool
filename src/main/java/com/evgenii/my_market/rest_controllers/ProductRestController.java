@@ -34,7 +34,7 @@ public class ProductRestController {
     }*/
 
     @GetMapping()
-    public List<ProductDto> pagination(@RequestParam(name = "p", defaultValue = "1") int page,
+    public List<ProductDto> getProductsPage(@RequestParam(name = "p", defaultValue = "1") int page,
                                        @RequestParam(name = "product_title", defaultValue = "") String name,
                                        @RequestParam(name = "gender", defaultValue = "") String gender,
                                        @RequestParam(name = "min_price", defaultValue = 0 + "") BigDecimal minPrice,
@@ -44,11 +44,10 @@ public class ProductRestController {
         paramList.add(gender);
         paramList.add(minPrice);
         paramList.add(maxPrice);
-        return productService.pagGetAllProducts(page, paramList);
+        return productService.getProductsPage(page, paramList);
     }
 
     @PostMapping
-  /*  @ResponseStatus(HttpStatus.CREATED)*/
     public void saveProduct(@RequestBody Product newProduct) {
         productService.save(newProduct);
     }

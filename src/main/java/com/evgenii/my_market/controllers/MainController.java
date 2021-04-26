@@ -64,4 +64,10 @@ public class MainController {
     public String getOrderResultPage() {
         return "user/order_result";
     }
+
+    @GetMapping("/user-orders")
+    public String getUserOrdersPage() {
+        return "user/orders";
+    }
+
 }

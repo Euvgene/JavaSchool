@@ -17,13 +17,13 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductDAO dao;
 
-    public List<ProductDto> pagGetAllProducts(int p, List<Object> paramsList) { // todo rename p  and magic NUMBERS
+    public List<ProductDto> getProductsPage(int p, List<Object> paramsList) { // todo rename p  and magic NUMBERS
         int total = 8;
         if (p != 1) {
             p = (p - 1) * total + 1;
         }
 
-        return dao.pagfindAll(p - 1, total, paramsList).stream() // todo rename method name
+        return dao.getProductsPage(p - 1, total, paramsList).stream() // todo rename method name
                 .map(ProductDto::new)
                 .collect(Collectors.toList());
     }

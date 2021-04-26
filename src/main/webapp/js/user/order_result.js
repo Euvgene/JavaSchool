@@ -3,53 +3,50 @@ showOrder = function () {
         type: "GET",
         url: "http://localhost:8189/api/v1/orders/" + localStorage.orderUuid,
         success: function (response) {
-            delete  localStorage.orderUuid;
-            console.log(response)
-            let order = response;
-            let orderState;
-            switch (order.orderState) {
-                case "AWAITING_PAYMENT":
-                    orderState = "not paid";
-                    break;
-                case "AWAITING_SHIPMENT":
-                    orderState = "awaiting shipment"
-                    break;
-                case "SHIPPED":
-                    orderState = "shipped"
-                    break;
-                case "DELIVERED":
-                    orderState = "delivered"
-                    break;
+            delete localStorage.orderUuid;
+            let order = response.items;
+            let count = 0;
+            while (count < order.length) {
+                $('#cartHead').append(
+                    "<tr>" +
+                    "<td>Title</td>" +
+                    "<td >Quantity</td>" +
+                    "<td >Price</td>" +
+                    "</tr>");
+
+                console.log(order);
+                if (order.length > 0) {
+                    for (let k = 0; k < order.length; k++) {
+
+                        let rd = $('<tr class="" style="height: 55px; vertical-align: 30;"></tr>');
+                        count++;
+                        rd.append(
+                            "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
+                            "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
+                            "font-weight: bold \">"
+                            + order[k].productTitle + "</td>" +
+                            "<td class=\"justify-content-md-center\" >" +
+                            "<div class=\"col-6 col-md-4\" style=\"text-align: center\">" + order[k].quantity + "</div>" +
+                            " </td>" +
+                            "<td '> " + order[k].price + ' $' + "</td>");
+
+                        $('#example').append(rd);
+                    }
+
+                    $('#example').append("<tr>" +
+                        "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
+                        "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
+                        "font-weight: bold \">Total price</td>" +
+                        "<td></td>" +
+                        "<td>" + response.totalPrice + ' $' + "</td>" +
+                        "</tr>");
+                    $('#cartHeader').append("Order " + order[0].orderId.substring(0, 8));
+                }
             }
-
-            $('#cartHead').append(
-                "                    <tr>" +
-                "                        <td>Order number</td>" +
-                "                        <td align='center' >Order price</td>" +
-                "                        <td align='center'>Delivery address</td>" +
-                "                        <td align='center' >Payment method</td>" +
-                "                        <td align='center' >Payment state</td>" +
-                "                    </tr>");
-
-
-            let rd = $('<tr class="" style="height: 55px; vertical-align: 30; align-items: center"></tr>');
-
-            rd.append(
-                "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
-                "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
-                "font-weight: bold \" >"
-                + order.orderId.substring(0,8) + "</td>" +
-                "<td align='center' class=\"justify-content-md-center\" >"
-                + order.totalPrice + ' $' +" </td>" +
-                "<td align='center' '> " + order.address + "</td>" +
-                "<td align='center' '> " + order.paymentMethod + "</td>" +
-                "<td align='center' '> " + orderState + "</td>");
-
-            $('#example').append(rd);
-            $('#cartHeader').append("Order created");
-
-            const delay = 10000; /* 1 миллисекунда*/
-            setTimeout(function(){ location.assign( "http://localhost:8189/user-products")} , delay);
+            const delay = 10000;
+            setTimeout(function () {
+                location.assign("http://localhost:8189/user-products")
+            }, delay);
         }
     });
 };

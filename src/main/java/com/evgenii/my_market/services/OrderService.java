@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,9 +40,9 @@ public class OrderService {
         return order;
     }
 
-/*    public List<Order> findAllOrdersByOwnerName(String username) {
-        return orderRepository.findAllByOwnerUsername(username);
-    }*/
+    public List<Order> findAllOrdersByOwnerName(String username) {
+        return orderDAO.findAllByOwnerUsername(username);
+    }
 
     public Optional<Order> findById(UUID id) {
         return orderDAO.findById(id);

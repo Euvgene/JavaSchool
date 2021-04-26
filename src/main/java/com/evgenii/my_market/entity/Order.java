@@ -24,7 +24,7 @@ public class Order {
     @Column(name = "order_id")
     private UUID id;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<OrderItem> items;
 

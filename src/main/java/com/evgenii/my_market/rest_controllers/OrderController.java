@@ -1,6 +1,7 @@
 package com.evgenii.my_market.rest_controllers;
 
 import com.evgenii.my_market.dto.OrderDto;
+import com.evgenii.my_market.dto.OrderResultDto;
 import com.evgenii.my_market.entity.Order;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.services.CartService;
@@ -9,7 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -32,14 +36,14 @@ public class OrderController {
         return new OrderDto(order);
     }
     @GetMapping("/{uuid}")
-    public OrderDto getOrderById(@PathVariable UUID uuid) {
+    public OrderResultDto getOrderById(@PathVariable UUID uuid) {
         Order order = orderService.findById(uuid).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
-        return new OrderDto(order);
+        return new OrderResultDto(order);
     }
 
-    /*@GetMapping
-    public List<OrderDto> getCurrentUserOrders(Principal principal) {
+    @GetMapping
+    public List<OrderDto> getCurrentUserOrders(/*@RequestParam(name = "username") String userName*/ Principal principal) {
         return orderService.findAllOrdersByOwnerName(principal.getName()).stream().map(OrderDto::new).collect(Collectors.toList());
-    }*/
+    }
 
 }

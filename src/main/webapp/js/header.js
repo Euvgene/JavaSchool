@@ -27,7 +27,7 @@ function tryToAuth() {
                 if(localStorage.role === "[ROLE_USER]"){
                     window.location.href = "user-products";
                 } else {
-                    window.location.href = "user-products";
+                    window.location.href = "admin-products";
                 }
             } else {
                 if(localStorage.role === "[ROLE_USER]"){
@@ -58,8 +58,8 @@ function goToRegistration() {
 }
 
 $(document).ready(function () {
+
     isUserLoggedIn();
-console.log(localStorage.marketCartUuid)
 
     $("#logIn").click(function (event) {
         event.preventDefault();

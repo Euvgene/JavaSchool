@@ -19,7 +19,7 @@ public class ProductDAO  {
     @PersistenceContext
     EntityManager entityManager;
 
-    public List<Product> pagfindAll(int p, int t, List<Object> paramsList) {
+    public List<Product> getProductsPage(int p, int t, List<Object> paramsList) {
 
         TypedQuery<Product> query = entityManager.createQuery(
                 "SELECT p FROM Product p WHERE" +
