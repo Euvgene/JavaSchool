@@ -4,12 +4,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @NoArgsConstructor
 @Data
@@ -17,9 +19,10 @@ import java.util.List;
 @Table(name = "orders")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "UUIDGenerator", strategy = "uuid2")
+    @GeneratedValue(generator = "UUIDGenerator")
     @Column(name = "order_id")
-    private int id;
+    private UUID id;
 
     @OneToMany(mappedBy = "order")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
@@ -45,9 +48,9 @@ public class Order {
     @Column(name = "payment_state")
     private boolean paymentState;
 
-    @ManyToOne
-    @JoinColumn(name = "order_state")
-    private OrderState orderState;
+    @Column(name = "order_state")
+    @Enumerated(EnumType.STRING)
+    private StateEnum orderState;
 
     @CreationTimestamp
     @Column(name = "created_at")

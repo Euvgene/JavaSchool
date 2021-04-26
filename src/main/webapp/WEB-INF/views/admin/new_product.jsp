@@ -130,12 +130,6 @@
                     </div>
                 </div>
                 <div class="row g-3" style="margin-top: auto">
-                    <%--  <div class="col-md-3">
-                          <label for="file">Add foto</label>
-                          <input class="form-control-file" type="file" id="file" accept="image/png" name="ADsf" multiple
-                                 data-buttonText="Select file">
-
-                      </div>--%>
                     <div class="fl_upld col-md-4" >
                         <label><input id="fl_inp" type="file" name="file">Choose file</label>
                     </div>

@@ -90,7 +90,7 @@ goToOrderSubmit = function (){
     if (!localStorage.currentUserName){
         document.getElementById("logInMessage").style.display= "block";
     }else {
-        location.assign("http://localhost:8189/order_confirmation")
+        location.assign("http://localhost:8189/order-confirmation")
     }
 }
 

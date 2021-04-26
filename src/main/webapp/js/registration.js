@@ -32,8 +32,6 @@ function checkout() {
             console.log(result)
             $("#username").val($("#firstName").val());
             $("#password").val($("#userPassword").val());
-/*            document.getElementById('username').value = $("#firstName").val();
-            document.getElementById('password').value = $("#userPassword").val();*/
             tryToAuth();
 
         }

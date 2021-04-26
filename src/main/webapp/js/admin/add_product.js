@@ -14,15 +14,15 @@ function loadCategory() {
 }
 
 function showNewCategoryForm() {
-    $("#newCategory").show();
-    $("#addCategoryButton").show();
-    $("#showNewCategoryForm").hide();
+    $("#newCategory").show(100);
+    $("#addCategoryButton").show(100);
+    $("#showNewCategoryForm").hide(100);
 }
 
 function hideCategoryForm() {
-    $("#newCategory").hide();
-    $("#addCategoryButton").hide();
-    $("#showNewCategoryForm").show();
+    $("#newCategory").hide(100);
+    $("#addCategoryButton").hide(100);
+    $("#showNewCategoryForm").show(100);
 }
 
 function createNewCategory() {

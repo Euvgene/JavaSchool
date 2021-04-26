@@ -29,7 +29,7 @@
                         </a>
                     </li>
                     <li id="products" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/admin_products">Product</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/admin-products">Product</a>
                     </li>
                     <li id="addProduct" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="http://localhost:8189/addproducts">Add product</a>

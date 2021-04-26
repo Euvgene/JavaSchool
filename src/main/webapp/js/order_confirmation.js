@@ -57,11 +57,14 @@ function createOrder() {
             username: localStorage.currentUserName,
             uuid: localStorage.marketCartUuid,
             address: $('#orderAddress').val(),
-            paymentMethod: $('#creditCart').is(':checked') ? "credit card": "cash",
+            paymentMethod: $('#creditCart').is(':checked') ? "credit card" : "cash",
             paymentState: $('#creditCart').is(':checked') ? "true" : "false"
         },
-        success: function () {
-         console.log("order +++")
+        success: function (result) {
+            console.log(result)
+            localStorage.orderUuid = result.orderId;
+            console.log(localStorage.orderUuid)
+            location.assign("http://localhost:8189/orders-result")
         }
     });
 }

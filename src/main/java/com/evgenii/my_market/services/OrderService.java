@@ -3,7 +3,7 @@ package com.evgenii.my_market.services;
 import com.evgenii.my_market.dao.OrderDAO;
 import com.evgenii.my_market.entity.Cart;
 import com.evgenii.my_market.entity.Order;
-import com.evgenii.my_market.entity.OrderState;
+import com.evgenii.my_market.entity.StateEnum;
 import com.evgenii.my_market.entity.User;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -30,9 +31,9 @@ public class OrderService {
         Cart cart = cartService.findById(cartUuid).orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
         Order order = new Order(cart, user, user.getUserAddress(),address,paymentMethod,paymentState);
         if(paymentState){
-            order.setOrderState(new OrderState(2,"awaiting shipment"));
+            order.setOrderState(StateEnum.AWAITING_SHIPMENT);
         } else{
-            order.setOrderState(new OrderState(1,"awaiting payment"));
+            order.setOrderState(StateEnum.AWAITING_PAYMENT);
         }
         order = orderDAO.saveOrder(order);
         return order;
@@ -40,9 +41,9 @@ public class OrderService {
 
 /*    public List<Order> findAllOrdersByOwnerName(String username) {
         return orderRepository.findAllByOwnerUsername(username);
-    }
-
-    public Optional<Order> findById(Long id) {
-        return orderRepository.findById(id);
     }*/
+
+    public Optional<Order> findById(UUID id) {
+        return orderDAO.findById(id);
+    }
 }
