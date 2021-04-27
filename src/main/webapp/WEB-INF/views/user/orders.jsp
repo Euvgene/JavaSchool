@@ -52,17 +52,8 @@
                 <tbody id="example"></tbody>
             </table>
         </div>
-        <nav >
-            <ul class="pagination" >
-                <li class="page-item" id="prePage">
-                    <button class="page-link" tabindex="-1" >Previous</button>
-                </li>
-                <li class="page-item active" aria-current="page" id="currentPage">
-                </li>
-                <li class="page-item" id="nextPage">
-                    <button class="page-link" >Next</button>
-                </li>
-            </ul>
+        <nav id="pagination">
+
         </nav>
 
     </div>

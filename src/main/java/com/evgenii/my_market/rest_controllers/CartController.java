@@ -18,11 +18,8 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping
-    public UUID createNewCart(Principal principal) {
-        if (principal == null) {
+    public UUID createNewCart() {
             return cartService.getCartForUser(null, null);
-        }
-        return cartService.getCartForUser(principal.getName(), null);
     }
 
     @GetMapping("/{uuid}")

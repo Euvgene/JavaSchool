@@ -19,4 +19,6 @@ $(document).ready(function () {
     if (!localStorage.marketCartUuid) {
         createCart();
     }
+    console.log(localStorage.marketCartUuid)
+
 });

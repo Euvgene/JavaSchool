@@ -27,12 +27,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/asd").hasRole("USER")
                 .antMatchers("/api/v1/orders").hasAuthority("ROLE_USER")
                 .antMatchers("/addproducts").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/user-cart").hasRole("USER")
+                .antMatchers("/products").permitAll()
+                /*.antMatchers("/admin"+"**").hasAuthority("ROLE_ADMIN")*/
                 .antMatchers("/api/v1/auth").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .and()
-                .headers().frameOptions().disable();
+                .headers().frameOptions().disable()
+                .and()
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/").deleteCookies("auth_code", "JSESSIONID").invalidateHttpSession(true);
+
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

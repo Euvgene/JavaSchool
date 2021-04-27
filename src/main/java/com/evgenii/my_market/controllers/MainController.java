@@ -7,6 +7,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Controller
 @EnableWebMvc
 public class MainController {
+    @GetMapping("/droptoken")
+    public String dropToken() {
+        return "products";
+    }
 
     @GetMapping("/user-products")
     public String getProductsForUser() {

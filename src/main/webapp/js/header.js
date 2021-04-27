@@ -19,7 +19,14 @@ function tryToAuth() {
             localStorage.role = result.userRole;
             if (window.location.href.endsWith("/cart")) {
                     if(localStorage.role === "[ROLE_USER]"){
-                        window.location.href = "user-cart";
+                        $.ajax({
+                            type: "GET",
+                            url: 'http://localhost:8189/user-cart',
+                            headers: {
+                                "Authorization": "Bearer " + localStorage.token
+                            },success: function (response) {
+                                window.location.href = "user-cart";
+                            }})
                     } else {
                         window.location.href = "admin-main";
                     }

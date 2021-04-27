@@ -43,25 +43,20 @@ public class CartService {
             cart.recalculate();
             return;
         }
-
         try {
             Product p = productService.findProductById(productId).get(0);
             cart.add(new CartItem(p));
         } catch (Exception e) {
             throw new ResourceNotFoundException("Unable to add product with id: " + productId + " to cart. Product doesn't exist");
         }
-/*
-        Product p = productService.findProductById(productId).orElseThrow(() -> new ResourceNotFoundException("Unable to add product with id: " + productId + " to cart. Product doesn't exist"));
-*/
-
-
     }
 
-      @Transactional
-      public void clearCart(UUID cartId) {
-          Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
-          cart.clear();
-      }
+    @Transactional
+    public void clearCart(UUID cartId) {
+        Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        cart.clear();
+    }
+
     @Transactional
     public List<Cart> findByUserId(int id) {
         return cartDAO.findByUserId(id);
@@ -88,16 +83,9 @@ public class CartService {
         }
         User user = userService.findByUsername(username).get();
         List<Cart> cart = findByUserId(user.getUserId());
-        if (!cart.isEmpty()) {
-            return cart.get(0).getCartId();
-        }
-        Cart newCart = new Cart();
-        newCart.setUser(user);
-        save(newCart);
-        return newCart.getCartId();
+        return cart.get(0).getCartId();
+
     }
-
-
 
     @Transactional
     public void updateQuantityOrDeleteProductInCart(UUID cartId, int productId, int number) {
@@ -111,7 +99,7 @@ public class CartService {
         } else if (cartItem.getQuantity() > 1) {
             cartItem.decrementQuantity();
             cart.recalculate();
-        } else  {
+        } else {
             cart.deleteProduct(p);
             cartItemDAO.deleteCartItem(cartItem.getId());
             cart.recalculate();

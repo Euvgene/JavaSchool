@@ -17,7 +17,7 @@ function getProducts() {
             let count = 0;
             while (count < productList.length) {
                 $('#example>tbody').empty();
-                $('#currentPage').empty();
+                $('#currentPage').empty(); // TODO rename
                 let rd = $('<tr class=""></tr>');
                 if (productList.length > 0) {
                     for (let k = 0; k < productList.length; k++) {
@@ -34,8 +34,7 @@ function getProducts() {
                             "<p> Age:  " + productList[k].age + "</p>" +
                             "<p> Lifespan:  " + productList[k].lifeSpan + "</p>" +
                             "<p> Price:  " + productList[k].productPrice + "</p>" +
-                            "<input type='submit' onclick= \"addToCart(" + productList[k].productId + ")\" " +
-                            " value='Add to cart' />" +
+                            "<input type='submit' onclick= \"addToCart(" + productList[k].productId + ")\"  value='Add to cart' />" +
                             '</td>');
 
                         $('#example').append(rd);

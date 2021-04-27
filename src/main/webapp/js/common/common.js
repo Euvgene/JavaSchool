@@ -5,9 +5,7 @@ function logOut() {
         delete localStorage.marketCartUuid;
     }
     delete localStorage.role;
-
-
-    location.assign("http://localhost:8189/");
+    location.assign("http://localhost:8189/logout");
 }
 
 

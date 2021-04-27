@@ -17,26 +17,31 @@ showOrders = function () {
             let elementsNumber = ELEMENTS_NUMBER_PER_LINE;
             let order = response;
             let orderState;
-            $('#cartHead').empty();
+            clearTable();
             $('#cartHead').append(
                 "                    <tr>" +
-                "                        <td>Order number</td>" +
-                "                        <td align='center' >Order price</td>" +
-                "                        <td align='center'>Delivery address</td>" +
-                "                        <td align='center' >Payment method</td>" +
-                "                        <td align='center' >Payment state</td>" +
-                "                        <td align='center' >Order date</td>" +
+                "                        <td align='center' style='white-space: nowrap'>Order number</td>" +
+                "                        <td align='center' style='white-space: nowrap'>Order price</td>" +
+                "                        <td align='center' style='white-space: nowrap'>Delivery address</td>" +
+                "                        <td align='center' style='white-space: nowrap'>Payment method</td>" +
+                "                        <td align='center' style='white-space: nowrap'>Payment state</td>" +
+                "                        <td align='center' style='white-space: nowrap'>Order date</td>" +
                 "                    </tr>");
             let count = 0;
-            $('#cartHeader').empty();
             $('#cartHeader').append("Orders list");
-
-
-
+            $('#pagination').append("  <ul class=\"pagination\">" +
+                "                <li class=\"page-item\" id='prePage'>" +
+                "                    <button class=\"page-link\" tabIndex=\"-1\" onclick=\"prePage()\">Previous</button>" +
+                "                </li>\n" +
+                "                <li class=\"page-item active\" aria-current=\"page\" id=\"currentPage\">" +
+                "                </li>\n" +
+                "                <li class=\"page-item\" id='nextPage'>" +
+                "                    <button class=\"page-link\" onclick=\"nextPage()\">Next</button>" +
+                "                </li>\n" +
+                "            </ul>");
+            $('#currentPage').empty();
             while (count < order.length) {
                 $('#example').empty();
-                $('#currentPage').empty();
-
                 if (order.length > 0) {
                     for (let k = 0; k < order.length; k++) {
                         count++;
@@ -80,27 +85,35 @@ showOrders = function () {
                 }
                 count++;
             }
-                if (order.length > 0) {
-                    $('#currentPage').append("<span class=\"page-link\">" + localStorage.pageIndx + "</span>");
-                }
-                if (order.length === 0 && localStorage.pageIndx > 1) {
-                    $("#nextPage").attr('disabled', true);
-
-                    let pageIndx = Number(localStorage.getItem("pageIndx"));
-                    localStorage.setItem("pageIndx", --pageIndx);
-                }
-                else  if (order.length === 0){
-                    $('#cartHeader').empty();
-                    $('#example').empty();
-                    $('#cartHead').empty();
-                    $('#cartHeader').append("Cart is empty");
-                }
+            if (order.length > 0) {
+                $('#currentPage').append("<span class=\"page-link\">" + localStorage.pageIndx + "</span>");
+            }
+            if (order.length === 0 && localStorage.pageIndx > 1) {
+                $("#nextPage").attr('disabled', true);
+                let pageIndx = Number(localStorage.getItem("pageIndx"));
+                localStorage.setItem("pageIndx", --pageIndx);
+                $('#currentPage').append("<span class=\"page-link\">" + localStorage.pageIndx + "</span>");
+            } else if (order.length === 0) {
+                clearTable();
+                $('#example').empty();
+                $('#cartHeader').append("Order list is empty");
+            }
 
 
         }
     });
 }
+prePage = function () {
+    if (localStorage.pageIndx < 2) {
+        $(this).attr('disabled', true);
+    } else {
+        $(this).attr('disabled', false);
+        const pageIndx = Number(localStorage.getItem("pageIndx"));
+        localStorage.setItem("pageIndx", String(pageIndx - 1));
 
+        showOrders();
+    }
+};
 
 goToOrder = function (orderId) {
     localStorage.orderUuid = orderId;
@@ -108,21 +121,22 @@ goToOrder = function (orderId) {
     location.assign("http://localhost:8189/orders-result")
 }
 
+nextPage = function () {
+    let pageIndx = Number(localStorage.getItem("pageIndx"));
+    localStorage.setItem("pageIndx", ++pageIndx);
+    showOrders();
+};
+
+clearTable = function () {
+    $('#cartHeader').empty();
+    $('#pagination').empty();
+    $('#cartHead').empty();
+}
 $(document).ready(function () {
     if (!localStorage.pageIndx) {
         localStorage.setItem("pageIndx", 1);
     }
-    $("#prePage").click(function (event) {
-        if (localStorage.pageIndx < 2) {
-            $(this).attr('disabled', true);
-        } else {
-            $(this).attr('disabled', false);
-            const pageIndx = Number(localStorage.getItem("pageIndx"));
-            localStorage.setItem("pageIndx", String(pageIndx - 1));
-            event.preventDefault();
-            showOrders();
-        }
-    });
+
 
     $("#filterButton").click(function (event) {
         localStorage.setItem("pageIndx", 1);
@@ -130,10 +144,5 @@ $(document).ready(function () {
         showOrders()
     });
 
-    $("#nextPage").click(function (event) {
-        let pageIndx = Number(localStorage.getItem("pageIndx"));
-        localStorage.setItem("pageIndx", ++pageIndx);
-        event.preventDefault();
-        showOrders();
-    });
+
 });
