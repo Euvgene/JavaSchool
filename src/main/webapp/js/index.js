@@ -13,6 +13,9 @@ function createCart() {
 
 
 $(document).ready(function () {
+/*
+   delete localStorage.marketCartUuid
+*/
     if (!localStorage.marketCartUuid) {
         createCart();
     }

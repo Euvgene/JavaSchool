@@ -53,6 +53,9 @@ function createOrder() {
     $.ajax({
         type: "POST",
         url: "http://localhost:8189/api/v1/orders",
+        headers: {
+            "Authorization": "Bearer " + localStorage.token
+        },
         data: {
             username: localStorage.currentUserName,
             uuid: localStorage.marketCartUuid,
@@ -65,6 +68,7 @@ function createOrder() {
             localStorage.orderUuid = result.orderId;
             console.log(localStorage.orderUuid)
             location.assign("http://localhost:8189/orders-result")
+
         }
     });
 }

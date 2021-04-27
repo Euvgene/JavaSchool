@@ -1,6 +1,7 @@
 package com.evgenii.my_market.services;
 
 import com.evgenii.my_market.dao.OrderDAO;
+import com.evgenii.my_market.dto.OrderDto;
 import com.evgenii.my_market.entity.Cart;
 import com.evgenii.my_market.entity.Order;
 import com.evgenii.my_market.entity.StateEnum;
@@ -11,9 +12,12 @@ import org.springframework.stereotype.Service;
 
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,8 +44,12 @@ public class OrderService {
         return order;
     }
 
-    public List<Order> findAllOrdersByOwnerName(String username) {
-        return orderDAO.findAllByOwnerUsername(username);
+    public List<OrderDto> findAllOrdersByOwnerName(String username, LocalDate fromDate, LocalDate toDate, int page) {
+        int total = 5;
+        if (page != 1) {
+            page = (page - 1) * total + 1;
+        }
+        return orderDAO.findAllByOwnerUsername(username,fromDate,toDate, page-1, total).stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
     public Optional<Order> findById(UUID id) {
