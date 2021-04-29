@@ -2,6 +2,7 @@ package com.evgenii.my_market.dao;
 
 import com.evgenii.my_market.entity.Parameters;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

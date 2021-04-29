@@ -37,7 +37,7 @@
                         <a class="nav-link active" aria-current="page" href="http://localhost:8189/user-cart">Cart</a>
                     </li>
                     <li id="changeAccount" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Change info</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/user-info">Change info</a>
                     </li>
                 </ul>
                 <form class="d-flex "  id="navLoginSubmit">

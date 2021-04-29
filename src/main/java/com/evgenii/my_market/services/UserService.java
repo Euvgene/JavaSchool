@@ -2,6 +2,8 @@ package com.evgenii.my_market.services;
 
 import com.evgenii.my_market.dao.UserDAO;
 
+import com.evgenii.my_market.dto.UpdatePasswordDto;
+import com.evgenii.my_market.dto.UserDto;
 import com.evgenii.my_market.entity.Role;
 import com.evgenii.my_market.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,10 @@ public class UserService implements UserDetailsService {
 
     public Optional<User> findByUsername(String username) {
         return userDAO.findByUsername(username);
+    }
+
+    public Optional<UserDto> findUserDtoByUsername(String username) {
+        return userDAO.findByUsername(username).map(UserDto::new);
     }
 
 
@@ -59,5 +65,27 @@ public class UserService implements UserDetailsService {
     public void save(User newUser) {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         userDAO.saveUser(newUser);
+    }
+
+    @Transactional
+    public void updateUser(UserDto changedUser, String oldName) {
+        User oldUser = userDAO.findByUsername(oldName).get();
+        User user = new User(changedUser);
+        user.setPassword(oldUser.getPassword());
+        user.setUserId(oldUser.getUserId());
+        user.setRole(oldUser.getRole());
+        userDAO.update(user);
+    }
+
+
+    @Transactional
+    public String updatePassword(UpdatePasswordDto passwordDto, String userName) {
+        User user = userDAO.findByUsername( userName).get();
+        if(passwordEncoder.matches(passwordDto.getOldPassword(), user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
+            userDAO.update(user);
+            return "ok";
+        }else return "error";
+
     }
 }

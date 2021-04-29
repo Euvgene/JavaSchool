@@ -1,5 +1,6 @@
 package com.evgenii.my_market.dao;
 
+import com.evgenii.my_market.dto.UserDto;
 import com.evgenii.my_market.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -52,5 +53,20 @@ public class UserDAO {
         entityManager.persist(newUsers);
         entityManager.flush();
 
+    }
+
+    public void update(User user) {
+        entityManager.merge(user);
+    }
+
+    public List<User> findByUsernameAndPassword(String oldPassword, String username) {
+        TypedQuery<User> query = entityManager.createQuery(
+                "SELECT u FROM User u WHERE" +
+                        " u.password = :password and u.firstName = :username", User.class);
+
+        return query
+                .setParameter("password", oldPassword)
+                .setParameter("username", username)
+                .getResultList();
     }
 }

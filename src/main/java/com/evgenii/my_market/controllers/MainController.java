@@ -7,9 +7,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @Controller
 @EnableWebMvc
 public class MainController {
-    @GetMapping("/droptoken")
-    public String dropToken() {
-        return "products";
+
+    @GetMapping("/user-info")
+    public String changeUserInfo() {
+        return "user/user_info";
     }
 
     @GetMapping("/user-products")
@@ -31,7 +32,6 @@ public class MainController {
     public String getNewProductsPage() {
         return "admin/new_product";
     }
-
 
 
     @GetMapping("/user-main")
@@ -72,6 +72,11 @@ public class MainController {
     @GetMapping("/user-orders")
     public String getUserOrdersPage() {
         return "user/orders";
+    }
+
+    @GetMapping("/change-password")
+    public String changeUserPassword() {
+        return "user/change_password";
     }
 
 }

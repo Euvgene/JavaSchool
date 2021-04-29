@@ -1,10 +1,12 @@
 package com.evgenii.my_market.entity;
 
+import com.evgenii.my_market.dto.UserDto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
@@ -46,4 +48,11 @@ public class User {
     @JoinColumn(name = "user_roles")
     private Role role;
 
+    public User(UserDto userDto) {
+        this.firstName = userDto.getFirstName();
+        this.lastName = userDto.getLastName();
+        this.email = userDto.getEmail();
+        this.birthday = userDto.getBirthday();
+        this.userAddress = userDto.getUserAddress();
+    }
 }

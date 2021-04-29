@@ -8,7 +8,7 @@ showOrders = function () {
             "Authorization": "Bearer " + localStorage.token
         },
         data: {
-            p: localStorage.pageIndx,
+            p: localStorage.orderPageIndx,
             first_date: $("#firstDate").val() ? $("#firstDate").val() : null,
             second_date: $("#secondDate").val() ? $("#secondDate").val() : null,
         },
@@ -86,13 +86,13 @@ showOrders = function () {
                 count++;
             }
             if (order.length > 0) {
-                $('#currentPage').append("<span class=\"page-link\">" + localStorage.pageIndx + "</span>");
+                $('#currentPage').append("<span class=\"page-link\">" + localStorage.orderPageIndx + "</span>");
             }
-            if (order.length === 0 && localStorage.pageIndx > 1) {
+            if (order.length === 0 && localStorage.orderPageIndx > 1) {
                 $("#nextPage").attr('disabled', true);
-                let pageIndx = Number(localStorage.getItem("pageIndx"));
-                localStorage.setItem("pageIndx", --pageIndx);
-                $('#currentPage').append("<span class=\"page-link\">" + localStorage.pageIndx + "</span>");
+                let orderPageIndx = Number(localStorage.getItem("orderPageIndx"));
+                localStorage.setItem("orderPageIndx", --orderPageIndx);
+                $('#currentPage').append("<span class=\"page-link\">" + localStorage.orderPageIndx + "</span>");
             } else if (order.length === 0) {
                 clearTable();
                 $('#example').empty();
@@ -104,12 +104,12 @@ showOrders = function () {
     });
 }
 prePage = function () {
-    if (localStorage.pageIndx < 2) {
+    if (localStorage.orderPageIndx < 2) {
         $(this).attr('disabled', true);
     } else {
         $(this).attr('disabled', false);
-        const pageIndx = Number(localStorage.getItem("pageIndx"));
-        localStorage.setItem("pageIndx", String(pageIndx - 1));
+        const orderPageIndx = Number(localStorage.getItem("orderPageIndx"));
+        localStorage.setItem("orderPageIndx", String(orderPageIndx - 1));
 
         showOrders();
     }
@@ -122,8 +122,8 @@ goToOrder = function (orderId) {
 }
 
 nextPage = function () {
-    let pageIndx = Number(localStorage.getItem("pageIndx"));
-    localStorage.setItem("pageIndx", ++pageIndx);
+    let pageIndx = Number(localStorage.getItem("orderPageIndx"));
+    localStorage.setItem("orderPageIndx", ++pageIndx);
     showOrders();
 };
 
@@ -133,13 +133,10 @@ clearTable = function () {
     $('#cartHead').empty();
 }
 $(document).ready(function () {
-    if (!localStorage.pageIndx) {
-        localStorage.setItem("pageIndx", 1);
-    }
-
+        localStorage.setItem("orderPageIndx", 1);
 
     $("#filterButton").click(function (event) {
-        localStorage.setItem("pageIndx", 1);
+        localStorage.setItem("orderPageIndx", 1);
         event.preventDefault();
         showOrders()
     });
