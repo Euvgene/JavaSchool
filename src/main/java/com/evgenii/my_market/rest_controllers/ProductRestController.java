@@ -8,6 +8,8 @@ import com.evgenii.my_market.services.ProductService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +25,10 @@ public class ProductRestController {
 
     private final ProductService productService;
 
-  /*  @GetMapping("/{id}")
+    @GetMapping("/{id}")
     public Product getProductBtId(@PathVariable int id) {
         return productService.getProductById(id);
-    }*/
+    }
 
  /*   @GetMapping
     public List<Product> getAllProducts(){
@@ -50,5 +52,10 @@ public class ProductRestController {
     @PostMapping
     public void saveProduct(@RequestBody Product newProduct) {
         productService.save(newProduct);
+    }
+
+    @PutMapping
+    public void updateProduct(@RequestBody Product product) {
+        productService.update(product);
     }
 }

@@ -29,7 +29,7 @@ public class Product implements Serializable {
     @JoinColumn(name = "category")
     private Category category;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "product_param")
     private Parameters productParams;
 

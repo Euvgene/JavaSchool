@@ -1,5 +1,19 @@
 const ELEMENTS_NUMBER_PER_LINE = 4
 let productList = null;
+
+function showButton(role,k) {
+    if (role === "[ROLE_USER]") {
+       return  "<input class=\"button\" type='submit' onclick= \"addToCart(" + productList[k].productId + ")\"  value='Add to cart'/> " +
+            "</div>"
+    } else if (role === "[ROLE_ADMIN]") {
+        return  "<input class=\"button\" type='submit' onclick= \"changeProduct(" + productList[k].productId + ")\"  value='Change product'/>" +
+            "</div>"
+    } else {
+       return "<input class=\"button\" type='submit' onclick= \"addToCart(" + productList[k].productId + ")\"  value='Add to cart'/>" +
+            "</div>"
+    }
+}
+
 function getProducts() {
     $.ajax({
         type: "GET",
@@ -12,37 +26,39 @@ function getProducts() {
             gender: $("#filterGender").val() ? $("#filterGender").val() : null,
         },
         success: function (result) {
-             productList = result;
+            productList = result;
             let elementsNumber = ELEMENTS_NUMBER_PER_LINE;
             let count = 0;
             while (count < productList.length) {
-                $('#example>tbody').empty();
+                $('#example').empty();
                 $('#currentPage').empty(); // TODO rename
-                let rd = $('<tr class=""></tr>');
+                let rd = $('<div ></div>');
                 if (productList.length > 0) {
                     for (let k = 0; k < productList.length; k++) {
-                        console.log(productList[k].productId);
                         count++;
+                        let button = showButton(localStorage.role,k);
                         if (count > elementsNumber) {
                             elementsNumber = elementsNumber + 4;
-                            rd = $('<tr class=""></tr>');
+                            rd = $('<div ></div>');
                         }
-                        rd.append('<td>' +
-                            "<p ><img src=\"/images/" + productList[k].fotoId + "\" + width=\"150\" height=\"150\"></p>" +
-                            "<p> Name: " + productList[k].name + "</p>" +
-                            "<p> Gender: " + productList[k].gender + "</p>" +
-                            "<p> Age:  " + productList[k].age + "</p>" +
-                            "<p> Lifespan:  " + productList[k].lifeSpan + "</p>" +
-                            "<p> Price:  " + productList[k].productPrice + "</p>" +
-                            "<input type='submit' onclick= \"addToCart(" + productList[k].productId + ")\"  value='Add to cart' />" +
-                            '</td>');
+                        rd.append('<div class = "block">' +
+                            "<p class=\"page-information\"><img src=\"/images/" + productList[k].fotoId + "\" + width=\"150\" height=\"150\"></p>" +
+                            "<p class=\"page-information\"> Name: " + productList[k].name + "</p>" +
+                            "<p class=\"page-information\"> Gender: " + productList[k].gender + "</p>" +
+                            "<p class=\"page-information\"> Age:  " + productList[k].age + "</p>" +
+                            "<p class=\"page-information\"> Lifespan:  " + productList[k].lifeSpan + "</p>" +
+                            "<p class=\"page-information\"> Price:  " + productList[k].productPrice + "</p>" +
+                            button);
+
 
                         $('#example').append(rd);
                     }
                     $("#nextPage").attr('disabled', false);
                 }
+
                 count++;
             }
+
             if (productList.length > 0) {
                 $('#currentPage').append("<span class=\"page-link\">" + localStorage.pageIndx + "</span>");
             }
@@ -53,8 +69,6 @@ function getProducts() {
                 let pageIndx = Number(localStorage.getItem("pageIndx"));
                 localStorage.setItem("pageIndx", --pageIndx);
             }
-            console.log(result);
-
         }
     });
 }
@@ -71,6 +85,19 @@ addToCart = function (id) {
         success: function () {
         }
     });
+}
+
+changeProduct = function (id) {
+    $.ajax({
+        type: "GET",
+        url: 'http://localhost:8189/addproducts',
+        headers: {
+            "Authorization": "Bearer " + localStorage.token
+        },success: function (response) {
+            localStorage.productId = id;
+            location.assign("http://localhost:8189/addproducts")
+        }})
+
 }
 
 

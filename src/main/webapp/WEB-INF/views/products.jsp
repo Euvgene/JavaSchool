@@ -4,6 +4,7 @@
     <meta charset="utf-8" >
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/file.css">
     <script type="text/javascript" src="/js/user/user_products.js"></script>
 </header>
 <head id="header">
@@ -37,15 +38,7 @@
             <div>
                 <button class="btn btn-success" type="submit" id="filterButton">Submit</button>
             </div>
-
-        <div>
-            <table id="example" class="table table-hover"   >
-                <thead>
-                </thead>
-                <tbody>    </tbody>
-            </table>
-        </div>
-        <nav >
+        <nav style="margin-left: 15px">
             <ul class="pagination">
                 <li class="page-item" id="prePage">
                     <button class="page-link" tabindex="-1" >Previous</button>
@@ -57,6 +50,12 @@
                 </li>
             </ul>
         </nav>
+        <div>
+            <div id="example" class="container"   >
+
+            </div>
+        </div>
+
     </div>
 </main>
 

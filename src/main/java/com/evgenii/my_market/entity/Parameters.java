@@ -32,14 +32,5 @@ public class Parameters  {
     @Column(name = "lifespan")
     private String productLifespan;
 
- /*   @JsonCreator
-    public Parameters(@JsonProperty("parametersId") int id, @JsonProperty("productGender") String name,
-                      @JsonProperty("author") byte age, @JsonProperty("productWeight") short weight,
-                      @JsonProperty("productLifespan") String lifespan) {
-        this.parametersId = id;
-        this.productGender = name;
-        this.productAge = age;
-        this.productWeight = weight;
-        this.productLifespan = lifespan;
-    }*/
+
 }

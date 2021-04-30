@@ -2,14 +2,15 @@ package com.evgenii.my_market.services;
 
 
 import com.evgenii.my_market.dao.ProductDAO;
+
 import com.evgenii.my_market.dto.ProductDto;
 import com.evgenii.my_market.entity.Product;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +34,18 @@ public class ProductService {
         dao.saveNewProduct(newProduct);
     }
 
+    @Transactional
     public List<Product> findProductById(int productId) {
         return dao.findProductById(productId);
+    }
+
+    @Transactional
+    public Product getProductById(int id) {
+        return dao.findProductById(id).get(0);
+    }
+
+    @Transactional
+    public void update(Product product) {
+        dao.update(product);
     }
 }

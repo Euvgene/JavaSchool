@@ -1,16 +1,22 @@
 package com.evgenii.my_market.dao;
 
+import com.evgenii.my_market.dto.ProductDto;
 import com.evgenii.my_market.entity.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
-public class ProductDAO  {
+public class ProductDAO {
     @PersistenceContext
     EntityManager entityManager;
 
@@ -46,11 +52,15 @@ public class ProductDAO  {
 
     public List<Product> findProductById(int productId) {
 
-            TypedQuery<Product> query = entityManager.createQuery(
-                    "SELECT p FROM Product p where p.productId = :id", Product.class);
-            return query
-                    .setParameter("id",productId)
-                    .getResultList();
+        TypedQuery<Product> query = entityManager.createQuery(
+                "SELECT p FROM Product p where p.productId = :id", Product.class);
+        return query
+                .setParameter("id", productId)
+                .getResultList();
 
+    }
+
+    public void update(Product product) {
+        entityManager.merge(product);
     }
 }

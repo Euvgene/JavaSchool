@@ -72,9 +72,10 @@
                         <label for="gender" class="form-label">Gender</label>
                         <select class="form-select" id="gender" required="">
                             <option value="">Choose...</option>
-                            <option value="" id="femail">Femail</option>
-                            <option value="" id="mail">Mail</option>
+                            <option id="female">Female</option>
+                            <option id="mail">Mail</option>
                         </select>
+
 
                         <div class="invalid-feedback">
                             Please provide a valid state.
@@ -129,16 +130,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="row g-3" style="margin-top: auto">
-                    <div class="fl_upld col-md-4" >
+                <div class="row g-3" style="margin-top: auto" >
+                    <div id="divFoto"></div>
+                    <div class="fl_upld col-md-4">
                         <label><input id="fl_inp" type="file" name="file">Choose file</label>
                     </div>
-                    <div class="col-md-5" id="fl_nm" style="margin-left: 0px"> No file selected</div>
+                    <div class="col-md-7" id="fl_nm" style="margin-left: 0px"><input id="fileName"
+                         style=" border: white; width: 100%" value="No file selected" disabled/>
+                    </div>
                 </div>
 
-                <button id="createProduct" class="btn btn-primary btn-lg" type="submit" style="margin-top: 30px">Create
-                    product
-                </button>
+                <input  type='submit' id="createProduct" class="btn btn-primary btn-lg"  style="margin-top: 30px" value="Create product"/>
+
 
             </form>
         </div>
