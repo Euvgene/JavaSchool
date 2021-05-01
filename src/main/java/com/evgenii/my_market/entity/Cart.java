@@ -38,8 +38,10 @@ public class Cart {
     public void add(CartItem cartItem) {
         for (CartItem ci : cartItems) {
             if (ci.getProduct().getProductId() == (cartItem.getProduct().getProductId())) {
-                ci.incrementQuantity(cartItem.getQuantity());
-                recalculate();
+                if (cartItem.getQuantity()+ci.getQuantity() < cartItem.getProduct().getProductQuantity()) {
+                    ci.incrementQuantity(cartItem.getQuantity());
+                    recalculate();
+                }
                 return;
             }
         }

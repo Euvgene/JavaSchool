@@ -1,6 +1,14 @@
 let cartList = null;
+const INCREMENT_COUNT = 1
+let products = null;
+let productCount=  null
 
 function getCartProducts() {
+    products = new Map();
+    if (localStorage.productCount) {
+        products = new Map(JSON.parse(localStorage.productCount));
+    }
+
     $.ajax({
         type: "GET",
         url: 'http://localhost:8189/api/v1/cart/' + localStorage.marketCartUuid,
@@ -21,17 +29,20 @@ function getCartProducts() {
                 console.log(cartList);
                 if (cartList.length > 0) {
                     for (let k = 0; k < cartList.length; k++) {
-
+                        if (products.has(cartList[k].productId)) {
+                            productCount = products.get(cartList[k].productId);
+                        } else{
+                            productCount = cartList[k].quantity
+                        }
                         let rd = $('<tr class="" style="height: 55px; vertical-align: 30;"></tr>');
                         count++;
                         rd.append(
-
                             "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
                             "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
                             "font-weight: bold \">"
                             + cartList[k].productTitle + "</td>" +
                             "<td class=\"row justify-content-md-center\" > <div class=\"col-6 col-md-4\" style=\"text-align: right\">" +
-                            "<button type=\"button\" class=\"btn btn-outline-danger\" onclick= \"deleteCartProductById(" + cartList[k].productId + ")\">" +
+                            "<button type=\"button\" class=\"btn btn-outline-danger\" onclick= \"deleteCartProductById(" + cartList[k].productId + "," + 0 + "," + productCount + ")\">" +
                             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" fill=\"currentColor\" class=\"bi bi-bag-dash-fill\" viewBox=\"0 0 16 16\">" +
                             "<path fill-rule=\"evenodd\" d=\"M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM6 9.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1H6z\"></path>" +
                             "</svg>" +
@@ -63,7 +74,7 @@ function getCartProducts() {
                         "<td></td></tr>");
                     $('#cartHeader').append("Cart");
                     $('#cartButtons').append(
-                    "<button class=\"btn btn-danger\" type='button' id=\"clearCart\" " +
+                        "<button class=\"btn btn-danger\" type='button' id=\"clearCart\" " +
                         "onclick=\"clearCart()\"" +
                         "style='margin-right: 10px'>" +
                         "Clear cart" +
@@ -85,10 +96,10 @@ function getCartProducts() {
     });
 }
 
-goToOrderSubmit = function (){
-    if (!localStorage.currentUserName){
-        document.getElementById("logInMessage").style.display= "block";
-    }else {
+goToOrderSubmit = function () {
+    if (!localStorage.currentUserName) {
+        document.getElementById("logInMessage").style.display = "block";
+    } else {
         location.assign("http://localhost:8189/order-confirmation")
     }
 }
@@ -114,7 +125,16 @@ clearCart = function () {
     });
 }
 
-deleteCartProductById = function (productId, i) {
+function incrementCount(id, count, newCount) {
+    count = count + newCount
+    products.set(id, count )
+
+
+    localStorage.setItem('productCount', JSON.stringify(Array.from(products.entries())));
+    console.log(localStorage.productCount)
+}
+
+deleteCartProductById = function (productId, i, count) {
     $.ajax({
         type: "POST",
         url: "http://localhost:8189/api/v1/cart/delete",
@@ -125,6 +145,8 @@ deleteCartProductById = function (productId, i) {
 
         },
         success: function () {
+            incrementCount(productId, count, INCREMENT_COUNT)
+            console.log(localStorage.productCount)
             getCartProducts();
         }
     });
@@ -143,5 +165,4 @@ incrementProductInCart = function (id) {
         }
     });
 }
-$(document).ready(function () {
-});
+

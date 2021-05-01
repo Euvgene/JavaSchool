@@ -3,6 +3,7 @@ function logOut() {
     delete localStorage.token;
     if (localStorage.role==="[ROLE_USER]") {
         delete localStorage.marketCartUuid;
+       delete localStorage.productCount;
     }
     delete localStorage.role;
     location.assign("http://localhost:8189/logout");

@@ -80,6 +80,7 @@ function getProduct(productId) {
         headers: {
             "Authorization": "Bearer " + localStorage.token
         }, success: function (result) {
+            delete localStorage.productId;
             console.log(result)
             console.log(result.category.categoryName)
             console.log(result.productParams.productGender)
@@ -101,6 +102,7 @@ function getProduct(productId) {
 
 $(document).ready(function () {
     hideCategoryForm();
+    loadCategory();
     if (localStorage.productId) {
         getProduct(localStorage.productId)
     }

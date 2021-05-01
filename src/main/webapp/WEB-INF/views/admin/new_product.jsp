@@ -19,7 +19,7 @@
     <%@ include file="adminHeader.jsp" %>
     <title>Add New Product</title>
 </head>
-<body class="d-flex flex-column h-100" onload="loadCategory()">
+<body class="d-flex flex-column h-100" <%--onload="loadCategory()"--%>>
 <main class="flex-shrink-0" style="margin-top: 80px;">
     <div class="container mt-auto">
         <div class="col-md-5" style="margin: auto">

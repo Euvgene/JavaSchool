@@ -1,20 +1,33 @@
 const ELEMENTS_NUMBER_PER_LINE = 4
+const DECREMENT_COUNT = -1
 let productList = null;
+let products = null;
 
-function showButton(role,k) {
-    if (role === "[ROLE_USER]") {
-       return  "<input class=\"button\" type='submit' onclick= \"addToCart(" + productList[k].productId + ")\"  value='Add to cart'/> " +
+function showButton(role, count, k) {
+    if (products.has(productList[k].productId)) {
+        count = products.get(productList[k].productId);
+    }
+    if (role === "[ROLE_USER]" && count > 0) {
+        return "<input id='cartButton" + productList[k].productId + "' class=\"btn btn-primary\" type='submit' onclick= \"addToCart(" + productList[k].productId + ", " + count + ")\"  value='Add to cart'/> " +
             "</div>"
     } else if (role === "[ROLE_ADMIN]") {
-        return  "<input class=\"button\" type='submit' onclick= \"changeProduct(" + productList[k].productId + ")\"  value='Change product'/>" +
+        return "<input class=\"btn btn-primary\" type='submit' onclick= \"changeProduct(" + productList[k].productId + ")\"  value='Change product'/>" +
+            "<input class=\"btn btn-danger\" type='submit' onclick= \"deleteProduct(" + productList[k].productId + ")\"  value='Change product'/>" +
+            "</div>"
+    } else if (count > 0) {
+        return "<input id='cartButton" + productList[k].productId + "' class=\"btn btn-primary\" type='submit' onclick= \"addToCart(" + productList[k].productId + ", " + count + ")\"  value='Add to cart'/>" +
             "</div>"
     } else {
-       return "<input class=\"button\" type='submit' onclick= \"addToCart(" + productList[k].productId + ")\"  value='Add to cart'/>" +
+        return "<input class=\"btn btn-danger\" type='submit'  value='Not available' disabled style='color: black'/>" +
             "</div>"
     }
 }
 
 function getProducts() {
+    products = new Map();
+    if (localStorage.productCount) {
+        products = new Map(JSON.parse(localStorage.productCount));
+    }
     $.ajax({
         type: "GET",
         url: 'http://localhost:8189/api/v1/products',
@@ -27,16 +40,18 @@ function getProducts() {
         },
         success: function (result) {
             productList = result;
+            console.log(result)
             let elementsNumber = ELEMENTS_NUMBER_PER_LINE;
             let count = 0;
             while (count < productList.length) {
+
                 $('#example').empty();
-                $('#currentPage').empty(); // TODO rename
+                $('#currentPage').empty();
                 let rd = $('<div ></div>');
                 if (productList.length > 0) {
                     for (let k = 0; k < productList.length; k++) {
                         count++;
-                        let button = showButton(localStorage.role,k);
+                        let button = showButton(localStorage.role, productList[k].productQuantity, k);
                         if (count > elementsNumber) {
                             elementsNumber = elementsNumber + 4;
                             rd = $('<div ></div>');
@@ -73,7 +88,24 @@ function getProducts() {
     });
 }
 
-addToCart = function (id) {
+function incrementCount(id, count, newCount) {
+    count = count + newCount
+    products.set(id, count)
+    console.log(products)
+
+    localStorage.setItem('productCount', JSON.stringify(Array.from(products.entries())));
+    console.log(localStorage.productCount)
+    if (products.get(id) === 0) {
+        let element = document.getElementById("cartButton" + id);
+        element.style.color = "black";
+        element.setAttribute("value", "Not available")
+        element.setAttribute("class", "btn btn-danger")
+        element.setAttribute("disabled", "true")
+    }
+
+}
+
+addToCart = function (id, count) {
     console.log(localStorage.marketCartUuid)
     $.ajax({
         type: "POST",
@@ -83,6 +115,7 @@ addToCart = function (id) {
             prod_id: id
         },
         success: function () {
+            incrementCount(id, count, DECREMENT_COUNT)
         }
     });
 }
@@ -93,13 +126,16 @@ changeProduct = function (id) {
         url: 'http://localhost:8189/addproducts',
         headers: {
             "Authorization": "Bearer " + localStorage.token
-        },success: function (response) {
+        }, success: function (response) {
             localStorage.productId = id;
             location.assign("http://localhost:8189/addproducts")
-        }})
-
+        }
+    })
 }
 
+deleteProduct = function () {
+
+}
 
 $(document).ready(function () {
     if (!localStorage.pageIndx) {
@@ -135,3 +171,4 @@ $(document).ready(function () {
         addToCart(1)
     });
 });
+

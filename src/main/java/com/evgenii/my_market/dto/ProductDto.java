@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @NoArgsConstructor
 @Data
@@ -17,14 +16,16 @@ public class ProductDto {
     private String gender;
     private byte age;
     private String lifeSpan;
+    private byte productQuantity;
 
-    public ProductDto(Product p) {
-        this.productId= p.getProductId();
-        this.fotoId = p.getFotoId();
-        this.productPrice = p.getProductPrice();
-        this.name = p.getProductTitle();
-        this.gender = p.getProductParams().getProductGender();
-        this.age = p.getProductParams().getProductAge();
-        this.lifeSpan = p.getProductParams().getProductLifespan();
+    public ProductDto(Product product) {
+        this.productId= product.getProductId();
+        this.fotoId = product.getFotoId();
+        this.productPrice = product.getProductPrice();
+        this.name = product.getProductTitle();
+        this.gender = product.getProductParams().getProductGender();
+        this.age = product.getProductParams().getProductAge();
+        this.lifeSpan = product.getProductParams().getProductLifespan();
+        this.productQuantity= product.getProductQuantity();
     }
 }

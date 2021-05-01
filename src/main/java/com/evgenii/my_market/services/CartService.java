@@ -38,11 +38,11 @@ public class CartService {
     public void addToCart(UUID cartId, int productId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
         CartItem cartItem = cart.getItemByProductId(productId);
-        if (cartItem != null) {
+        if (cartItem != null && cartItem.getProduct().getProductQuantity()<cartItem.getQuantity()) {
             cartItem.incrementQuantity();
             cart.recalculate();
             return;
-        }
+        } else if(cartItem != null && cartItem.getProduct().getProductQuantity() == cartItem.getQuantity()) return;
         try {
             Product p = productService.findProductById(productId).get(0);
             cart.add(new CartItem(p));
