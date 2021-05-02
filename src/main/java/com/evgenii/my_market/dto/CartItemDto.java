@@ -15,8 +15,11 @@ public class CartItemDto {
     private int quantity;
     private BigDecimal pricePerProduct;
     private BigDecimal price;
+    private String fotoId;
+
 
     public CartItemDto(CartItem cartItem) {
+        this.fotoId = cartItem.getProduct().getFotoId();
         this.productId = cartItem.getProduct().getProductId();
         this.productTitle = cartItem.getProduct().getProductTitle();
         this.quantity = cartItem.getQuantity();

@@ -9,10 +9,11 @@
 </header>
 <head id="header">
     <jsp:include page="userHeader.jsp" />
+    <jsp:include page="../small_cart.jsp" />
     <title>Products</title>
 </head>
 
-<body class="d-flex flex-column h-100" onload="getProducts()">
+<body class="d-flex flex-column h-100">
 <main class="flex-shrink-0">
 
     <div class="container mt-5">

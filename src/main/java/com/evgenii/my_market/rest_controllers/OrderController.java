@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
-    private final CartService cartService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -37,7 +36,6 @@ public class OrderController {
                                         @RequestParam(name = "paymentState", defaultValue = "false") boolean paymentState) {
 
         Order order = orderService.createFromUserCart(userName, cartUuid, address, paymentMethod, paymentState);
-        cartService.clearCart(cartUuid);
         return new OrderDto(order);
     }
 

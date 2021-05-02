@@ -41,6 +41,8 @@ public class OrderService {
             order.setOrderState(StateEnum.AWAITING_PAYMENT);
         }
         order = orderDAO.saveOrder(order);
+        cart.getCartItems().forEach(cartItem -> cartItem.getProduct().decrementQuantityProduct(cartItem.getQuantity()));
+        cartService.clearCart(cartUuid);
         return order;
     }
 

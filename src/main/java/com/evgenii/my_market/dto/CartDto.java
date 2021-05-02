@@ -14,8 +14,10 @@ import java.util.stream.Collectors;
 public class CartDto {
     private List<CartItemDto> items;
     private BigDecimal totalPrice;
+    private String fotoId;
 
     public CartDto(Cart cart) {
+
         this.totalPrice = cart.getPrice();
         this.items = cart.getCartItems().stream().map(CartItemDto::new).collect(Collectors.toList());
     }

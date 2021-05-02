@@ -19,7 +19,7 @@ public class CartItem {
     private int id;
 
     @ManyToOne()
-    @JoinColumn(name = "cart_id",insertable = true, updatable = true, nullable = true)
+    @JoinColumn(name = "cart_id", insertable = true, updatable = true, nullable = true)
     private Cart cart;
 
     @ManyToOne
@@ -27,7 +27,7 @@ public class CartItem {
     private Product product;
 
     @Column(name = "quantity")
-    private int quantity;
+    private byte quantity;
 
     @Column(name = "price_per_product")
     private BigDecimal pricePerProduct;
@@ -49,7 +49,7 @@ public class CartItem {
     }
 
     public void incrementQuantity(int amount) {
-        quantity+= amount;
+        quantity += amount;
         price = BigDecimal.valueOf(quantity * pricePerProduct.doubleValue());
     }
 
@@ -57,5 +57,10 @@ public class CartItem {
     public void decrementQuantity() {
         quantity--;
         price = BigDecimal.valueOf(quantity * pricePerProduct.doubleValue());
+    }
+
+    public void decrementQuantityProduct() {
+        byte prodQuantity = this.product.getProductQuantity();
+        this.product.setProductQuantity(prodQuantity--);
     }
 }

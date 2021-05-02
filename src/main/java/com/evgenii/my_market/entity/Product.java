@@ -39,4 +39,7 @@ public class Product implements Serializable {
     @Column(name = "quantity")
     private byte productQuantity;
 
+    public void decrementQuantityProduct(byte productQuantity) {
+       this.productQuantity -= productQuantity ;
+    }
 }
