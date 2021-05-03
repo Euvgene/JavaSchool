@@ -1,4 +1,4 @@
-package com.evgenii.my_market.configs;
+package com.evgenii.my_market.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

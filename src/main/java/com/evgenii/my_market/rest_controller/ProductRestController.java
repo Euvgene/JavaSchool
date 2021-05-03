@@ -1,17 +1,9 @@
-package com.evgenii.my_market.rest_controllers;
+package com.evgenii.my_market.rest_controller;
 
-import com.evgenii.my_market.dao.ProductDAO;
 import com.evgenii.my_market.dto.ProductDto;
-import com.evgenii.my_market.entity.Category;
 import com.evgenii.my_market.entity.Product;
-import com.evgenii.my_market.services.ProductService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.evgenii.my_market.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -36,7 +28,7 @@ public class ProductRestController {
     }*/
 
     @GetMapping()
-    public List<ProductDto> getProductsPage(@RequestParam(name = "p", defaultValue = "1") int page,
+    public List<ProductDto> getProductsPage(@RequestParam(name = "page", defaultValue = "1") int page,
                                        @RequestParam(name = "product_title", defaultValue = "") String name,
                                        @RequestParam(name = "gender", defaultValue = "") String gender,
                                        @RequestParam(name = "min_price", defaultValue = 0 + "") BigDecimal minPrice,
@@ -57,5 +49,10 @@ public class ProductRestController {
     @PutMapping
     public void updateProduct(@RequestBody Product product) {
         productService.update(product);
+    }
+
+    @GetMapping("/delete")
+    public void deleteProductById(@RequestParam(name = "product_id") int id) {
+        productService.deleteProductById(id);
     }
 }

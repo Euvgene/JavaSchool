@@ -1,10 +1,10 @@
 package com.evgenii.my_market.entity;
 
 public enum StateEnum {
-    AWAITING_PAYMENT,
+    DELIVERED,
+    RETURN,
     AWAITING_SHIPMENT,
-    SHIPPED,
-    DELIVERED;
+    SHIPPED;
 
     StateEnum() {
     }

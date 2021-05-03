@@ -1,17 +1,11 @@
-package com.evgenii.my_market.rest_controllers;
+package com.evgenii.my_market.rest_controller;
 
-import com.evgenii.my_market.dto.ProductDto;
-import com.evgenii.my_market.entity.Category;
 import com.evgenii.my_market.entity.Parameters;
-import com.evgenii.my_market.entity.Product;
-import com.evgenii.my_market.services.ParamsService;
-import com.evgenii.my_market.services.ProductService;
+import com.evgenii.my_market.service.ParamsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

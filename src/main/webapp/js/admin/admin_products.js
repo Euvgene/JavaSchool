@@ -1,23 +1,19 @@
 const ELEMENTS_NUMBER_PER_LINE = 4
-const DECREMENT_PRODUCT = 1
-let productList = null;
-let products = null
-let index = null;
 
-function showButton(role, count, k) {
 
-    if (role === "[ROLE_USER]" && count > 0) {
-        return "<input id='cartButton" + productList[k].productId + "' class=\"btn btn-primary\" type='submit' onclick= \"addToCart(" + productList[k].productId + "," + count + ")\"  value='Add to cart'/> " +
-            "</div>"
-    } else if (count > 0) {
-        return "<input id='cartButton" + productList[k].productId + "' class=\"btn btn-primary\" type='submit' onclick= \"addToCart(" + productList[k].productId + "," + count + ")\"  value='Add to cart'/>" +
-            "</div>"
-    } else {
-        return "<input class=\"btn btn-danger\" type='submit'  value='Not available' disabled style='color: black'/>" +
-            "</div>"
-    }
+
+deleteProduct = function (id){
+    $.ajax({
+        type: "GET",
+        url: 'http://localhost:8189/api/v1/products/delete',
+        data: {
+            product_id: id,
+        },
+        success: function (result) {
+            console.log("ok")
+        }
+        })
 }
-
 function getProducts() {
     products = new Map();
     $.ajax({
@@ -32,7 +28,6 @@ function getProducts() {
         },
         success: function (result) {
             productList = result;
-            console.log(result)
             let elementsNumber = ELEMENTS_NUMBER_PER_LINE;
             let count = 0;
             while (count < productList.length) {
@@ -41,18 +36,8 @@ function getProducts() {
                 $('#currentPage').empty();
                 let rd = $('<div ></div>');
                 if (productList.length > 0) {
-
                     for (let k = 0; k < productList.length; k++) {
-                        if (smallCartList != null) {
-                            console.log(productList[k].productId)
-                            index = smallCartList.findIndex(i => i.productId === productList[k].productId)
-                            if (index >= 0)
-                                productList[k].productQuantity = productList[k].productQuantity - smallCartList[index].quantity
-                        }
-
-
                         count++;
-                        let button = showButton(localStorage.role, productList[k].productQuantity, k);
                         if (count > elementsNumber) {
                             elementsNumber = elementsNumber + 4;
                             rd = $('<div ></div>');
@@ -64,7 +49,9 @@ function getProducts() {
                             "<p class=\"page-information\"> Age:  " + productList[k].age + "</p>" +
                             "<p class=\"page-information\"> Lifespan:  " + productList[k].lifeSpan + "</p>" +
                             "<p class=\"page-information\"> Price:  " + productList[k].productPrice + "</p>" +
-                            button);
+                            "<input class=\"btn btn-primary\" type='submit' onclick= \"changeProduct(" + productList[k].productId + ")\"  value='Change product'/>" +
+                            "<input class=\"btn btn-danger\" type='submit' onclick= \"deleteProduct(" + productList[k].productId + ")\"  value='Delete product'/>" +
+                            "</div>");
 
 
                         $('#example').append(rd);
@@ -89,44 +76,21 @@ function getProducts() {
     });
 }
 
-function decrementCount(id) {
 
-    products.set(id,  products.get(id)-DECREMENT_PRODUCT)
-    console.log(products)
-
-    if (products.get(id) === 0) {
-        let element = document.getElementById("cartButton" + id);
-        element.style.color = "black";
-        element.setAttribute("value", "Not available")
-        element.setAttribute("class", "btn btn-danger")
-        element.setAttribute("disabled", "true")
-    }
-}
-
-addToCart = function (id, count) {
+changeProduct = function (id) {
     $.ajax({
-        type: "POST",
-        url: "http://localhost:8189/api/v1/cart/add",
-        data: {
-            uuid: localStorage.marketCartUuid,
-            prod_id: id
-        },
-        success: function () {
-            if (products.has(id)){
-                decrementCount(id)
-                getSmallCartProducts();
-            } else{
-                products.set(id, count)
-                decrementCount(id)
-                getSmallCartProducts();
-            }
-
+        type: "GET",
+        url: 'http://localhost:8189/addproducts',
+        headers: {
+            "Authorization": "Bearer " + localStorage.token
+        }, success: function (response) {
+            localStorage.productId = id;
+            location.assign("http://localhost:8189/addproducts")
         }
-    });
+    })
 }
 
 $(document).ready(function () {
-    getSmallCartProducts()
     getProducts()
     if (!localStorage.pageIndx) {
         localStorage.setItem("pageIndx", 1);

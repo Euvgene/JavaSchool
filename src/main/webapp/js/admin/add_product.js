@@ -80,7 +80,6 @@ function getProduct(productId) {
         headers: {
             "Authorization": "Bearer " + localStorage.token
         }, success: function (result) {
-            delete localStorage.productId;
             console.log(result)
             console.log(result.category.categoryName)
             console.log(result.productParams.productGender)

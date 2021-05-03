@@ -1,7 +1,7 @@
-package com.evgenii.my_market.rest_controllers;
+package com.evgenii.my_market.rest_controller;
 
 import com.evgenii.my_market.entity.Category;
-import com.evgenii.my_market.services.CategoryService;
+import com.evgenii.my_market.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

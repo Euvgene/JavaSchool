@@ -1,4 +1,4 @@
-package com.evgenii.my_market.services;
+package com.evgenii.my_market.service;
 
 import com.evgenii.my_market.dao.CategoryDAO;
 import com.evgenii.my_market.entity.Category;

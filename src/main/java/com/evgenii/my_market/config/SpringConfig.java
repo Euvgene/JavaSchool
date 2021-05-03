@@ -1,4 +1,4 @@
-package com.evgenii.my_market.configs;
+package com.evgenii.my_market.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import lombok.RequiredArgsConstructor;

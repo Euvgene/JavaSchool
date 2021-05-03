@@ -1,8 +1,7 @@
-package com.evgenii.my_market.controllers;
+package com.evgenii.my_market.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Controller
@@ -79,5 +78,11 @@ public class MainController {
     public String changeUserPassword() {
         return "user/change_password";
     }
+
+    @GetMapping("/change-orderes")
+    public String changeOrdersPage() {
+        return "admin/admin_orders";
+    }
+
 
 }

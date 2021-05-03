@@ -35,7 +35,7 @@
                         <a class="nav-link active" aria-current="page" href="http://localhost:8189/addproducts">Add product</a>
                     </li>
                     <li id="changeOrder" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Change Orders</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/change-orderes">Change Orders</a>
                     </li>
                     <li id="statistic" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Orders Statistic</a>

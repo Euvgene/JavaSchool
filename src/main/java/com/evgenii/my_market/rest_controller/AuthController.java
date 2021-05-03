@@ -1,11 +1,11 @@
-package com.evgenii.my_market.rest_controllers;
+package com.evgenii.my_market.rest_controller;
 
-import com.evgenii.my_market.beans.JwtTokenUtil;
+import com.evgenii.my_market.config.JwtTokenUtil;
 import com.evgenii.my_market.dto.JwtRequest;
 import com.evgenii.my_market.dto.JwtResponse;
 import com.evgenii.my_market.exception_handling.MarketError;
-import com.evgenii.my_market.services.CartService;
-import com.evgenii.my_market.services.UserService;
+import com.evgenii.my_market.service.CartService;
+import com.evgenii.my_market.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

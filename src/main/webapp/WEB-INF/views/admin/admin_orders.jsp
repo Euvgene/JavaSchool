@@ -8,17 +8,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <header>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/user/orders.js"></script>
+    <script type="text/javascript" src="/js/admin/admin_orders.js"></script>
 </header>
 <head>
-    <jsp:include page="userHeader.jsp"/>
+    <jsp:include page="adminHeader.jsp"/>
     <title>Orders</title>
 </head>
-<body class="d-flex flex-column h-100" onload="showOrders()">
-<main class="flex-shrink-0">
+<body class="d-flex flex-column h-100">
+<main class="flex-shrink-0" style="margin-top: 80px;">
 
-    <div class="col-md-6" style="margin: auto">
-        <h3  style="margin-top: 100px;">Filter</h3>
+    <div class="container mt-auto" style="margin-top: 100px;">
         <div class="form-group row">
             <div class="form-group col-md-3">
                 <label for="firstDate">From date</label>
@@ -26,23 +25,38 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="secondDate">To date</label>
-                <input class="form-control" type="date" id="secondDate" >
+                <input class="form-control" type="date" id="secondDate">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="state" >State</label>
+                <select class="form-select" id="state" required="">
+                    <option value="0">Choose...</option>
+                    <option value="1">Active</option>
+                    <option value="2">Delivered</option>
+                    <option value="3">Return</option>
+                </select>
+
+                <div class="invalid-feedback">
+                    Please provide a valid state.
+                </div>
+
+            </div>
+            <div class="form-group col-md-1" style="margin-top: 23px">
+                <button class="btn btn-success" type="submit" id="filterButton">Submit</button>
             </div>
         </div>
 
-        <div>
-            <button class="btn btn-success" type="submit" id="filterButton">Submit</button>
-        </div>
 
         <h3 id="cartHeader" style="margin-top: 100px;"></h3>
 
         <div>
-            <table  class="table table-success table-striped" cellpadding="0" cellspacing="0"
-                    style="border-collapse: separate;">
+            <table class="table table-success table-striped" cellpadding="0" cellspacing="0"
+                   style="border-collapse: separate;">
                 <style>
                     thead {
                         font-size: 1.3rem;
                     }
+
                     .justify-content-md-center {
                         height: 55px;
                         align-items: center;

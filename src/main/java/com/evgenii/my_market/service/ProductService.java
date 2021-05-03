@@ -1,4 +1,4 @@
-package com.evgenii.my_market.services;
+package com.evgenii.my_market.service;
 
 
 import com.evgenii.my_market.dao.ProductDAO;
@@ -47,5 +47,11 @@ public class ProductService {
     @Transactional
     public void update(Product product) {
         dao.update(product);
+    }
+
+    @Transactional
+    public void deleteProductById(int id) {
+        Product product = dao.findProductById(id).get(0);
+        product.setProductQuantity((byte) 0);
     }
 }

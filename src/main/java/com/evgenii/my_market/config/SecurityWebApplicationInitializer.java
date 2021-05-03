@@ -1,4 +1,4 @@
-package com.evgenii.my_market.configs;
+package com.evgenii.my_market.config;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 

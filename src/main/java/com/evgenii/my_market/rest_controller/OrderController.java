@@ -1,24 +1,19 @@
-package com.evgenii.my_market.rest_controllers;
+package com.evgenii.my_market.rest_controller;
 
 import com.evgenii.my_market.dto.OrderDto;
 import com.evgenii.my_market.dto.OrderResultDto;
 import com.evgenii.my_market.entity.Order;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
-import com.evgenii.my_market.services.CartService;
-import com.evgenii.my_market.services.OrderService;
+import com.evgenii.my_market.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -46,7 +41,7 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<OrderDto> getCurrentUserOrders(@RequestParam(name = "p", defaultValue = "1") int page,
+    public List<OrderDto> getCurrentUserOrders(@RequestParam(name = "page", defaultValue = "1") int page,
                                                @RequestParam(name = "first_date", defaultValue = "1990-01-01")
                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
                                                @RequestParam(name = "second_date", defaultValue = "3000-01-01")
@@ -56,4 +51,22 @@ public class OrderController {
         return orderService.findAllOrdersByOwnerName(principal.getName(), fromDate, toDate, page);
     }
 
+    @GetMapping("/all")
+    public List<OrderDto> getAllOrders(@RequestParam(name = "page", defaultValue = "1") int page,
+                                       @RequestParam(name = "first_date", defaultValue = "1990-01-01")
+                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+                                       @RequestParam(name = "second_date", defaultValue = "3000-01-01")
+                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+                                       @RequestParam(name = "state", defaultValue = "") String state) {
+
+        return orderService.findAllOrders(fromDate, toDate, page, state);
+    }
+
+    @GetMapping("/update")
+    public void updateOrder(@RequestParam(name = "order_id") UUID orderId,
+                            @RequestParam(name = "delivery_address") String orderAddress,
+                            @RequestParam(name = "state") String orderState) {
+
+    orderService.updateOrder(orderId,orderAddress,orderState);
+    }
 }

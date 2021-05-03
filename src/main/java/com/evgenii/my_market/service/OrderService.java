@@ -1,4 +1,4 @@
-package com.evgenii.my_market.services;
+package com.evgenii.my_market.service;
 
 import com.evgenii.my_market.dao.OrderDAO;
 import com.evgenii.my_market.dto.OrderDto;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,11 +34,7 @@ public class OrderService {
         User user = userService.findByUsername(userName).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Cart cart = cartService.findById(cartUuid).orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
         Order order = new Order(cart, user, user.getUserAddress(),address,paymentMethod,paymentState);
-        if(paymentState){
-            order.setOrderState(StateEnum.AWAITING_SHIPMENT);
-        } else{
-            order.setOrderState(StateEnum.AWAITING_PAYMENT);
-        }
+        order.setOrderState(StateEnum.AWAITING_SHIPMENT);
         order = orderDAO.saveOrder(order);
         cart.getCartItems().forEach(cartItem -> cartItem.getProduct().decrementQuantityProduct(cartItem.getQuantity()));
         cartService.clearCart(cartUuid);
@@ -56,5 +51,23 @@ public class OrderService {
 
     public Optional<Order> findById(UUID id) {
         return orderDAO.findById(id);
+    }
+
+    public List<OrderDto> findAllOrders(LocalDate fromDate, LocalDate toDate, int page, String state) {
+        int total = 5;
+        if (page != 1) {
+            page = (page - 1) * total + 1;
+        }
+       return orderDAO.findAlL(fromDate,toDate, page-1, state, total).stream().map(OrderDto::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void updateOrder(UUID orderId, String orderAddress, String orderState) {
+        Order order = orderDAO.findById(orderId).get();
+        if(orderState.equals("DELIVERED")){
+            order.setPaymentState(true);
+        }
+        order.setOrderState(StateEnum.valueOf(orderState));
+        order.setDeliveryMethode(orderAddress);
     }
 }

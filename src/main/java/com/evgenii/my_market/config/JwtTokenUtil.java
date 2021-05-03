@@ -1,4 +1,4 @@
-package com.evgenii.my_market.beans;
+package com.evgenii.my_market.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
