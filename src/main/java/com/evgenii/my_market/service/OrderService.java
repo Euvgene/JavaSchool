@@ -2,6 +2,7 @@ package com.evgenii.my_market.service;
 
 import com.evgenii.my_market.dao.OrderDAO;
 import com.evgenii.my_market.dto.OrderDto;
+import com.evgenii.my_market.dto.StatisticDto;
 import com.evgenii.my_market.entity.Cart;
 import com.evgenii.my_market.entity.Order;
 import com.evgenii.my_market.entity.StateEnum;
@@ -69,5 +70,9 @@ public class OrderService {
         }
         order.setOrderState(StateEnum.valueOf(orderState));
         order.setDeliveryMethode(orderAddress);
+    }
+
+    public  List<StatisticDto> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate) {
+      return   orderDAO.getStatistic(statisticName,fromDate,toDate).stream().map(StatisticDto::new).collect(Collectors.toList());
     }
 }

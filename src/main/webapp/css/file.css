@@ -69,3 +69,9 @@
     overflow: auto;
     font-size: 13px
 }
+
+
+.tableDiv {
+    margin: auto;
+    width: 500px;
+}

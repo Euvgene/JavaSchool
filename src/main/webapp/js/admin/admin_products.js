@@ -91,6 +91,7 @@ changeProduct = function (id) {
 }
 
 $(document).ready(function () {
+    delete localStorage.productId;
     getProducts()
     if (!localStorage.pageIndx) {
         localStorage.setItem("pageIndx", 1);

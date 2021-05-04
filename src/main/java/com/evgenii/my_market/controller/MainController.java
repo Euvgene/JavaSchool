@@ -84,5 +84,9 @@ public class MainController {
         return "admin/admin_orders";
     }
 
+    @GetMapping("/statistic")
+    public String showStatistic() {
+        return "admin/admin_statistic";
+    }
 
 }

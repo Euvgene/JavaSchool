@@ -2,6 +2,7 @@ package com.evgenii.my_market.rest_controller;
 
 import com.evgenii.my_market.dto.OrderDto;
 import com.evgenii.my_market.dto.OrderResultDto;
+import com.evgenii.my_market.dto.StatisticDto;
 import com.evgenii.my_market.entity.Order;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.service.OrderService;
@@ -67,6 +68,16 @@ public class OrderController {
                             @RequestParam(name = "delivery_address") String orderAddress,
                             @RequestParam(name = "state") String orderState) {
 
-    orderService.updateOrder(orderId,orderAddress,orderState);
+        orderService.updateOrder(orderId, orderAddress, orderState);
+    }
+
+    @GetMapping("/statistic")
+    public List getStatistic(@RequestParam(name = "statistic_name") String statisticName,
+                             @RequestParam(name = "first_date", defaultValue = "1990-01-01")
+                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+                             @RequestParam(name = "second_date", defaultValue = "3000-01-01")
+                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
+
+        return orderService.getStatistic(statisticName, fromDate,toDate);
     }
 }
