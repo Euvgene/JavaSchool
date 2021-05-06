@@ -100,7 +100,7 @@ public class OrderDAO {
                 break;
             case "proceeds":
                 myQuery = "SELECT payment_method name, sum(price) as count " +
-                        " FROM orders o where payment_state = 1 and o.created_at >= :from_date and o.created_at <= :to_date  group by payment_method;";
+                        " FROM orders o where payment_state = 1 and o.created_at >= :from_date and o.created_at <= :to_date  group by payment_method asc;";
                 break;
         }
 

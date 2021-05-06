@@ -13,139 +13,110 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/file.css">
+    <script type="text/javascript" src="/js/common/new_product_validation.js"></script>
     <script type="text/javascript" src="/js/admin/add_product.js"></script>
+
 </header>
 <head>
     <%@ include file="adminHeader.jsp" %>
     <title>Add New Product</title>
 </head>
-<body class="d-flex flex-column h-100" <%--onload="loadCategory()"--%>>
+<body class="d-flex flex-column h-100">
 <main class="flex-shrink-0" style="margin-top: 80px;">
     <div class="container mt-auto">
         <div class="col-md-5" style="margin: auto">
             <h4 class="mb-4">Create product</h4>
-            <form class="needs-validation" novalidate="">
-                <div class="row g-3">
-                    <div class="col-md-5" style="white-space: nowrap">
+            <div class="row g-3">
+                <form id="productNameForm" class="col-md-5 validate" style="white-space: nowrap">
                         <label for="productName" class="form-label">Product name</label>
-                        <input type="text" class="form-control" id="productName" placeholder="" value=""
-                               required="">
-                        <div class="invalid-feedback">
-                            Valid first name is required.
-                        </div>
-                    </div>
-
-                    <div class="col-md-3">
-                        <label for="category" class="form-label">Category</label>
-                        <select class="form-select" id="category" required="">
-                            <option value="">Choose...</option>
-                        </select>
-
-                        <div class="invalid-feedback">
-                            Please provide a valid state.
-                        </div>
-
-                    </div>
-
-                    <div class="col-md-3" style="margin-top: 47px; white-space: nowrap">
-                        <button id="showNewCategoryForm" class="btn btn-primary" type="submit">+new category</button>
-                    </div>
+                        <input type="text" class="form-control" id="productName" placeholder="Product name" name="productName">
+                </form>
 
 
-                    <div class="col-md-4">
-                        <input type="text" class="form-control" id="newCategory" placeholder="New category name"
-                               value=""
-                               required="">
-                        <div class="invalid-feedback">
-                            Please provide a valid state.
-                        </div>
-                    </div>
+                <form class="col-md-3 validate" id="categoryNameForm">
+                    <label for="category" class="form-label">Category</label>
+                    <select class="form-select" id="category" name="category">
+                        <option value="">Choose...</option>
+                    </select>
+                </form>
 
-                    <div class="col-md-3" style="white-space: nowrap">
-                        <button id="addCategoryButton" class="btn btn-primary" onclick="createNewCategory()">Add
-                        </button>
-                    </div>
+                <div class="col-md-3" style="margin-top: 47px; white-space: nowrap">
+                    <button id="showNewCategoryForm" class="btn btn-primary" type="submit">+new category</button>
                 </div>
+
+
+                <form class="col-md-4" id="newCategoryForm" >
+                    <input type="text" class="form-control" id="newCategory" placeholder="New category name"
+                           name="newCategoryName" >
+                </form>
+
+                <div class="col-md-3" style="white-space: nowrap" >
+                    <button id="addCategoryButton" class="btn btn-primary" onclick="createNewCategory()" >Add
+                    </button>
+                </div>
+            </div>
+
+            <form id="middleForm">
+
 
                 <div class="row g-3">
                     <div class="col-md-4">
                         <label for="gender" class="form-label">Gender</label>
-                        <select class="form-select" id="gender" required="">
+                        <select class="form-select" id="gender" name="gender">
                             <option value="">Choose...</option>
                             <option id="female">Female</option>
                             <option id="mail">Mail</option>
                         </select>
-
-
-                        <div class="invalid-feedback">
-                            Please provide a valid state.
-                        </div>
                     </div>
 
                     <div class="col-md-4">
                         <label for="age" class="form-label">Age</label>
-                        <input type="number" class="form-control" id="age" style="min-width: 150px"
-                               value=""
-                               required="">
+                        <input type="number" class="form-control" id="age" style="min-width: 150px" placeholder="Age" name="age">
 
-                        <div class="invalid-feedback">
-                            Please provide a valid state.
-                        </div>
                     </div>
 
                     <div class="col-md-3" style="white-space: nowrap">
                         <label for="weight" class="form-label">Weight, kg</label>
-                        <input type="number" class="form-control" id="weight" placeholder="" value=""
-                               required="">
-                        <div class="invalid-feedback">
-                            Please select a valid weight.
-                        </div>
+                        <input type="number" class="form-control" id="weight" placeholder="Weight" name="weight">
+
                     </div>
                 </div>
 
                 <div class="row g-3" style="margin-top: auto">
                     <div class="col-md-4">
                         <label for="price" class="form-label">Price</label>
-                        <input type="number" class="form-control" id="price" placeholder="" value=""
-                               required="">
-                        <div class="invalid-feedback">
-                            Please select a valid price.
-                        </div>
+                        <input type="number" class="form-control" id="price" placeholder="$" name="price">
+
                     </div>
 
                     <div class="col-md-4">
                         <label for="count" class="form-label">Count</label>
-                        <input type="number" class="form-control" id="count" placeholder="" value=""
-                               required="">
-                        <div class="invalid-feedback">
-                            Please provide a valid state.
-                        </div>
+                        <input type="number" class="form-control" id="count" placeholder="Count" name="count">
                     </div>
 
                     <div class="col-md-3">
                         <label for="lifespan" class="form-label">Lifespan</label>
-                        <input type="text" class="form-control" id="lifespan" placeholder="" required="">
-                        <div class="invalid-feedback">
-                            Lifespan required.
-                        </div>
+                        <input type="text" class="form-control" id="lifespan" placeholder="Lifespan" name="lifespan">
+
                     </div>
                 </div>
-                <div class="row g-3" style="margin-top: auto" >
+                <div class="row g-3" style="margin-top: auto">
                     <div id="divFoto"></div>
                     <div class="fl_upld col-md-4">
-                        <label><input id="fl_inp" type="file" name="file">Choose file</label>
+                        <label><input id="fl_inp" type="file"  >Choose file</label>
                     </div>
-                    <div class="col-md-7" id="fl_nm" style="margin-left: 0px"><input id="fileName"
-                         style=" border: white; width: 100%" value="No file selected" disabled/>
+                    <div class="col-md-7" id="fl_nm" style="margin-left: 0px">
+                        <input id="fileName" style=" border: white; width: 100%" value="No file selected" disabled  />
                     </div>
                 </div>
-
-                <input  type='submit' id="createProduct" class="btn btn-primary btn-lg"  style="margin-top: 30px" value="Create product"/>
-
-
             </form>
+            <input type='submit' id="createProduct" class="btn btn-primary btn-lg" style="margin-top: 30px"
+                   value="Create product"/>
         </div>
     </div>
 </main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.min.js"></script>
 </body>
 </html>

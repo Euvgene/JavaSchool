@@ -13,6 +13,7 @@ import java.util.List;
 public class CategoryService {
     private final CategoryDAO categoryDAO;
 
+    @Transactional
     public List<Category> getAllCategory() {
         return categoryDAO.findAll();
     }
@@ -22,4 +23,3 @@ public class CategoryService {
         categoryDAO.saveNewCategory(newCategory);
     }
 }
-// todo pacage name without s

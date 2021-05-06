@@ -83,6 +83,12 @@ input.error {
     color: red;
 }
 
+select.error {
+    border: 1px dashed red;
+    font-weight: 300;
+    color: red;
+}
+
 label.error {
     color: red;
     font-size: 1rem;

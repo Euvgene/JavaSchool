@@ -5,7 +5,7 @@ $(function () {
             name: "required",
             address: {
                 required: "#orderAddress:visible",
-                pattern: /^[a-zA-Z0-9]+$/
+                pattern: /^[a-zA-Z0-9_ ]*$/
             },
         },
         messages: {
@@ -21,7 +21,7 @@ $(function () {
             name: "required",
             cardname: {
                 required: "#cc-name:visible",
-                pattern: /^[A-Z]+$/,
+                pattern: /^[A-Z_ ]*$/,
             },
             number: {
 
@@ -30,7 +30,7 @@ $(function () {
             },
             expiration: {
                 required: "#cc-expiration:visible",
-                pattern:/^[1-12]{2}[2-99]{2}/,
+                pattern:/^(0[1-9]|1[0-2])\/?([0-9]{2})$/,
 
             },
             cvv: {
@@ -45,7 +45,7 @@ $(function () {
                 required: "This field is required",
             },
             number: {
-                pattern: "Use only letters or numbers",
+                pattern: "invalid number",
                 required: "This field is required",
             },
             expiration: {
