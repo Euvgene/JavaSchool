@@ -75,3 +75,32 @@
     margin: auto;
     width: 500px;
 }
+
+
+input.error {
+    border: 1px dashed red;
+    font-weight: 300;
+    color: red;
+}
+
+label.error {
+    color: red;
+    font-size: 1rem;
+    display: block;
+    margin-top: 5px;
+}
+
+input.valid.success-alert {
+    border: 2px solid #4CAF50;
+    color: green;
+}
+
+
+.hidden{
+    display: none;
+}
+
+
+.showForm{
+    display: block;
+}

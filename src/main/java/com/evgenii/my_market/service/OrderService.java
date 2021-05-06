@@ -44,10 +44,7 @@ public class OrderService {
 
     public List<OrderDto> findAllOrdersByOwnerName(String username, LocalDate fromDate, LocalDate toDate, int page) {
         int total = 5;
-        if (page != 1) {
-            page = (page - 1) * total + 1;
-        }
-        return orderDAO.findAllByOwnerUsername(username,fromDate,toDate, page-1, total).stream().map(OrderDto::new).collect(Collectors.toList());
+        return orderDAO.findAllByOwnerUsername(username,fromDate,toDate, getPage(page,total), total).stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
     public Optional<Order> findById(UUID id) {
@@ -56,10 +53,7 @@ public class OrderService {
 
     public List<OrderDto> findAllOrders(LocalDate fromDate, LocalDate toDate, int page, String state) {
         int total = 5;
-        if (page != 1) {
-            page = (page - 1) * total + 1;
-        }
-       return orderDAO.findAlL(fromDate,toDate, page-1, state, total).stream().map(OrderDto::new).collect(Collectors.toList());
+       return orderDAO.findAlL(fromDate,toDate, getPage(page,total), state, total).stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
     @Transactional
@@ -72,7 +66,17 @@ public class OrderService {
         order.setDeliveryMethode(orderAddress);
     }
 
-    public  List<StatisticDto> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate) {
-      return   orderDAO.getStatistic(statisticName,fromDate,toDate).stream().map(StatisticDto::new).collect(Collectors.toList());
+    public  List<StatisticDto> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate, int page) {
+        int total = 5;
+      return   orderDAO.getStatistic(statisticName,fromDate,toDate, getPage(page,total)).stream().map(StatisticDto::new).collect(Collectors.toList());
+    }
+
+
+    private int getPage(int page, int total){
+        if (page != 1) {
+            page = (page - 1) * total + 1;
+            return page-1;
+        }
+        return 0;
     }
 }

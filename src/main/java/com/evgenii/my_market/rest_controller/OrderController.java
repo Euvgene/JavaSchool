@@ -72,12 +72,13 @@ public class OrderController {
     }
 
     @GetMapping("/statistic")
-    public List getStatistic(@RequestParam(name = "statistic_name") String statisticName,
+    public List getStatistic(@RequestParam(name = "page", defaultValue = "1") int page,
+                             @RequestParam(name = "statistic_name") String statisticName,
                              @RequestParam(name = "first_date", defaultValue = "1990-01-01")
                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
                              @RequestParam(name = "second_date", defaultValue = "3000-01-01")
                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
 
-        return orderService.getStatistic(statisticName, fromDate,toDate);
+        return orderService.getStatistic(statisticName, fromDate, toDate, page);
     }
 }

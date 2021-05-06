@@ -50,27 +50,29 @@ function getOrderProducts() {
 }
 
 function createOrder() {
-    $.ajax({
-        type: "POST",
-        url: "http://localhost:8189/api/v1/orders",
-        headers: {
-            "Authorization": "Bearer " + localStorage.token
-        },
-        data: {
-            username: localStorage.currentUserName,
-            uuid: localStorage.marketCartUuid,
-            address: $('#orderAddress').val(),
-            paymentMethod: $('#creditCart').is(':checked') ? "credit card" : "cash",
-            paymentState: $('#creditCart').is(':checked') ? "true" : "false"
-        },
-        success: function (result) {
-            console.log(result)
-            localStorage.orderUuid = result.orderId;
-            console.log(localStorage.orderUuid)
-            location.assign("http://localhost:8189/orders-result")
+    if ($("#addressForm").valid() && $("#paymentForm").valid() ) {
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8189/api/v1/orders",
+            headers: {
+                "Authorization": "Bearer " + localStorage.token
+            },
+            data: {
+                username: localStorage.currentUserName,
+                uuid: localStorage.marketCartUuid,
+                address: $('#orderAddress').val(),
+                paymentMethod: $('#creditCart').is(':checked') ? "credit card" : "cash",
+                paymentState: $('#creditCart').is(':checked') ? "true" : "false"
+            },
+            success: function (result) {
+                console.log(result)
+                localStorage.orderUuid = result.orderId;
+                console.log(localStorage.orderUuid)
+                location.assign("http://localhost:8189/orders-result")
 
-        }
-    });
+            }
+        });
+    }
 }
 
 $(document).ready(function () {
@@ -90,7 +92,7 @@ $(document).ready(function () {
             $('#address').hide(100);
         } else {
             $('#deliveryToHome').prop("checked", true)
-
+            $('#address').show(100);
         }
     });
 
@@ -98,9 +100,11 @@ $(document).ready(function () {
         if ($(this).is(':checked')) {
             $('#cash').prop("checked", false)
             $('#creditCartPayment').show(100);
+
         } else {
             $('#cash').prop("checked", true)
             $('#creditCartPayment').hide(100);
+
         }
     });
 
@@ -110,6 +114,7 @@ $(document).ready(function () {
             $('#creditCartPayment').hide(100);
         } else {
             $('#creditCart').prop("checked", true)
+            $('#creditCartPayment').show(100);
         }
     });
 

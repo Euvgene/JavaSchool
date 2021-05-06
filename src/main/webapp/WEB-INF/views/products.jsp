@@ -5,6 +5,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/file.css">
+
     <script type="text/javascript" src="/js/common/small_cart.js"></script>
     <script type="text/javascript" src="/js/user/user_products.js"></script>
 
@@ -28,7 +29,7 @@
             <div class="form-group row">
                 <div class="form-group col-md-3">
                     <label for="filterTitle">Product name</label>
-                    <input class="form-control" type="text" id="filterTitle">
+                    <input class="form-control" type="text" id="filterTitle" pattern="[abc]">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="filterGender">Gender</label>
@@ -41,6 +42,9 @@
                 <div class="form-group col-md-3">
                     <label for="filterMaxCost">Max price</label>
                     <input class="form-control" type="number"  id="filterMaxCost">
+                </div>
+                <div class="invalid-feedback">
+                    Please provide a valid state.
                 </div>
             </div>
             <div>

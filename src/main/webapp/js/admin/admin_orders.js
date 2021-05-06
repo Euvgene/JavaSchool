@@ -1,6 +1,12 @@
 let orderState = null;
 const ELEMENTS_NUMBER_PER_LINE = 10
 
+clearTable = function () {
+    $('#cartHeader').empty();
+    $('#pagination').empty();
+    $('#cartHead').empty();
+}
+
 showConfirmButton = function (id) {
     document.getElementById('confirm' + id).style.display = 'inline';
 }
@@ -167,16 +173,12 @@ nextPage = function () {
     getAllOrders();
 };
 
-clearTable = function () {
-    $('#cartHeader').empty();
-    $('#pagination').empty();
-    $('#cartHead').empty();
-}
+
 $(document).ready(function () {
 
-    localStorage.setItem("orderPageIndx", 1);
     // GET REQUEST
     $("#filterButton").click(function (event) {
+        localStorage.setItem("orderPageIndx", 1);
         getAllOrders()
     });
 

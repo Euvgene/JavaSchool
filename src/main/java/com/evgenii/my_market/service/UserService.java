@@ -70,10 +70,13 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void updateUser(UserDto changedUser, String oldName) {
         User oldUser = userDAO.findByUsername(oldName).get();
+        changedUser.getUserAddress().setAddressId(oldUser.getUserAddress().getAddressId());
         User user = new User(changedUser);
         user.setPassword(oldUser.getPassword());
         user.setUserId(oldUser.getUserId());
         user.setRole(oldUser.getRole());
+
+
         userDAO.update(user);
     }
 

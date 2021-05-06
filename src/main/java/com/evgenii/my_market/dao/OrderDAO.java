@@ -84,7 +84,7 @@ public class OrderDAO {
                 .getResultList();
     }
 
-    public List<Object[]> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate) {
+    public List<Object[]> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate,int page) {
         String myQuery = null;
         switch (statisticName) {
             case "product":
@@ -106,6 +106,7 @@ public class OrderDAO {
 
         Query query = entityManager.createNativeQuery(myQuery)
                 .unwrap(org.hibernate.query.NativeQuery.class)
+                .setFirstResult(page)
                 .addScalar("name", StringType.INSTANCE)
                 .addScalar("count", IntegerType.INSTANCE)
                 .setParameter("from_date",fromDate)
