@@ -8,6 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <header>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/file.css">
+    <script type="text/javascript" src="/js/common/order_validation.js"></script>
     <script type="text/javascript" src="/js/admin/admin_orders.js"></script>
 </header>
 <head>
@@ -50,6 +52,7 @@
         <h3 id="cartHeader" style="margin-top: 100px;"></h3>
 
         <div>
+            <form class='addressForm'>
             <table class="table table-success table-striped" cellpadding="0" cellspacing="0"
                    style="border-collapse: separate;">
                 <style>
@@ -64,7 +67,9 @@
                 </style>
                 <thead id="cartHead"></thead>
                 <tbody id="example"></tbody>
+
             </table>
+            </form>
         </div>
         <nav id="pagination">
 
@@ -72,6 +77,7 @@
 
     </div>
 </main>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.min.js"></script>
 </body>
 </html>

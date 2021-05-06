@@ -15,6 +15,21 @@ $(function () {
             },
         }
     });
+
+    $(".addressForm").validate({
+        rules: {
+            addressName: {
+                required: true,
+                pattern: /^[a-zA-Z0-9_ ]*$/
+            },
+        },
+        messages: {
+            addressName: {
+                pattern: "Use letters and numbers",
+                required: "This field is required",
+            },
+        }
+    })
     $("#paymentForm").validate({
 
         rules: {
@@ -59,6 +74,7 @@ $(function () {
                 rangelength: "Range 8-20 characters",
             },
         }
+
     })
 
 })

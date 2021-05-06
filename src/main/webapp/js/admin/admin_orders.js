@@ -12,25 +12,27 @@ showConfirmButton = function (id) {
 }
 
 changeOrder = function (smallId, id) {
-    const s = document.getElementById('state' + smallId);
-    const address = document.getElementById('address' + smallId);
+    if ($(".addressForm").valid()) {
+        const s = document.getElementById('state' + smallId);
+        const address = document.getElementById('address' + smallId);
 
-    console.log(address.value)
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8189/api/v1/orders/update",
-        headers: {
-            "Authorization": "Bearer " + localStorage.token
-        },
-        data: {
-            order_id: id,
-            delivery_address: address.value,
-            state: s.value
-        },
-        success: function () {
-            getAllOrders()
-        }
-    })
+        console.log(address.value)
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8189/api/v1/orders/update",
+            headers: {
+                "Authorization": "Bearer " + localStorage.token
+            },
+            data: {
+                order_id: id,
+                delivery_address: address.value,
+                state: s.value
+            },
+            complete: function () {
+                getAllOrders()
+            }
+        })
+    }
 }
 
 
@@ -112,7 +114,7 @@ function getAllOrders() {
                             "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
                             "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
                             "font-weight: bold \"  align='center' '> " + order[k].orderId.substring(0, 8) + "" +
-                            "<button class='btn btn-info' style='display: none' id='confirm" + order[k].orderId.substring(0, 8) + "'" +
+                            "<button type='button' class='btn btn-info' style='display: none' id='confirm" + order[k].orderId.substring(0, 8) + "'" +
                             " onclick= \"changeOrder('" + order[k].orderId.substring(0, 8) + "','" + order[k].orderId + "')\"><svg width=\"1em\" height=\"1em\" viewBox=\"0 0 16 16\" class=\"bi bi-check2\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
                             "  <path fill-rule=\"evenodd\" d=\"M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z\"/>" +
                             "</svg></button></td>" +
@@ -120,7 +122,7 @@ function getAllOrders() {
                             + order[k].totalPrice + ' $' + " </td>" +
                             "<td>" +
                             " <input class=\"form-control\" type=\"text\"  value='" + order[k].address + "'  id='address" + order[k].orderId.substring(0, 8) + "'" +
-                            "onchange=\"showConfirmButton('" + order[k].orderId.substring(0, 8) + "')\"></td>" +
+                            "onchange=\"showConfirmButton('" + order[k].orderId.substring(0, 8) + "')\" name='addressName'></td>" +
                             "<td align='center' '> " + order[k].paymentMethod + "</td>" +
                             "<td> " +
                             "                <select class=\"form-select\" id='state" + order[k].orderId.substring(0, 8) + "' required=\"\" onchange=\"showConfirmButton('" + order[k].orderId.substring(0, 8) + "')\">" +
@@ -175,12 +177,11 @@ nextPage = function () {
 
 
 $(document).ready(function () {
-
     // GET REQUEST
     $("#filterButton").click(function (event) {
+        event.preventDefault()
         localStorage.setItem("orderPageIndx", 1);
         getAllOrders()
     });
-
 
 });
