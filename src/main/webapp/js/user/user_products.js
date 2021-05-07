@@ -41,7 +41,7 @@ function getProducts() {
                 $('#currentPage').empty();
                 let rd = $('<div ></div>');
                 if (productList.length > 0) {
-
+                    $('#pagination').show(200);
                     for (let k = 0; k < productList.length; k++) {
                         if (smallCartList != null) {
                             console.log(productList[k].productId)
@@ -84,6 +84,10 @@ function getProducts() {
 
                 let pageIndx = Number(localStorage.getItem("pageIndx"));
                 localStorage.setItem("pageIndx", --pageIndx);
+            } else  if (productList.length === 0){
+                $('#example').empty();
+                $('#pagination').hide(200);
+                $('#example').append("  <h3 id=\"cartHeader\" style=\"margin-top: 20px;\">Products not found</h3>")
             }
         }
     });
@@ -91,7 +95,7 @@ function getProducts() {
 
 function decrementCount(id) {
 
-    products.set(id,  products.get(id)-DECREMENT_PRODUCT)
+    products.set(id, products.get(id) - DECREMENT_PRODUCT)
     console.log(products)
 
     if (products.get(id) === 0) {
@@ -112,10 +116,10 @@ addToCart = function (id, count) {
             prod_id: id
         },
         success: function () {
-            if (products.has(id)){
+            if (products.has(id)) {
                 decrementCount(id)
                 getSmallCartProducts();
-            } else{
+            } else {
                 products.set(id, count)
                 decrementCount(id)
                 getSmallCartProducts();

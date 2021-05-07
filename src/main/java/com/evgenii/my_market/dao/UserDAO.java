@@ -32,7 +32,7 @@ public class UserDAO {
 
         TypedQuery<User> query = entityManager.createQuery(
                 "SELECT u FROM User u WHERE" +
-                        " u.firstName = :username  or u.email = :email", User.class);
+                        " u.firstName = :username  and u.email = :email", User.class);
 
         return query
                 .setParameter("username", username)
@@ -49,7 +49,6 @@ public class UserDAO {
     }
 
     public void saveUser(User newUsers) {
-
         entityManager.persist(newUsers);
         entityManager.flush();
 

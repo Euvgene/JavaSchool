@@ -1,4 +1,5 @@
 function tryToAuth() {
+    $("#errorMassageAuth").empty();
     let formData = {
         username: $("#username").val(),
         password: $("#password").val(),
@@ -18,31 +19,37 @@ function tryToAuth() {
             localStorage.token = result.token;
             localStorage.role = result.userRole;
             if (window.location.href.endsWith("/cart")) {
-                    if(localStorage.role === "[ROLE_USER]"){
-                        $.ajax({
-                            type: "GET",
-                            url: 'http://localhost:8189/user-cart',
-                            headers: {
-                                "Authorization": "Bearer " + localStorage.token
-                            },success: function (response) {
-                                window.location.href = "user-cart";
-                            }})
-                    } else {
-                        window.location.href = "admin-main";
-                    }
-            } else if (window.location.href.endsWith("/products")){
-                if(localStorage.role === "[ROLE_USER]"){
+                if (localStorage.role === "[ROLE_USER]") {
+                    $.ajax({
+                        type: "GET",
+                        url: 'http://localhost:8189/user-cart',
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.token
+                        }, success: function (response) {
+                            window.location.href = "user-cart";
+                        }
+                    })
+                } else {
+                    window.location.href = "admin-main";
+                }
+            } else if (window.location.href.endsWith("/products")) {
+                if (localStorage.role === "[ROLE_USER]") {
                     window.location.href = "user-products";
                 } else {
                     window.location.href = "admin-products";
                 }
             } else {
-                if(localStorage.role === "[ROLE_USER]"){
+                if (localStorage.role === "[ROLE_USER]") {
                     window.location.href = "user-products";
                 } else {
                     window.location.href = "admin-products";
                 }
             }
+        }, error: function (response) {
+            console.log(response)
+            $("#errorMassageAuth").append("<input type=\"text\" " +
+                "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;outline: none;\"" +
+                " value='" + response.responseJSON.message + "'>")
         }
 
     });

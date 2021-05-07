@@ -54,5 +54,6 @@ public class User {
         this.email = userDto.getEmail();
         this.birthday = userDto.getBirthday();
         this.userAddress = userDto.getUserAddress();
+        this.role = userDto.getRole();
     }
 }

@@ -51,7 +51,7 @@
                 <button class="btn btn-success" type="submit" id="filterButton">Submit</button>
             </div>
         <nav style="margin-left: 15px">
-            <ul class="pagination">
+            <ul class="pagination" id="pagination">
                 <li class="page-item" id="prePage">
                     <button class="page-link" tabindex="-1" >Previous</button>
                 </li>

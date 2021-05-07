@@ -8,54 +8,54 @@ $(function () {
                 pattern: /^[a-zA-Z0-9]+$/
             },
 
-        lastname: {
-            required: true,
-            pattern: /^[a-zA-Z]+$/,
-            maxlength: 10,
-        },
-        password: {
-            required: true,
-            pattern:/^[a-zA-Z0-9]+$/,
-            rangelength: [8,20],
-        },
+            lastname: {
+                required: true,
+                pattern: /^[a-zA-Z]+$/,
+                maxlength: 10,
+            },
+            password: {
+                required: true,
+                pattern: /^[a-zA-Z0-9]+$/,
+                minlength: 8,
+            },
             password1: {
                 required: true,
-                pattern:/^[a-zA-Z0-9]+$/,
-                rangelength: [8,20],
+                pattern: /^[a-zA-Z0-9]+$/,
+                rangelength: [8, 20],
             },
             password2: {
                 required: true,
-                pattern:/^[a-zA-Z0-9]+$/,
-                rangelength: [8,20],
+                pattern: /^[a-zA-Z0-9]+$/,
+                rangelength: [8, 20],
             },
-        birthday :{
-            required: true,
-        },
-        email :{
-            required: true,
-            pattern:/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-        },
-        street:{
-            required: true,
-        },
-        house:{
-            required: true,
-            pattern: /^[1-9]*$/,
-        },
-        flat:{
-            required: true,
-            pattern: /^[1-9]*$/,
-        },
-        country:{
-            required: true,
-        },
-        city:{
-            required: true,
-        },
-        zip:{
-            required: true,
-            pattern: /^[0-9]*$/,
-        },
+            birthday: {
+                required: true,
+            },
+            email: {
+                required: true,
+                pattern: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+            },
+            street: {
+                required: true,
+            },
+            house: {
+                required: true,
+                pattern: /^[1-9]*$/,
+            },
+            flat: {
+                required: true,
+                pattern: /^[1-9]*$/,
+            },
+            country: {
+                required: true,
+            },
+            city: {
+                required: true,
+            },
+            zip: {
+                required: true,
+                pattern: /^[0-9]*$/,
+            },
         },
         messages: {
             firstname: {
@@ -74,7 +74,7 @@ $(function () {
             password: {
                 pattern: "Use only letters or numbers",
                 required: "This field is required",
-                rangelength: "Range 8-20 characters",
+                minlength: "Higher than 8 characters",
             },
             password1: {
                 pattern: "Use only letters or numbers",
@@ -86,28 +86,28 @@ $(function () {
                 required: "This field is required",
                 rangelength: "Range 8-20 characters",
             },
-            birthday:{
+            birthday: {
                 required: "This field is required",
             },
-            email:{
+            email: {
                 required: "This field is required",
             },
-            street:{
+            street: {
                 required: "This field is required",
             },
-            house:{
+            house: {
                 required: "This field is required",
             },
-            flat:{
+            flat: {
                 required: "This field is required",
             },
-            country:{
+            country: {
                 required: "This field is required",
             },
-            city:{
+            city: {
                 required: "This field is required",
             },
-            zip:{
+            zip: {
                 required: "This field is required",
             },
         }

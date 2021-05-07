@@ -2,20 +2,16 @@ package com.evgenii.my_market.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.type.IntegerType;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.List;
 
 @NoArgsConstructor
 @Data
 public class StatisticDto {
+    private final int STATISTIC_NAME = 0;
     String name;
     int number;
 
     public StatisticDto(Object[] o) {
-        this.name = o[0].toString(); // todo magic numbers
+        this.name = o[STATISTIC_NAME].toString();
         this.number = (int) o[1];
     }
 }

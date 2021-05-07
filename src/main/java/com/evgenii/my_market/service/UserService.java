@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -62,9 +63,10 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void save(User newUser) {
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        userDAO.saveUser(newUser);
+    public void save(UserDto newUser) {
+        User user  = new User(newUser);
+        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        userDAO.saveUser(user);
     }
 
     @Transactional
@@ -75,8 +77,6 @@ public class UserService implements UserDetailsService {
         user.setPassword(oldUser.getPassword());
         user.setUserId(oldUser.getUserId());
         user.setRole(oldUser.getRole());
-
-
         userDAO.update(user);
     }
 

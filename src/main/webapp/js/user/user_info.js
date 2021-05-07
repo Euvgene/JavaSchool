@@ -9,7 +9,6 @@ getUser = function () {
             $('#birthday').val(result.birthday)
             $('#firstName').val(result.firstName)
             $('#lastName').val(result.lastName)
-            $('#userPassword').val(result.password)
             $('#email').val(result.email)
             $('#street').val(result.userAddress.streetName)
             $('#house_number').val(result.userAddress.houseNumber)
@@ -22,13 +21,14 @@ getUser = function () {
     });
 }
 
-changeUser = function (){
-    if ($("#form").valid()) {
+changeUser = function () {
+   /* if ($("#form").valid()) {*/
         let formData = {
             firstName: $("#firstName").val(),
             lastName: $("#lastName").val(),
             email: $("#email").val(),
             birthday: $("#birthday").val(),
+            password: $('#userPassword').val(),
             userAddress: {
                 country: $("#country").val(),
                 city: $("#city").val(),
@@ -37,16 +37,49 @@ changeUser = function (){
                 houseNumber: $("#house_number").val(),
                 flatNumber: $("#flat").val(),
             },
+            role: {
+                id: 1,
+                roleName: "ROLE_USER"
+            }
         }
+        console.log(localStorage.token +    "_____" + localStorage.marketCartUuid)
         $.ajax({
             type: "PUT",
             contentType: "application/json",
             url: "http://localhost:8189/api/v1/users",
             data: JSON.stringify(formData),
             dataType: 'json',
+            success:function (response){
+                console.log(response)
+                localStorage.token = response.token;
+            },
+            complete: function (){
+                let newData = {
+                    username: $("#firstName").val(),
+                    password: $("#userPassword").val(),
+                    cartId: localStorage.marketCartUuid
+                }
+                console.log(JSON.stringify(formData));
+                // DO POST
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "http://localhost:8189/api/v1/auth",
+                    data: JSON.stringify(newData),
+                    dataType: 'json',
+                    success: function (result){
+                        console.log(result)
+                        localStorage.token = result.token;
+                    },
+                    error:function (resp){
+                        console.log(resp)
+                    }
+                })
+            }
         })
-        location.assign("http://localhost:8189/user-products")
-    }
+
+
+   /* }*/
 }
 
 $(document).ready(function () {
@@ -56,7 +89,7 @@ $(document).ready(function () {
         changeUser();
     });
 
-    $("#userPassword").click(function (event) {
+    $("#userPasswordButton").click(function (event) {
         event.preventDefault();
         location.assign("http://localhost:8189/change-password")
     });

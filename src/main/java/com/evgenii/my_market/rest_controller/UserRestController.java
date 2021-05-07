@@ -1,8 +1,9 @@
 package com.evgenii.my_market.rest_controller;
 
+import com.evgenii.my_market.config.JwtTokenUtil;
+import com.evgenii.my_market.dto.JwtResponse;
 import com.evgenii.my_market.dto.UpdatePasswordDto;
 import com.evgenii.my_market.dto.UserDto;
-import com.evgenii.my_market.entity.User;
 import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.service.UserService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
@@ -18,11 +20,12 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class UserRestController {
     private final UserService userService;
+    private final JwtTokenUtil jwtTokenUtil;
 
     @PostMapping
-    public ResponseEntity<?> saveUser(@RequestBody User newUsers) {
+    public ResponseEntity<?> saveUser(@Valid @RequestBody UserDto newUsers) {
         if (userService.findByUsernameAndEmail(newUsers.getFirstName(), newUsers.getEmail()).size() > 0) {
-            return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "This user already exist"), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "This username or email already exist"), HttpStatus.CONFLICT);
         } else {
             userService.save(newUsers);
             return ResponseEntity.ok(HttpStatus.CREATED);
@@ -36,8 +39,14 @@ public class UserRestController {
     }
 
     @PutMapping
-    public void updateUser(@RequestBody UserDto user, Principal principal) {
+    public ResponseEntity<?> updateUser(@RequestBody UserDto user, Principal principal) {
+ /*       if (userService.findByUsernameAndEmail(user.getFirstName(), user.getEmail()).size() > 0 && !principal.getName().equals(user.getFirstName())) {
+            return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "This username or email already exist"), HttpStatus.CONFLICT);
+        }*/
         userService.updateUser(user, principal.getName());
+
+
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @PostMapping("/password")

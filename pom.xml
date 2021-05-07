@@ -15,6 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <springframework.version>5.0.6.RELEASE</springframework.version>
         <hibernate.version>5.4.1.Final</hibernate.version>
+        <hibernate.validation.version>6.0.11.Final</hibernate.validation.version>
         <mysql.connector.version>5.1.45</mysql.connector.version>
         <slf4j.version>1.7.30</slf4j.version>
         <c3po.version>0.9.5.2</c3po.version>
@@ -162,6 +163,43 @@
             <artifactId>spring-data-commons</artifactId>
             <version>2.4.5</version>
         </dependency>
+
+        <!-- Java bean validation API - Spec -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+
+        <!-- Hibernate validator - Bean validation API Implementation -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validation.version}</version>
+        </dependency>
+
+        <!-- Verify validation annotations usage at compile time -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator-annotation-processor</artifactId>
+            <version>${hibernate.validation.version}</version>
+        </dependency>
+
+        <!-- Unified Expression Language - Spec -->
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>3.0.1-b06</version>
+        </dependency>
+
+        <!-- Unified Expression Language - Implementation -->
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>2.2.6</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>

@@ -99,8 +99,10 @@
 
                     <hr class="my-4">
 
-                    <button class="w-100 btn btn-primary btn-lg" type="submit" id="checkout">Continue to checkout</button>
+                    <button class="w-100 btn btn-primary btn-lg" type="button" id="checkout">Continue to checkout</button>
                 </form>
+                <div id="errorMassage" >
+                </div>
             </div>
         </div>
     </main>

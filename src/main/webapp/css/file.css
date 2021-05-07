@@ -110,3 +110,17 @@ input.valid.success-alert {
 .showForm{
     display: block;
 }
+
+.errorText{
+    color: red;
+    font-family: Geneva, Verdana, sans-serif;
+}
+
+.errorMassageAuth{
+    width: 300px;
+    position: fixed;
+    top: 0;
+    right: 215px;
+    margin-top: 75px;
+    overflow: auto;
+}

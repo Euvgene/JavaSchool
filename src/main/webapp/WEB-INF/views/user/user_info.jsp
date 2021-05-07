@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/file.css">
-    <script type="text/javascript" src="/js/common/user_validation.js"></script>
+<%--    <script type="text/javascript" src="/js/common/user_validation.js"></script>--%>
     <script type="text/javascript" src="/js/user/user_info.js"></script>
     <title>Update user info</title>
     <jsp:include page="userHeader.jsp"/>
@@ -21,7 +21,7 @@
 
         <div class="row g-5" style="justify-content: center">
             <div class="col-md-8 col-lg-8" style="justify-content: center">
-                <h4 class="mb-3" style="margin-top: 100px;">Registration new user</h4>
+                <h4 class="mb-3" style="margin-top: 100px;">Change info</h4>
                 <form  id="form" >
                     <div class="row g-3">
                         <div class="col-sm-3">
@@ -35,10 +35,15 @@
 
                         </div>
 
-
                         <div class="col-sm-3">
                             <label for="userPassword" class="form-label">Password</label>
-                            <button class="btn btn-primary" type="submit" id="userPassword" style="width: 100%;" >
+                            <input type="password" class="form-control" id="userPassword" placeholder="Password" name="password"  >
+                        </div>
+
+
+                        <div class="col-sm-3">
+                            <label for="userPassword" class="form-label">Change Password</label>
+                            <button class="btn btn-primary" type="submit" id="userPasswordButton" style="width: 100%;" >
                                 Change Password
                             </button>
                         </div>
@@ -49,7 +54,7 @@
 
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-9">
                             <label for="email" class="form-label">Email </label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" >
 
@@ -93,8 +98,10 @@
 
                     <hr class="my-4">
 
-                    <button class="w-100 btn btn-primary btn-lg" type="submit" id="changeUser">Continue to checkout</button>
+                    <button class="w-100 btn btn-primary btn-lg" type="submit" id="changeUser">Confirm changes</button>
                 </form>
+                <div id="errorMassage" >
+                </div>
             </div>
         </div>
     </main>
