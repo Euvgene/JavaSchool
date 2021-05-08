@@ -25,8 +25,8 @@
                 <form  id="form" >
                     <div class="row g-3">
                         <div class="col-sm-3">
-                            <label for="firstName" class="form-label">First Name/Username</label>
-                            <input type="text"  class="form-control" id="firstName" placeholder="First Name/Username"  name="firstname">
+                            <label for="name" class="form-label">First Name/Username</label>
+                            <input type="text"  class="form-control" id="name" placeholder="First Name/Username"  name="firstname">
                         </div>
 
                         <div class="col-sm-3">
@@ -42,7 +42,7 @@
 
 
                         <div class="col-sm-3">
-                            <label for="userPassword" class="form-label">Change Password</label>
+                            <label for="userPasswordButton" class="form-label">Change Password</label>
                             <button class="btn btn-primary" type="submit" id="userPasswordButton" style="width: 100%;" >
                                 Change Password
                             </button>
@@ -54,10 +54,15 @@
 
                         </div>
 
-                        <div class="col-9">
+                        <div class="col-6">
                             <label for="email" class="form-label">Email </label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" >
-
+                        </div>
+                        <div class="col-sm-3">
+                            <label for="userEmailButton" class="form-label">Change Email</label>
+                            <button class="btn btn-primary" type="submit" id="userEmailButton" style="width: 100%;" >
+                                Change Password
+                            </button>
                         </div>
 
                         <div class="row g-3" style="margin-top: 0">
@@ -98,7 +103,7 @@
 
                     <hr class="my-4">
 
-                    <button class="w-100 btn btn-primary btn-lg" type="submit" id="changeUser">Confirm changes</button>
+                    <button class="w-100 btn btn-primary btn-lg" type="button" id="changeUser">Confirm changes</button>
                 </form>
                 <div id="errorMassage" >
                 </div>

@@ -7,6 +7,7 @@ import com.evgenii.my_market.dto.UserDto;
 import com.evgenii.my_market.entity.Role;
 import com.evgenii.my_market.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +16,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     private final UserDAO userDAO;
-
+    private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder passwordEncoder;
 
     public Optional<User> findByUsername(String username) {
@@ -64,7 +65,7 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void save(UserDto newUser) {
-        User user  = new User(newUser);
+        User user = new User(newUser);
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         userDAO.saveUser(user);
     }
@@ -83,12 +84,26 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public String updatePassword(UpdatePasswordDto passwordDto, String userName) {
-        User user = userDAO.findByUsername( userName).get();
-        if(passwordEncoder.matches(passwordDto.getOldPassword(), user.getPassword())) {
+        User user = userDAO.findByUsername(userName).get();
+        if (passwordEncoder.matches(passwordDto.getOldPassword(), user.getPassword())) {
             user.setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
             userDAO.update(user);
             return "ok";
-        }else return "error";
+        } else return "error";
 
+    }
+
+    @Transactional
+    public boolean isEmailAlreadyInUse(String email) {
+        boolean userInDb = true;
+        if (userDAO.getActiveEmail(email) == null) userInDb = false;
+        return userInDb;
+    }
+
+    @Transactional
+    public boolean isNameAlreadyInUse(String name) {
+        boolean userInDb = true;
+        if (userDAO.getActiveName(name) == null) userInDb = false;
+        return userInDb;
     }
 }

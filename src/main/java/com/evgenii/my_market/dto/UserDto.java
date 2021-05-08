@@ -23,8 +23,8 @@ public class UserDto {
     @Email(message = "invalid email format")
     private String email;
 
-    @NotEmpty(message = "Please provide a password")
-    @Size(min = 8, max = 61, message = "Password size must be higher than 8 letters or numbers")
+/*    @NotEmpty(message = "Please provide a password")
+    @Size(min = 8, max = 61, message = "Password size must be higher than 8 letters or numbers")*/
     private String password;
 
 

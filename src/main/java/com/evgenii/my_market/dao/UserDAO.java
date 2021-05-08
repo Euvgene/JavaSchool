@@ -1,13 +1,13 @@
 package com.evgenii.my_market.dao;
 
-import com.evgenii.my_market.dto.UserDto;
 import com.evgenii.my_market.entity.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +32,7 @@ public class UserDAO {
 
         TypedQuery<User> query = entityManager.createQuery(
                 "SELECT u FROM User u WHERE" +
-                        " u.firstName = :username  and u.email = :email", User.class);
+                        " u.firstName = :username  or u.email = :email", User.class);
 
         return query
                 .setParameter("username", username)
@@ -56,16 +56,30 @@ public class UserDAO {
 
     public void update(User user) {
         entityManager.merge(user);
+        entityManager.flush();
     }
 
-    public List<User> findByUsernameAndPassword(String oldPassword, String username) {
-        TypedQuery<User> query = entityManager.createQuery(
-                "SELECT u FROM User u WHERE" +
-                        " u.password = :password and u.firstName = :username", User.class);
+    public User getActiveEmail(String email) {
+        User user;
+        try {
+            user = (User) entityManager.createQuery("SELECT u FROM User u where u.email = :email")
+                    .setParameter("email", email)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            user = null;
+        }
+        return user;
+    }
 
-        return query
-                .setParameter("password", oldPassword)
-                .setParameter("username", username)
-                .getResultList();
+    public User getActiveName(String name) {
+        User user;
+        try {
+            user = (User) entityManager.createQuery("SELECT u FROM User u where u.firstName = :name")
+                    .setParameter("name", name)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            user = null;
+        }
+        return user;
     }
 }

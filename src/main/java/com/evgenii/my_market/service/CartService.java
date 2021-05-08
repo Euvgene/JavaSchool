@@ -38,11 +38,11 @@ public class CartService {
     public void addToCart(UUID cartId, int productId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
         CartItem cartItem = cart.getItemByProductId(productId);
-        if (cartItem != null && cartItem.getProduct().getProductQuantity()>cartItem.getQuantity()) {
+        if (cartItem != null && cartItem.getProduct().getProductQuantity() > cartItem.getQuantity()) {
             cartItem.incrementQuantity();
             cart.recalculate();
             return;
-        } else if(cartItem != null && cartItem.getProduct().getProductQuantity() == cartItem.getQuantity()) return;
+        } else if (cartItem != null && cartItem.getProduct().getProductQuantity() == cartItem.getQuantity()) return;
         try {
             Product p = productService.findProductById(productId).get(0);
             cart.add(new CartItem(p));
@@ -70,7 +70,7 @@ public class CartService {
             Cart cart = findById(cartUuid).get();
             List<Cart> oldCartList = findByUserId(user.getUserId());
 
-            if (!oldCartList.isEmpty()) {
+            if (!oldCartList.isEmpty() && oldCartList.get(0).getCartId() != cart.getCartId()) {
                 Cart oldCart = oldCartList.get(0);
                 cart.merge(oldCart);
                 cartDAO.delete(oldCart);

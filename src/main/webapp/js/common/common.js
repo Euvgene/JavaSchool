@@ -7,6 +7,7 @@ function logOut() {
     }
     delete localStorage.role;
     location.assign("http://localhost:8189/logout");
+    location.assign("http://localhost:8189/");
 }
 
 
