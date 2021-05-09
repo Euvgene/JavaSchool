@@ -1,8 +1,16 @@
+appendMessage = function (response) {
+    $("#errorMassage").append("<input type=\"text\" " +
+        "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;outline: none;\"" +
+        " value='" + response + "'>")
+}
+
+
 changePassword = function () {
     if ($("#form").valid()) {
         let formData = {
             oldPassword: $("#oldPassword").val(),
-            newPassword: $("#firstPassword").val()
+            firstPassword: $("#firstPassword").val(),
+            secondPassword: $("#secondPassword").val()
         }
         $.ajax({
             type: "POST",
@@ -14,15 +22,20 @@ changePassword = function () {
             data: JSON.stringify(formData),
             dataType: 'json',
             success: function (response) {
-                document.getElementById("oldPassword").style.borderColor = 'green';
-                document.getElementById("firstPassword").style.borderColor = 'green';
-                document.getElementById("secondPassword").style.borderColor = 'green';
-                const delay = 2500;
+                document.getElementById("form").style.background = '#a8e3a4'
+                const delay = 1500;
                 setTimeout(function () {
                     location.assign("http://localhost:8189/user-products")
                 }, delay);
-            }, error: function () {
-                document.getElementById("oldPassword").style.borderColor = 'red';
+            }, error: function (response) {
+                console.log(response)
+                if (response.responseJSON.message.length > 1) {
+                    for (let k = 0; k < response.responseJSON.message.length; k++) {
+                        appendMessage( response.responseJSON.message[k])
+                    }
+                } else {
+                    appendMessage(response.responseJSON.message)
+                }
             }
         });
     }

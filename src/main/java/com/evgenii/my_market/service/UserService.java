@@ -6,7 +6,10 @@ import com.evgenii.my_market.dto.UpdatePasswordDto;
 import com.evgenii.my_market.dto.UserDto;
 import com.evgenii.my_market.entity.Role;
 import com.evgenii.my_market.entity.User;
+import com.evgenii.my_market.exception_handling.MarketError;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,7 +31,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
     private final UserDAO userDAO;
-    private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder passwordEncoder;
 
     public Optional<User> findByUsername(String username) {
@@ -71,25 +73,31 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void updateUser(UserDto changedUser, String oldName) {
+    public ResponseEntity<?> updateUser(UserDto changedUser, String oldName) {
         User oldUser = userDAO.findByUsername(oldName).get();
-        changedUser.getUserAddress().setAddressId(oldUser.getUserAddress().getAddressId());
-        User user = new User(changedUser);
-        user.setPassword(oldUser.getPassword());
-        user.setUserId(oldUser.getUserId());
-        user.setRole(oldUser.getRole());
-        userDAO.update(user);
+        if(passwordEncoder.matches(changedUser.getPassword(), oldUser.getPassword())){
+            changedUser.getUserAddress().setAddressId(oldUser.getUserAddress().getAddressId());
+            User user = new User(changedUser);
+            user.setPassword(oldUser.getPassword());
+            user.setUserId(oldUser.getUserId());
+            user.setRole(oldUser.getRole());
+            userDAO.update(user);
+            return ResponseEntity.ok(HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "Wrong password"), HttpStatus.CONFLICT);
+        }
+
     }
 
 
     @Transactional
-    public String updatePassword(UpdatePasswordDto passwordDto, String userName) {
+    public ResponseEntity<?> updatePassword(UpdatePasswordDto passwordDto, String userName) {
         User user = userDAO.findByUsername(userName).get();
         if (passwordEncoder.matches(passwordDto.getOldPassword(), user.getPassword())) {
-            user.setPassword(passwordEncoder.encode(passwordDto.getNewPassword()));
+            user.setPassword(passwordEncoder.encode(passwordDto.getFirstPassword()));
             userDAO.update(user);
-            return "ok";
-        } else return "error";
+            return ResponseEntity.ok(HttpStatus.ACCEPTED);
+        } else    return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "Wrong old password"), HttpStatus.CONFLICT);
 
     }
 

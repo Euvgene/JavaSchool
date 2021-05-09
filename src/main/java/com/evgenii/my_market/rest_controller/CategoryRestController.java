@@ -1,5 +1,6 @@
 package com.evgenii.my_market.rest_controller;
 
+import com.evgenii.my_market.dto.CategoryDto;
 import com.evgenii.my_market.entity.Category;
 import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.service.CategoryService;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,7 +24,8 @@ public class CategoryRestController {
     }
 
     @PostMapping
-    public void saveCategory(@RequestBody Category newCategory) {
+    public ResponseEntity<?> saveCategory(@Valid @RequestBody CategoryDto newCategory) {
         categoryService.save(newCategory);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 }

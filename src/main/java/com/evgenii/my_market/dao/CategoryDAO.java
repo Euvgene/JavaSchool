@@ -1,6 +1,8 @@
 package com.evgenii.my_market.dao;
 
+import com.evgenii.my_market.dto.CategoryDto;
 import com.evgenii.my_market.entity.Category;
+import com.evgenii.my_market.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -24,5 +26,17 @@ public class CategoryDAO {
     public void saveNewCategory(Category newCategory) {
         entityManager.persist(newCategory);
         entityManager.flush();
+    }
+
+    public Category getActiveCategory(String value) {
+        Category category;
+        try {
+            category = (Category) entityManager.createQuery("SELECT c FROM Category c where c.categoryName = :name")
+                    .setParameter("name", value)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            category = null;
+        }
+        return category;
     }
 }

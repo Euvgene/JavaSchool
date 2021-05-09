@@ -8,11 +8,9 @@ import com.evgenii.my_market.dto.UserNameDto;
 import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.service.UserService;
-import com.evgenii.my_market.validator.UniqueName;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,7 +21,6 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class UserRestController {
     private final UserService userService;
-    private final JwtTokenUtil jwtTokenUtil;
 
     @PostMapping
     public ResponseEntity<?> saveUser(@Valid @RequestBody UserDto newUsers) {
@@ -37,31 +34,19 @@ public class UserRestController {
 
     @GetMapping
     public UserDto getCurrentUser(Principal principal) {
-        System.out.println(principal.getName() + "_!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         UserDto user = userService.findUserDtoByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("Unable to find user with name: " + principal.getName()));
         return user;
     }
 
     @PutMapping
     public ResponseEntity<?> updateUser(@Valid @RequestBody UserDto user, Principal principal) {
-    /*    if (userService.findByUsernameAndEmail(user.getFirstName(), user.getEmail()).size() > 0 ) {
-            return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "This username or email already exist"), HttpStatus.CONFLICT);
-        } else {*/
-        System.out.println(principal.getName() + "__________________________");
-        userService.updateUser(user, principal.getName());
-        return ResponseEntity.ok(HttpStatus.CREATED);
-
-
+       return  userService.updateUser(user, principal.getName());
     }
 
     @PostMapping("/password")
-    public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordDto passwordDto,
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordDto passwordDto,
                                             Principal principal) {
-        if (userService.updatePassword(passwordDto, principal.getName()).equals("ok")) {
-            return ResponseEntity.ok(HttpStatus.ACCEPTED);
-        } else {
-            return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "Wrong password"), HttpStatus.CONFLICT);
-        }
+        return userService.updatePassword(passwordDto, principal.getName());
     }
 
     @PostMapping("/name")

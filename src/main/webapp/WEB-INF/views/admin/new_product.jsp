@@ -24,14 +24,14 @@
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0" style="margin-top: 80px;">
     <div class="container mt-auto">
-        <div class="col-md-5" style="margin: auto">
+        <div class="col-md-5" style="margin: auto" id="mainDiv">
             <h4 class="mb-4">Create product</h4>
             <div class="row g-3">
                 <form id="productNameForm" class="col-md-5 validate" style="white-space: nowrap">
-                        <label for="productName" class="form-label">Product name</label>
-                        <input type="text" class="form-control" id="productName" placeholder="Product name" name="productName">
+                    <label for="productName" class="form-label">Product name</label>
+                    <input type="text" class="form-control" id="productName" placeholder="Product name"
+                           name="productName">
                 </form>
-
 
                 <form class="col-md-3 validate" id="categoryNameForm">
                     <label for="category" class="form-label">Category</label>
@@ -43,15 +43,16 @@
                 <div class="col-md-3" style="margin-top: 47px; white-space: nowrap">
                     <button id="showNewCategoryForm" class="btn btn-primary" type="submit">+new category</button>
                 </div>
+            </div>
 
-
-                <form class="col-md-4" id="newCategoryForm" >
+            <div class="row g-3">
+                <form class="col-md-4" id="newCategoryForm">
                     <input type="text" class="form-control" id="newCategory" placeholder="New category name"
-                           name="newCategoryName" >
+                           name="newCategoryName">
                 </form>
 
-                <div class="col-md-3" style="white-space: nowrap" >
-                    <button id="addCategoryButton" class="btn btn-primary" onclick="createNewCategory()" >Add
+                <div class="col-md-3" style="white-space: nowrap">
+                    <button id="addCategoryButton" class="btn btn-primary" onclick="createNewCategory()">Add
                     </button>
                 </div>
             </div>
@@ -63,15 +64,16 @@
                     <div class="col-md-4">
                         <label for="gender" class="form-label">Gender</label>
                         <select class="form-select" id="gender" name="gender">
-                            <option value="">Choose...</option>
-                            <option id="female">Female</option>
-                            <option id="mail">Mail</option>
+                            <option value="0">Choose...</option>
+                            <option id="female" value="1">Female</option>
+                            <option id="mail" value="2">Mail</option>
                         </select>
                     </div>
 
                     <div class="col-md-4">
                         <label for="age" class="form-label">Age</label>
-                        <input type="number" class="form-control" id="age" style="min-width: 150px" placeholder="Age" name="age">
+                        <input type="number" class="form-control" id="age" style="min-width: 150px" placeholder="Age"
+                               name="age">
 
                     </div>
 
@@ -103,15 +105,17 @@
                 <div class="row g-3" style="margin-top: auto">
                     <div id="divFoto"></div>
                     <div class="fl_upld col-md-4">
-                        <label><input id="fl_inp" type="file"  >Choose file</label>
+                        <label><input id="fl_inp" type="file">Choose file</label>
                     </div>
                     <div class="col-md-7" id="fl_nm" style="margin-left: 0px">
-                        <input id="fileName" style=" border: white; width: 100%" value="No file selected" disabled  />
+                        <input id="fileName" style=" border: white; width: 100%" value="No file selected" disabled/>
                     </div>
                 </div>
             </form>
-            <input type='submit' id="createProduct" class="btn btn-primary btn-lg" style="margin-top: 30px"
+            <input type='button' id="createProduct" class="btn btn-primary btn-lg" style="margin-top: 30px"
                    value="Create product"/>
+        </div>
+        <div id="errorMassage" >
         </div>
     </div>
 </main>

@@ -20,23 +20,28 @@
         <h1 class="h3 mb-3 fw-normal">Change you password</h1>
 
         <div  style="margin-top: 15px">
-            <input type="password" class="form-control" id="oldPassword" name="password" >
             <label for="oldPassword">Old Password</label>
+            <input type="password" class="form-control" id="oldPassword" name="password" >
+
         </div>
         <div  style="margin-top: 15px">
-            <input type="password" class="form-control" id="firstPassword" name="password1">
             <label for="firstPassword">New Password</label>
+            <input type="password" class="form-control" id="firstPassword" name="password1">
+
         </div>
 
         <div  style="margin-top: 15px">
-            <input type="password" class="form-control"  id="secondPassword" name="password2">
             <label for="secondPassword">New Password</label>
+            <input type="password" class="form-control"  id="secondPassword" name="password2">
         </div>
 
 
         <button class="w-100 btn btn-lg btn-primary" type="submit" id="submitChanges" style="margin-top: 10px">Submit changes</button>
         <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
     </form>
+
+    <div id="errorMassage" >
+    </div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/additional-methods.min.js"></script>

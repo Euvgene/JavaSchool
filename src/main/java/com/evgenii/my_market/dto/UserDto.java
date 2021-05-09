@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.Date;
 
@@ -23,8 +24,8 @@ public class UserDto {
     @Email(message = "invalid email format")
     private String email;
 
-/*    @NotEmpty(message = "Please provide a password")
-    @Size(min = 8, max = 61, message = "Password size must be higher than 8 letters or numbers")*/
+    @NotEmpty(message = "Please provide a password")
+    @Size(min = 8, max = 61, message = "Password size must be higher than 8 letters or numbers")
     private String password;
 
 
@@ -33,7 +34,9 @@ public class UserDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date birthday;
 
+    @Valid
     private Address userAddress;
+
     @ValidRole
     private Role role;
 

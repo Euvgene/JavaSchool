@@ -62,5 +62,6 @@ public class ProductDAO {
 
     public void update(Product product) {
         entityManager.merge(product);
+        entityManager.flush();
     }
 }

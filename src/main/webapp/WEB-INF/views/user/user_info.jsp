@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/file.css">
-<%--    <script type="text/javascript" src="/js/common/user_validation.js"></script>--%>
+    <script type="text/javascript" src="/js/common/user_validation.js"></script>
     <script type="text/javascript" src="/js/user/user_info.js"></script>
     <title>Update user info</title>
     <jsp:include page="userHeader.jsp"/>
@@ -54,15 +54,9 @@
 
                         </div>
 
-                        <div class="col-6">
+                        <div class="col-9">
                             <label for="email" class="form-label">Email </label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" >
-                        </div>
-                        <div class="col-sm-3">
-                            <label for="userEmailButton" class="form-label">Change Email</label>
-                            <button class="btn btn-primary" type="submit" id="userEmailButton" style="width: 100%;" >
-                                Change Password
-                            </button>
                         </div>
 
                         <div class="row g-3" style="margin-top: 0">
@@ -105,6 +99,10 @@
 
                     <button class="w-100 btn btn-primary btn-lg" type="button" id="changeUser">Confirm changes</button>
                 </form>
+                <div id="validName" >
+                </div>
+                <div id="validEmail" >
+                </div>
                 <div id="errorMassage" >
                 </div>
             </div>

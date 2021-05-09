@@ -1,5 +1,6 @@
 package com.evgenii.my_market.entity;
 
+import com.evgenii.my_market.dto.ProductDto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,7 @@ public class Product implements Serializable {
     @JoinColumn(name = "category")
     private Category category;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "product_param")
     private Parameters productParams;
 
@@ -39,7 +40,17 @@ public class Product implements Serializable {
     @Column(name = "quantity")
     private byte productQuantity;
 
+    public Product(ProductDto productDto) {
+        this.productId = productDto.getProductId();
+        this.fotoId = productDto.getFotoId();
+        this.productPrice = productDto.getProductPrice();
+        this.productTitle = productDto.getProductTitle();
+        this.category = productDto.getCategory();
+        this.productParams = productDto.getParameters();
+        this.productQuantity = productDto.getProductQuantity();
+    }
+
     public void decrementQuantityProduct(byte productQuantity) {
-       this.productQuantity -= productQuantity ;
+        this.productQuantity -= productQuantity;
     }
 }

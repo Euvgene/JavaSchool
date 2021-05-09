@@ -1,7 +1,9 @@
 package com.evgenii.my_market.service;
 
 import com.evgenii.my_market.dao.CategoryDAO;
+import com.evgenii.my_market.dto.CategoryDto;
 import com.evgenii.my_market.entity.Category;
+import com.evgenii.my_market.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +21,15 @@ public class CategoryService {
     }
 
     @Transactional
-    public void save(Category newCategory) {
-        categoryDAO.saveNewCategory(newCategory);
+    public void save(CategoryDto newCategory) {
+        Category category = new Category(newCategory);
+        categoryDAO.saveNewCategory(category);
+    }
+
+    @Transactional
+    public boolean isCategoryAlreadyInUse(String value) {
+        boolean categoryInDb = true;
+        if (categoryDAO.getActiveCategory(value) == null) categoryInDb = false;
+        return categoryInDb;
     }
 }

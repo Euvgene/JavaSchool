@@ -30,8 +30,9 @@ public class ProductService {
     }
 
     @Transactional
-    public void save(Product newProduct) {
-        dao.saveNewProduct(newProduct);
+    public void save(ProductDto newProduct) {
+        Product product = new Product(newProduct);
+        dao.saveNewProduct(product);
     }
 
     @Transactional
@@ -45,8 +46,9 @@ public class ProductService {
     }
 
     @Transactional
-    public void update(Product product) {
-        dao.update(product);
+    public void update(ProductDto product) {
+        Product updateProduct = new Product(product);
+        dao.update(updateProduct);
     }
 
     @Transactional

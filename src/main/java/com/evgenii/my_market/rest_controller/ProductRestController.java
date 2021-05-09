@@ -4,8 +4,11 @@ import com.evgenii.my_market.dto.ProductDto;
 import com.evgenii.my_market.entity.Product;
 import com.evgenii.my_market.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +25,6 @@ public class ProductRestController {
         return productService.getProductById(id);
     }
 
- /*   @GetMapping
-    public List<Product> getAllProducts(){
-    return productService.getAllProducts();
-    }*/
 
     @GetMapping()
     public List<ProductDto> getProductsPage(@RequestParam(name = "page", defaultValue = "1") int page,
@@ -42,13 +41,15 @@ public class ProductRestController {
     }
 
     @PostMapping
-    public void saveProduct(@RequestBody Product newProduct) {
+    public ResponseEntity<?>  saveProduct(@Valid @RequestBody ProductDto newProduct) {
         productService.save(newProduct);
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @PutMapping
-    public void updateProduct(@RequestBody Product product) {
+    public ResponseEntity<?> updateProduct(@Valid @RequestBody ProductDto product) {
         productService.update(product);
+        return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/delete")

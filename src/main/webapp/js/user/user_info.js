@@ -27,14 +27,19 @@ getUser = function () {
     });
 }
 
+appendMessage = function (response) {
+    $("#errorMassage").append("<input type=\"text\" " +
+        "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;outline: none;\"" +
+        " value='" + response + "'>")
+}
+
 changeUser = function () {
-    /* if ($("#form").valid()) {*/
-    console.log(validEmail + validName)
-    if (validName && validEmail) {
+    if (validName && validEmail && $("#form").valid()) {
         let formData = {
             firstName: $("#name").val(),
             lastName: $("#lastName").val(),
             email: $("#email").val(),
+            password:$("#userPassword").val(),
             birthday: $("#birthday").val(),
             userAddress: {
                 country: $("#country").val(),
@@ -56,12 +61,7 @@ changeUser = function () {
             url: "http://localhost:8189/api/v1/users",
             data: JSON.stringify(formData),
             dataType: 'json',
-            success: function (response) {
-                /* const delay = 3000;
-                 setTimeout(function () {
-                     location.assign("http://localhost:8189/user-products")
-                 }, delay);*/
-            }, success: function () {
+            success: function () {
                 $.ajax({
                     type: "GET",
                     url: 'http://localhost:8189/logout',
@@ -71,8 +71,6 @@ changeUser = function () {
                             password: $("#userPassword").val(),
                             cartId: localStorage.marketCartUuid
                         }
-                        console.log(JSON.stringify(formData));
-                        // DO POST
                         $.ajax({
                             type: "POST",
                             contentType: "application/json",
@@ -80,44 +78,62 @@ changeUser = function () {
                             data: JSON.stringify(formData),
                             dataType: 'json',
                             success: function (result) {
+                                document.getElementById("form").style.background = '#a8e3a4';
                                 localStorage.token = result.token;
-                            }, error: function (resp) {
-                                console.log(resp)
+                                const delay = 1500;
+                                setTimeout(function () {
+                                    location.assign("http://localhost:8189/user-products")
+                                }, delay);
+                            }, error: function (response) {
+                                console.log(response)
+                                appendMessage( response.responseJSON.message)
                             }
                         })
                     }
                 })
-            }, error: function (resp) {
-                console.log(resp)
+            }, error: function (response) {
+                console.log(response)
+                if (response.responseJSON.message.length > 1) {
+                    for (let k = 0; k < response.responseJSON.message.length; k++) {
+                        appendMessage( response.responseJSON.message[k])
+                    }
+                } else {
+                    appendMessage(response.responseJSON.message)
+                }
             }
         })
     }
 }
 
 function checkUserName(str) {
-    console.log($("#"+ str).val() + "this")
     $.ajax({
         type: "POST",
         contentType: "application/json",
         url: 'http://localhost:8189/api/v1/users/' + str,
-        data: JSON.stringify({userName: $("#" + str).val(),}),
+        data: JSON.stringify({value: $("#" + str).val(),}),
         dataType: 'json',
         success: function () {
-            if (str === "name") {
-                validName = true;
-            } else {
-                validEmail = true;
-            }
+            if (str === "name") validName = true;
+            else validEmail = true;
         },
-        error: function (res) {
+        error: function (response) {
             if (str === "name") {
-                if(oldName === $('#name').val()) validName = true
-                else validName = false
+                if (oldName === $('#name').val()) validName = true
+                else {
+                    $("#validName").append("<input type=\"text\" " +
+                        "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;" +
+                        "outline: none;\" value='" + response.responseJSON.message + "'>")
+                    validName = false
+                }
             } else {
-                if(oldEmail === $('#email').val()) validEmail = true
-                else validEmail = false
+                if (oldEmail === $('#email').val()) validEmail = true
+                else {
+                    $("#validEmail").append("<input type=\"text\" " +
+                        "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;" +
+                        "outline: none;\" value='" + response.responseJSON.message + "'>")
+                    validEmail = false
+                }
             }
-            console.log(res)
         }
     })
 }
@@ -126,6 +142,7 @@ $(document).ready(function () {
 
     $("#changeUser").click(function (event) {
         event.preventDefault();
+        $("#errorMassage").empty()
         changeUser();
     });
 
@@ -136,11 +153,13 @@ $(document).ready(function () {
 
     $("#name").on('change', function (event) {
         event.preventDefault();
+        $("#validName").empty();
         checkUserName("name");
     })
 
     $("#email").on('change', function (event) {
         event.preventDefault();
+        $("#validEmail").empty();
         checkUserName("email");
     })
 });

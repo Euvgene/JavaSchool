@@ -1,31 +1,48 @@
 package com.evgenii.my_market.dto;
 
+import com.evgenii.my_market.entity.Category;
+import com.evgenii.my_market.entity.Parameters;
 import com.evgenii.my_market.entity.Product;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 @NoArgsConstructor
 @Data
 public class ProductDto {
     private int productId;
+    @NotNull(message = "Please provide a price")
+    @Positive(message ="price must be positive" )
     private BigDecimal productPrice;
+
+    @NotEmpty(message = "Please provide a foto")
     private String fotoId;
-    private String name;
-    private String gender;
-    private byte age;
-    private String lifeSpan;
-    private byte productQuantity;
+
+    @NotEmpty(message = "Please provide a product name")
+    private String productTitle;
+
+    @Valid
+    @NotNull(message = "Please provide category")
+    private Category category;
+    @Valid
+    @NotNull(message = "Please provide parameters")
+    private Parameters parameters;
+    @NotNull(message = "Please provide quantity")
+    @Positive(message ="Quantity must be positive" )
+    private byte productQuantity;//
 
     public ProductDto(Product product) {
-        this.productId= product.getProductId();
+        this.productId = product.getProductId();
         this.fotoId = product.getFotoId();
         this.productPrice = product.getProductPrice();
-        this.name = product.getProductTitle();
-        this.gender = product.getProductParams().getProductGender();
-        this.age = product.getProductParams().getProductAge();
-        this.lifeSpan = product.getProductParams().getProductLifespan();
-        this.productQuantity= product.getProductQuantity();
+        this.productTitle = product.getProductTitle();
+        this.category = product.getCategory();
+        this.parameters = product.getProductParams();
+        this.productQuantity = product.getProductQuantity();
     }
 }
