@@ -49,27 +49,43 @@ function getOrderProducts() {
     });
 }
 
+appendMessage = function (response) {
+    $("#errorMassage").append("<input type=\"text\" " +
+        "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;outline: none;\"" +
+        " value='" + response + "'>")
+}
+
 function createOrder() {
-    if ($("#addressForm").valid() && $("#paymentForm").valid() ) {
+    console.log(localStorage.marketCartUuid)
+    const order = {
+        cartId: localStorage.marketCartUuid,
+        address: $('#deliveryToHome').is(':checked') ? $('#orderAddress').val() : "from store",
+        paymentMethod: $('#creditCart').is(':checked') ? "credit card" : "cash"
+    }
+     if ($("#addressForm").valid() && $("#paymentForm").valid()) {
         $.ajax({
             type: "POST",
             url: "http://localhost:8189/api/v1/orders",
             headers: {
                 "Authorization": "Bearer " + localStorage.token
             },
-            data: {
-                username: localStorage.currentUserName,
-                uuid: localStorage.marketCartUuid,
-                address: $('#orderAddress').val(),
-                paymentMethod: $('#creditCart').is(':checked') ? "credit card" : "cash",
-                paymentState: $('#creditCart').is(':checked') ? "true" : "false"
-            },
+            contentType: "application/json",
+            data: JSON.stringify(order),
             success: function (result) {
                 console.log(result)
                 localStorage.orderUuid = result.orderId;
                 console.log(localStorage.orderUuid)
                 location.assign("http://localhost:8189/orders-result")
 
+            }, error: function (response) {
+                console.log(response)
+                if (response.responseJSON.message.length > 1) {
+                    for (let k = 0; k < response.responseJSON.message.length; k++) {
+                        appendMessage(response.responseJSON.message[k])
+                    }
+                } else {
+                    appendMessage(response.responseJSON.message)
+                }
             }
         });
     }

@@ -9,12 +9,13 @@ clearTable = function () {
 
 showConfirmButton = function (id) {
     document.getElementById('confirm' + id).style.display = 'inline';
+
 }
 
-changeOrder = function (smallId, id) {
-    if ($(".addressForm").valid()) {
-        const s = document.getElementById('state' + smallId);
-        const address = document.getElementById('address' + smallId);
+changeOrder = function (orderName, id) {
+    if ($("#changeOrderForm").valid()) {
+        const s = document.getElementById('state' + orderName);
+        const address = document.getElementById('address' + orderName);
 
         console.log(address.value)
         $.ajax({
@@ -29,7 +30,11 @@ changeOrder = function (smallId, id) {
                 state: s.value
             },
             complete: function () {
-                getAllOrders()
+                $("#confirm" + id.substring(0, 8)).hide(100)
+                if (s.value === "RETURN"){
+                    document.getElementById('state' + orderName).disabled = true;
+                }
+
             }
         })
     }
@@ -122,7 +127,7 @@ function getAllOrders() {
                             + order[k].totalPrice + ' $' + " </td>" +
                             "<td>" +
                             " <input class=\"form-control\" type=\"text\"  value='" + order[k].address + "'  id='address" + order[k].orderId.substring(0, 8) + "'" +
-                            "onchange=\"showConfirmButton('" + order[k].orderId.substring(0, 8) + "')\" name='addressName'></td>" +
+                            "onchange=\"showConfirmButton('" + order[k].orderId.substring(0, 8) + "')\" name='address'></td>" +
                             "<td align='center' '> " + order[k].paymentMethod + "</td>" +
                             "<td> " +
                             "                <select class=\"form-select\" id='state" + order[k].orderId.substring(0, 8) + "' required=\"\" onchange=\"showConfirmButton('" + order[k].orderId.substring(0, 8) + "')\">" +

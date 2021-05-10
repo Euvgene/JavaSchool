@@ -8,9 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <header>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/file.css">
+
     <script type="text/javascript" src="/js/common/order_validation.js"></script>
     <script type="text/javascript" src="/js/admin/admin_orders.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/file.css">
 </header>
 <head>
     <jsp:include page="adminHeader.jsp"/>
@@ -52,7 +53,7 @@
         <h3 id="cartHeader" style="margin-top: 100px;"></h3>
 
         <div>
-            <form class='addressForm'>
+            <form id='changeOrderForm'>
             <table class="table table-success table-striped" cellpadding="0" cellspacing="0"
                    style="border-collapse: separate;">
                 <style>

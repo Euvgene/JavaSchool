@@ -23,6 +23,7 @@ public class MainController {
         return "products";
     }
 
+
     @GetMapping("/admin-products")
     public String getProductsForAdmin() {
         return "admin/admin_products";

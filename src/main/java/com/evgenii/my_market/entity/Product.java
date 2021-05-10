@@ -53,4 +53,7 @@ public class Product implements Serializable {
     public void decrementQuantityProduct(byte productQuantity) {
         this.productQuantity -= productQuantity;
     }
+    public void incrementQuantityProduct(byte productQuantity) {
+        this.productQuantity += productQuantity;
+    }
 }

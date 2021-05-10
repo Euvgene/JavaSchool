@@ -29,6 +29,8 @@ function getProducts() {
             max_price: $("#filterMaxCost").val() ? $("#filterMaxCost").val() : null,
             product_title: $("#filterTitle").val() ? $("#filterTitle").val() : null,
             gender: $("#filterGender").val() ? $("#filterGender").val() : null,
+        }, headers: {
+            "Authorization": "Bearer " + localStorage.token
         },
         success: function (result) {
             productList = result;
@@ -59,10 +61,10 @@ function getProducts() {
                         }
                         rd.append('<div class = "block">' +
                             "<p class=\"page-information\"><img id=\"photoId" + productList[k].productId + "\" src=\"/images/" + productList[k].fotoId + "\" + width=\"150\" height=\"150\"></p>" +
-                            "<p class=\"page-information\"> Name: " + productList[k].name + "</p>" +
-                            "<p class=\"page-information\"> Gender: " + productList[k].gender + "</p>" +
-                            "<p class=\"page-information\"> Age:  " + productList[k].age + "</p>" +
-                            "<p class=\"page-information\"> Lifespan:  " + productList[k].lifeSpan + "</p>" +
+                            "<p class=\"page-information\"> Name: " + productList[k].productTitle + "</p>" +
+                            "<p class=\"page-information\"> Gender: " + productList[k].parameters.productGender + "</p>" +
+                            "<p class=\"page-information\"> Age:  " + productList[k].parameters.productAge + "</p>" +
+                            "<p class=\"page-information\"> Lifespan:  " + productList[k].parameters.productLifespan + "</p>" +
                             "<p class=\"page-information\"> Price:  " + productList[k].productPrice + "</p>" +
                             button);
 

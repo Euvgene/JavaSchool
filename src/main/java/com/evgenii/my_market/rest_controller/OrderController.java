@@ -1,5 +1,6 @@
 package com.evgenii.my_market.rest_controller;
 
+import com.evgenii.my_market.dto.OrderConfirmDto;
 import com.evgenii.my_market.dto.OrderDto;
 import com.evgenii.my_market.dto.OrderResultDto;
 import com.evgenii.my_market.dto.StatisticDto;
@@ -11,6 +12,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
@@ -25,14 +30,10 @@ public class OrderController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDto createOrderFromCart(@RequestParam(name = "username") String userName,
-                                        @RequestParam(name = "uuid") UUID cartUuid,
-                                        @RequestParam(name = "address", defaultValue = "from store") String address,
-                                        @RequestParam(name = "paymentMethod", defaultValue = "cash") String paymentMethod,
-                                        @RequestParam(name = "paymentState", defaultValue = "false") boolean paymentState) {
-
-        Order order = orderService.createFromUserCart(userName, cartUuid, address, paymentMethod, paymentState);
-        return new OrderDto(order);
+    public OrderDto createOrderFromCart( Principal principal, @Valid @RequestBody OrderConfirmDto order) {
+        order.setUsername(principal.getName());
+        Order newOrder = orderService.createFromUserCart(order);
+        return new OrderDto(newOrder);
     }
 
     @GetMapping("/{uuid}")
@@ -65,7 +66,9 @@ public class OrderController {
 
     @GetMapping("/update")
     public void updateOrder(@RequestParam(name = "order_id") UUID orderId,
-                            @RequestParam(name = "delivery_address") String orderAddress,
+                            @RequestParam(name = "delivery_address")@Pattern(regexp = "^[-.,;:a-zA-Z0-9_ ]*$",
+                                    message = "Invalid address format") @NotEmpty(message = "Please provide a country")
+                                    String orderAddress,
                             @RequestParam(name = "state") String orderState) {
 
         orderService.updateOrder(orderId, orderAddress, orderState);

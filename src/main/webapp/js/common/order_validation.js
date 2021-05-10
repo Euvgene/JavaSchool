@@ -5,31 +5,33 @@ $(function () {
             name: "required",
             address: {
                 required: "#orderAddress:visible",
-                pattern: /^[a-zA-Z0-9_ ]*$/
+                pattern: /^[-.,;:a-zA-Z0-9_ ]*$/
             },
         },
         messages: {
             address: {
-                pattern: "Use letters and numbers",
+                pattern: "Use letters,numbers. \".-,:;\"",
                 required: "This field is required",
             },
         }
     });
 
-    $(".addressForm").validate({
+    $("#changeOrderForm").validate({
+
         rules: {
-            addressName: {
+            address: {
                 required: true,
-                pattern: /^[a-zA-Z0-9_ ]*$/
+                pattern: /^[-.,;:a-zA-Z0-9_ ]*$/
             },
         },
         messages: {
-            addressName: {
-                pattern: "Use letters and numbers",
+            address: {
+                pattern: "Use letters,numbers. \".-,:;\"",
                 required: "This field is required",
             },
         }
-    })
+    });
+
     $("#paymentForm").validate({
 
         rules: {
@@ -41,7 +43,7 @@ $(function () {
             number: {
 
                 required: "#cc-number:visible",
-                pattern:/^4[0-9]{12}(?:[0-9]{3})?$/,
+                pattern: /^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/,
             },
             expiration: {
                 required: "#cc-expiration:visible",
