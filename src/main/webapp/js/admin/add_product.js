@@ -24,7 +24,7 @@ function loadCategory() {
             }
             return result
         }, error: function (response) {
-            console.log(response)
+
         }
     });
 }
@@ -57,7 +57,7 @@ function createNewCategory() {
             success: function () {
                 loadCategory()
             }, error: function (response) {
-                console.log(response)
+                appendMessage(response.responseJSON.message)
             }
         });
 
