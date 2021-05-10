@@ -1,8 +1,7 @@
 const ELEMENTS_NUMBER_PER_LINE = 4
 
 
-
-deleteProduct = function (id){
+deleteProduct = function (id) {
     $.ajax({
         type: "GET",
         url: 'http://localhost:8189/api/v1/products/delete',
@@ -10,10 +9,11 @@ deleteProduct = function (id){
             product_id: id,
         },
         success: function (result) {
-            console.log("ok")
+            $("#buttonDelete"+id).hide(100);
         }
-        })
+    })
 }
+
 function getProducts() {
     products = new Map();
     $.ajax({
@@ -31,6 +31,7 @@ function getProducts() {
         },
         success: function (result) {
             productList = result;
+            console.log(result)
             let elementsNumber = ELEMENTS_NUMBER_PER_LINE;
             let count = 0;
             while (count < productList.length) {
@@ -44,19 +45,20 @@ function getProducts() {
                             elementsNumber = elementsNumber + 4;
                             rd = $('<div ></div>');
                         }
-                        rd.append('<div class = "block">' +
-                            "<p class=\"page-information\"><img id=\"photoId" + productList[k].productId + "\" src=\"/images/" + productList[k].fotoId + "\" + width=\"150\" height=\"150\"></p>" +
+                        rd.append('<div  class = "block" >' +
+                            "<p class=\"page-information\"><img id=\"photoId" + productList[k].productId + "\" src=\"/images/" + productList[k].fotoId + "\" + width=\"130\" height=\"130\"></p>" +
                             "<p class=\"page-information\"> Name: " + productList[k].productTitle + "</p>" +
                             "<p class=\"page-information\"> Gender: " + productList[k].parameters.productGender + "</p>" +
                             "<p class=\"page-information\"> Age:  " + productList[k].parameters.productAge + "</p>" +
                             "<p class=\"page-information\"> Lifespan:  " + productList[k].parameters.productLifespan + "</p>" +
                             "<p class=\"page-information\"> Price:  " + productList[k].productPrice + "</p>" +
-                            "<input class=\"btn btn-primary\" type='submit' onclick= \"changeProduct(" + productList[k].productId + ")\"  value='Change product'/>" +
-                            "<input class=\"btn btn-danger\" type='submit' onclick= \"deleteProduct(" + productList[k].productId + ")\"  value='Delete product'/>" +
+                            "<input class=\"btn btn-primary\" type='button' onclick= \"changeProduct(" + productList[k].productId + ")\"  value='Change product'/>" +
+                            "<input class=\"btn btn-danger\" type='button' id=\'buttonDelete"+productList[k].productId +"\' onclick= \"deleteProduct(" + productList[k].productId + ")\"  value='Delete product'/>" +
                             "</div>");
-
-
                         $('#example').append(rd);
+                        if (productList[k].productQuantity === 0) {
+                            $("#buttonDelete"+productList[k].productId).hide();
+                        }
                     }
                     $("#nextPage").attr('disabled', false);
                 }

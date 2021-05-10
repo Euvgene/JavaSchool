@@ -29,8 +29,6 @@ function getProducts() {
             max_price: $("#filterMaxCost").val() ? $("#filterMaxCost").val() : null,
             product_title: $("#filterTitle").val() ? $("#filterTitle").val() : null,
             gender: $("#filterGender").val() ? $("#filterGender").val() : null,
-        }, headers: {
-            "Authorization": "Bearer " + localStorage.token
         },
         success: function (result) {
             productList = result;
