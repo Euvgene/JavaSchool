@@ -1,8 +1,5 @@
-let smallCartList= null
+let smallCartList = null
 
-function abc(a) {
-    smallCartList = a;
-}
 
 function getSmallCartProducts() {
 
@@ -10,7 +7,7 @@ function getSmallCartProducts() {
         type: "GET",
         url: 'http://localhost:8189/api/v1/cart/' + localStorage.marketCartUuid,
         success: function (result) {
-           smallCartList = result.items;
+            smallCartList = result.items;
             $('#smallCartHeader').empty()
             $('#smallCartHeader').append("<svg width=\"3em\" height=\"3em\" viewBox=\"0 0 16 16\" class=\"bi bi-cart3\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
                 "  <path fill-rule=\"evenodd\" d=\"M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z\"/>\n" +
@@ -32,7 +29,6 @@ function getSmallCartProducts() {
             } else {
                 $('#smallCart').append("<p>Cart is empty</p>");
             }
-abc(smallCartList)
         }
     });
 
@@ -55,8 +51,6 @@ clearCart = function () {
 function incrementCount(id, count, newCount) {
     count = count + newCount
     products.set(id, count)
-
-
     localStorage.setItem('productCount', JSON.stringify(Array.from(products.entries())));
     console.log(localStorage.productCount)
 }

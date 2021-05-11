@@ -5,6 +5,8 @@ import com.evgenii.my_market.entity.Cart;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.service.CartService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -35,6 +37,13 @@ public class CartController {
     @PostMapping("/clear")
     public void clearCart(@RequestParam(name = "uuid")  UUID uuid) {
         cartService.clearCart(uuid);
+    }
+
+
+    @GetMapping("/clear")
+    public ResponseEntity<?> clearOldItemsFromCArt(@RequestParam(name = "uuid")  UUID uuid) {
+       return cartService.clearOldCartItems(uuid);
+
     }
 
     @PostMapping("/delete")

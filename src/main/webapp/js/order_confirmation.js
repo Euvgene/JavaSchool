@@ -1,4 +1,17 @@
-function getOrderProducts() {
+const delay = 5500;
+let cartList = null
+
+
+let clearTable = function () {
+    $('#example').empty();
+    $('#cartHead').empty();
+    $('#cartHeader').empty();
+    $("#errorMassage").empty()
+}
+
+
+
+getOrderProducts = function () {
     $.ajax({
         type: "GET",
         url: 'http://localhost:8189/api/v1/cart/' + localStorage.marketCartUuid,

@@ -37,6 +37,8 @@
         <div id="cartButtons"   >
 
         </div>
+        <div id="errorMassage" >
+        </div>
     </div>
 </main>
 

@@ -33,8 +33,13 @@ public class CartService {
 
     @Transactional
     public Optional<Cart> findById(UUID id) {
-
-        return cartDAO.findById(id);
+        Cart cart = cartDAO.findById(id).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + id));
+        for (CartItem ci : cart.getCartItems()) {
+            if (ci.getProduct().getProductQuantity() == 0) {
+                ci.setQuantity((byte) 0);
+            }
+        }
+        return Optional.of(cart);
     }
 
     @Transactional
@@ -58,6 +63,29 @@ public class CartService {
     public void clearCart(UUID cartId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
         cart.clear();
+    }
+
+    @Transactional
+    public ResponseEntity<?> clearOldCartItems(UUID cartId) {
+        boolean isValid = true;
+        Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        List<CartItem> cartItems = cart.getCartItems();
+        ResponseEntity<?> responseEntity = ResponseEntity.ok(HttpStatus.ACCEPTED);
+        for (int i = 0; cart.getCartItems().size() > i; i++) {
+            if (cartItems.get(i).getQuantity() == 0) {
+                cartItemDAO.deleteCartItem(cartItems.get(i).getId());
+                cart.recalculate();
+                isValid = false;
+            } else if (cartItems.get(i).getProduct().getProductQuantity() < cartItems.get(i).getQuantity()) {
+                cartItems.get(i).setQuantity(cartItems.get(i).getProduct().getProductQuantity());
+                cartItems.get(i).recalculate();
+                cart.recalculate();
+                isValid = false;
+            }
+        }
+        if (isValid) return ResponseEntity.ok(HttpStatus.ACCEPTED);
+        else
+            return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "Your cart is not valid"), HttpStatus.CONFLICT);
     }
 
     @Transactional

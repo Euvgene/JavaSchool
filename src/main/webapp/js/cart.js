@@ -1,5 +1,24 @@
 let cartList = null;
 
+checkValidCount = function () {
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8189/api/v1/cart/clear",
+        data: {
+            uuid: localStorage.marketCartUuid
+        },
+        error: function () {
+            $("#errorMassage").append("<input type=\"text\" " +
+                "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;outline: none;\"" +
+                " value=' Sorry you order become invalid we will refresh it'>");
+            const delay = 2500;
+            setTimeout(function () {
+                getCartProducts();
+            }, delay);
+        }
+    });
+}
+
 function getCartProducts() {
     $.ajax({
         type: "GET",
@@ -26,7 +45,6 @@ function getCartProducts() {
                         let rd = $('<tr class="" style="height: 55px; vertical-align: 30;"></tr>');
                         count++;
                         rd.append(
-
                             "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
                             "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
                             "font-weight: bold \">"
@@ -82,14 +100,15 @@ function getCartProducts() {
                 clearTable()
                 $('#cartHeader').append("Cart is empty");
             }
+            checkValidCount(cartList);
         }
     });
 }
 
-goToOrderSubmit = function (){
-    if (!localStorage.currentUserName){
-        document.getElementById("logInMessage").style.display= "block";
-    }else {
+goToOrderSubmit = function () {
+    if (!localStorage.currentUserName) {
+        document.getElementById("logInMessage").style.display = "block";
+    } else {
         location.assign("http://localhost:8189/order-confirmation")
     }
 }

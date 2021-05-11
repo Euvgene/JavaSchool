@@ -11,7 +11,6 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Date;

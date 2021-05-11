@@ -27,7 +27,7 @@ public class OrderService {
     @Transactional
     public Order createFromUserCart(OrderConfirmDto orderConfirmDto) {
         boolean paymentState = true;
-        User user = userService.findByUsername(orderConfirmDto.getUsername()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user = userService.findByUsername(orderConfirmDto.getUsername()).orElseThrow(() -> new ResourceNotFoundException("User not found"));//TODO disable DB and check method throws exc
         Cart cart = cartService.findById(UUID.fromString(orderConfirmDto.getCartId())).orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
         if (orderConfirmDto.getPaymentMethod().equals("cash")) paymentState = false;
         Order order = new Order(cart, user, user.getUserAddress(), orderConfirmDto.getAddress(), orderConfirmDto.getPaymentMethod(), paymentState);

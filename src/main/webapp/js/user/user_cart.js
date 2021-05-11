@@ -1,7 +1,9 @@
 let cartList = null;
 const INCREMENT_COUNT = 1
 let products = null;
-let productCount=  null
+let productCount = null
+
+
 
 function getUserCartProducts() {
     products = new Map();
@@ -17,7 +19,7 @@ function getUserCartProducts() {
         success: function (result) {
             cartList = result.items;
             let count = 0;
-
+            console.log(result)
             while (count < cartList.length) {
                 clearTable()
                 $('#cartHead').append(
@@ -33,7 +35,7 @@ function getUserCartProducts() {
                     for (let k = 0; k < cartList.length; k++) {
                         if (products.has(cartList[k].productId)) {
                             productCount = products.get(cartList[k].productId);
-                        } else{
+                        } else {
                             productCount = cartList[k].quantity
                         }
                         let rd = $('<tr class="" style="height: 55px; vertical-align: 30;"></tr>');
@@ -64,6 +66,7 @@ function getUserCartProducts() {
                             "</button></td>");
 
                         $('#example').append(rd);
+
                     }
 
 
@@ -76,7 +79,7 @@ function getUserCartProducts() {
                         "<td></td></tr>");
                     $('#cartHeader').append("Cart");
                     $('#cartButtons').append(
-                    "<button class=\"btn btn-danger\" type='button' id=\"clearCart\" " +
+                        "<button class=\"btn btn-danger\" type='button' id=\"clearCart\" " +
                         "onclick=\"clearCart()\"" +
                         "style='margin-right: 10px'>" +
                         "Clear cart" +
@@ -86,20 +89,19 @@ function getUserCartProducts() {
                         "</button>" +
                         "<p id='logInMessage' style='color: red; display: none; margin-top: 10px'>Please Log in!</p>");
                     document.getElementById('cartButtons').hidden = false;
-
-
                 }
             }
             if (cartList.length === 0) {
                 clearTable()
                 $('#cartHeader').append("Cart is empty");
             }
+
         }
     });
 }
 
-goToOrderSubmit = function (){
-        location.assign("http://localhost:8189/order-confirmation")
+goToOrderSubmit = function () {
+    location.assign("http://localhost:8189/order-confirmation")
 }
 
 clearTable = function () {
@@ -125,7 +127,7 @@ clearCart = function () {
 
 function incrementCount(id, count, newCount) {
     count = count + newCount
-    products.set(id, count )
+    products.set(id, count)
     console.log(products)
 
     localStorage.setItem('productCount', JSON.stringify(Array.from(products.entries())));
