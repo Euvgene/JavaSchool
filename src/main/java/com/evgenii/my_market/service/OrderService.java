@@ -70,9 +70,9 @@ public class OrderService {
         }
     }
 
-    public List<StatisticDto> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate, int page) {
-        int total = 5;
-        return orderDAO.getStatistic(statisticName, fromDate, toDate, getPage(page, total)).stream().map(StatisticDto::new).collect(Collectors.toList());
+    public List<StatisticDto> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate) {
+
+        return orderDAO.getStatistic(statisticName, fromDate, toDate).stream().map(StatisticDto::new).collect(Collectors.toList());
     }
 
 

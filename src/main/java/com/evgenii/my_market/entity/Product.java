@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -38,6 +40,7 @@ public class Product implements Serializable {
     private String fotoId;
 
     @Column(name = "quantity")
+    @Min(value = 0)
     private byte productQuantity;
 
     public Product(ProductDto productDto) {

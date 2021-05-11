@@ -20,6 +20,7 @@ import java.util.function.Function;
 @Component
 @PropertySource({"classpath:secured.properties"})
 public class JwtTokenUtil {
+    private final int LIFECYCLE_TOKEN = 50 * 60 * 1000;
     @Value("${jwt.secret}")
     private String secret;
 
@@ -31,7 +32,7 @@ public class JwtTokenUtil {
         claims.put("roles", rolesList);
 
         Date issuedDate = new Date();
-        Date expiredDate = new Date(issuedDate.getTime() + 50 * 60 * 1000);
+        Date expiredDate = new Date(issuedDate.getTime() + LIFECYCLE_TOKEN);
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())

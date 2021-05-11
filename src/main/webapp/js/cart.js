@@ -99,6 +99,7 @@ clearTable = function () {
     $('#cartHead').empty();
     $('#cartHeader').empty();
     $('#cartButtons').empty();
+    $("#errorMassage").empty()
     document.getElementById('cartButtons').hidden = true;
 }
 

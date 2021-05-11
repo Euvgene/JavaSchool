@@ -1,6 +1,7 @@
 package com.evgenii.my_market.config;
 
 
+import com.evgenii.my_market.exception_handling.CustomGlobalExceptionHandler;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {
-//    private final UserDetailsService userDetailsService;
+    //    private final UserDetailsService userDetailsService;
     private final JwtTokenUtil jwtTokenUtil;
 
 
@@ -34,10 +35,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwt);
             } catch (ExpiredJwtException e) {
-                System.out.println("The token is expired");
-//                String error = JsonUtils.convertObjectToJson(new BookServiceError(HttpStatus.UNAUTHORIZED.value(), "Jwt is expired"));
-//                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, error);
-//                return;
+
             }
         }
 

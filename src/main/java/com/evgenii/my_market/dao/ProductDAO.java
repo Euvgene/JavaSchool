@@ -24,7 +24,7 @@ public class ProductDAO {
 
         TypedQuery<Product> query = entityManager.createQuery(
                 "SELECT p FROM Product p WHERE" +
-                        " p.productPrice > :min_price and p.productPrice < :max_price and" +
+                        " p.productPrice >= :min_price and p.productPrice <= :max_price and" +
                         " p.productParams.productGender like :gender and  p.productTitle like :name " +
                         " order by p.productPrice ", Product.class)
                 .setFirstResult(p)

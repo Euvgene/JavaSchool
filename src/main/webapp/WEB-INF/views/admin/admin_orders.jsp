@@ -33,7 +33,7 @@
             <div class="form-group col-md-3">
                 <label for="state" >State</label>
                 <select class="form-select" id="state" required="">
-                    <option value="0">Choose...</option>
+                    <option value="0">ALl</option>
                     <option value="1">Active</option>
                     <option value="2">Delivered</option>
                     <option value="3">Return</option>

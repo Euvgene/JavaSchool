@@ -1,8 +1,6 @@
 package com.evgenii.my_market.dao;
 
-import com.evgenii.my_market.dto.StatisticDto;
 import com.evgenii.my_market.entity.*;
-import org.hibernate.SQLQuery;
 import org.hibernate.type.*;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +21,6 @@ public class OrderDAO {
 
     public Order saveOrder(Order order) {
         entityManager.persist(order);
-        entityManager.flush();
         return order;
     }
 
@@ -84,7 +81,7 @@ public class OrderDAO {
                 .getResultList();
     }
 
-    public List<Object[]> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate,int page) {
+    public List<Object[]> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate) {
         String myQuery = null;
         switch (statisticName) {
             case "product":
@@ -106,7 +103,6 @@ public class OrderDAO {
 
         Query query = entityManager.createNativeQuery(myQuery)
                 .unwrap(org.hibernate.query.NativeQuery.class)
-                .setFirstResult(page)
                 .addScalar("name", StringType.INSTANCE)
                 .addScalar("count", IntegerType.INSTANCE)
                 .setParameter("from_date",fromDate)

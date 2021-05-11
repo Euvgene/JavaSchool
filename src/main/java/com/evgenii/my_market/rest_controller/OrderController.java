@@ -27,10 +27,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
+    private final String DEFAULT_VALUE_FROM_DATE = "1990-01-01";
+    private final String DEFAULT_VALUE_TO_DATE = "3000-01-01";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderDto createOrderFromCart( Principal principal, @Valid @RequestBody OrderConfirmDto order) {
+    public OrderDto createOrderFromCart(Principal principal, @Valid @RequestBody OrderConfirmDto order) {
         order.setUsername(principal.getName());
         Order newOrder = orderService.createFromUserCart(order);
         return new OrderDto(newOrder);
@@ -44,9 +46,9 @@ public class OrderController {
 
     @GetMapping
     public List<OrderDto> getCurrentUserOrders(@RequestParam(name = "page", defaultValue = "1") int page,
-                                               @RequestParam(name = "first_date", defaultValue = "1990-01-01")
+                                               @RequestParam(name = "first_date", defaultValue = DEFAULT_VALUE_FROM_DATE)
                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
-                                               @RequestParam(name = "second_date", defaultValue = "3000-01-01")
+                                               @RequestParam(name = "second_date", defaultValue = DEFAULT_VALUE_TO_DATE)
                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
                                                Principal principal) {
 
@@ -55,9 +57,9 @@ public class OrderController {
 
     @GetMapping("/all")
     public List<OrderDto> getAllOrders(@RequestParam(name = "page", defaultValue = "1") int page,
-                                       @RequestParam(name = "first_date", defaultValue = "1990-01-01")
+                                       @RequestParam(name = "first_date", defaultValue = DEFAULT_VALUE_FROM_DATE)
                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
-                                       @RequestParam(name = "second_date", defaultValue = "3000-01-01")
+                                       @RequestParam(name = "second_date", defaultValue = DEFAULT_VALUE_TO_DATE)
                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
                                        @RequestParam(name = "state", defaultValue = "") String state) {
 
@@ -66,7 +68,7 @@ public class OrderController {
 
     @GetMapping("/update")
     public void updateOrder(@RequestParam(name = "order_id") UUID orderId,
-                            @RequestParam(name = "delivery_address")@Pattern(regexp = "^[-.,;:a-zA-Z0-9_ ]*$",
+                            @RequestParam(name = "delivery_address") @Pattern(regexp = "^[-.,;:a-zA-Z0-9_ ]*$",
                                     message = "Invalid address format") @NotEmpty(message = "Please provide a country")
                                     String orderAddress,
                             @RequestParam(name = "state") String orderState) {
@@ -75,13 +77,12 @@ public class OrderController {
     }
 
     @GetMapping("/statistic")
-    public List getStatistic(@RequestParam(name = "page", defaultValue = "1") int page,
-                             @RequestParam(name = "statistic_name") String statisticName,
-                             @RequestParam(name = "first_date", defaultValue = "1990-01-01")
+    public List getStatistic(@RequestParam(name = "statistic_name") String statisticName,
+                             @RequestParam(name = "first_date", defaultValue = DEFAULT_VALUE_FROM_DATE)
                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
-                             @RequestParam(name = "second_date", defaultValue = "3000-01-01")
+                             @RequestParam(name = "second_date", defaultValue = DEFAULT_VALUE_TO_DATE)
                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
 
-        return orderService.getStatistic(statisticName, fromDate, toDate, page);
+        return orderService.getStatistic(statisticName, fromDate, toDate);
     }
 }

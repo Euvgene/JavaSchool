@@ -6,8 +6,11 @@ import com.evgenii.my_market.entity.Cart;
 import com.evgenii.my_market.entity.CartItem;
 import com.evgenii.my_market.entity.Product;
 import com.evgenii.my_market.entity.User;
+import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

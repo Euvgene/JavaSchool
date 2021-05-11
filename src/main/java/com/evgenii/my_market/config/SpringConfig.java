@@ -12,7 +12,6 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -60,15 +59,13 @@ public class SpringConfig implements WebMvcConfigurer {
         try {
             myDataSource.setDriverClass("com.mysql.jdbc.Driver");
         } catch (PropertyVetoException exc) {
-            throw new RuntimeException(exc); //TODO specify exception, google do not stop the app on DB connection lost
+            throw new RuntimeException(exc); /*TODO specify exception, google do not stop the app on DB connection lost*/
         }
 
-        // set database connection props
         myDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
         myDataSource.setUser(env.getProperty("jdbc.user"));
         myDataSource.setPassword(env.getProperty("jdbc.password"));
 
-        // set connection pool props
         myDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
         myDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
         myDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
@@ -78,53 +75,21 @@ public class SpringConfig implements WebMvcConfigurer {
     }
 
     private Properties getHibernateProperties() {
-
-        // set hibernate properties
         Properties props = new Properties();
-
         props.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
         props.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-
         return props;
     }
 
 
-    // need a helper method
-    // read environment property and convert to int
-
-    private int getIntProperty(String propName) {
+    private int getIntProperty(String propName) { /*todo test if null*/
 
         String propVal = env.getProperty(propName);
-
-        // now convert to int
 
         assert propVal != null;
         return Integer.parseInt(propVal);
     }
 
-    /*@Bean
-    public LocalSessionFactoryBean sessionFactory(){
-
-        // create session factorys
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-
-        // set the properties
-        sessionFactory.setDataSource(myDataSource());
-        sessionFactory.setPackagesToScan(env.getProperty("hibernate.packagesToScan"));
-        sessionFactory.setHibernateProperties(getHibernateProperties());
-
-        return sessionFactory;
-    }*/
-
-    /*@Bean
-    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
-
-        // setup transaction manager based on session factory
-        HibernateTransactionManager txManager = new HibernateTransactionManager();
-        txManager.setSessionFactory(sessionFactory);
-
-        return txManager;
-    }*/
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -140,16 +105,6 @@ public class SpringConfig implements WebMvcConfigurer {
         return em;
     }
 
-    /*@Bean
-    public DataSource dataSource(){
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/my_store");
-        dataSource.setUsername( "root" );
-        dataSource.setPassword( "root" );
-        return dataSource;
-    }*/
-
 
     @Bean
     public PlatformTransactionManager transactionManager() {
@@ -159,10 +114,6 @@ public class SpringConfig implements WebMvcConfigurer {
         return transactionManager;
     }
 
-  /*  @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
-        return new PersistenceExceptionTranslationPostProcessor();
-    }*/
 
     Properties additionalProperties() {
         Properties properties = new Properties();
