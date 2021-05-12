@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -84,14 +83,8 @@ public class OrderDAO {
     public List<Object[]> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate) {
         String myQuery = null;
         switch (statisticName) {
-            case "product":
-                myQuery = "SELECT p.productTitle name,count(*) as count " +
-                        "FROM order_items o INNER JOIN products p ON o.product_id = p.product_id where  o.created_at >= :from_date and o.created_at <= :to_date + INTERVAL 1 DAY " +
-                        "GROUP BY p.productTitle " +
-                        "order by count desc  limit 10 ";
-                break;
             case "user":
-                myQuery = "SELECT first_name name,count(*) as count " +
+                myQuery = "SELECT first_name name,sum(price) as count " +
                         "FROM orders o INNER JOIN users u ON o.owner_id = u.user_id where  o.created_at >= :from_date and o.created_at <= :to_date " +
                         "GROUP BY owner_id asc limit 10;";
                 break;
@@ -105,6 +98,20 @@ public class OrderDAO {
                 .unwrap(org.hibernate.query.NativeQuery.class)
                 .addScalar("name", StringType.INSTANCE)
                 .addScalar("count", IntegerType.INSTANCE)
+                .setParameter("from_date",fromDate)
+                .setParameter("to_date",toDate);
+        return query.getResultList();
+    }
+
+    public List<Object[]> getProductStatistic(LocalDate fromDate, LocalDate toDate) {
+        Query query = entityManager.createNativeQuery( "SELECT p.productTitle name,count(*) as count, p.price as price " +
+                "FROM order_items o INNER JOIN products p ON o.product_id = p.product_id where  o.created_at >= :from_date and o.created_at <= :to_date + INTERVAL 1 DAY " +
+                "GROUP BY p.productTitle " +
+                "order by count desc  limit 10 ")
+                .unwrap(org.hibernate.query.NativeQuery.class)
+                .addScalar("name", StringType.INSTANCE)
+                .addScalar("count", IntegerType.INSTANCE)
+                .addScalar("price", IntegerType.INSTANCE)
                 .setParameter("from_date",fromDate)
                 .setParameter("to_date",toDate);
         return query.getResultList();

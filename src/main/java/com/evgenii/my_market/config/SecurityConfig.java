@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/asd").hasRole("USER")
-                .antMatchers("/api/v1/user-orders").hasAuthority("ROLE_USER")
+                .antMatchers("/user-cart").hasAuthority("ROLE_USER")
                 .antMatchers("/addproducts").hasAuthority("ROLE_ADMIN")
                 /*      .antMatchers("/user-cart").hasRole("USER")*//*todo*/
                 .antMatchers("/products").permitAll()
@@ -39,8 +39,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .headers().frameOptions().disable()
                 .and()
-                .logout().logoutUrl("/logout").logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
-                .deleteCookies("auth_code", "JSESSIONID").invalidateHttpSession(true);
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID");
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }

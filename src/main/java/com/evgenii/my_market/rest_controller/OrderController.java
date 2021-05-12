@@ -85,4 +85,14 @@ public class OrderController {
 
         return orderService.getStatistic(statisticName, fromDate, toDate);
     }
+
+    @GetMapping("/product-statistic")
+    public List getProductStatistic(
+                             @RequestParam(name = "first_date", defaultValue = DEFAULT_VALUE_FROM_DATE)
+                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+                             @RequestParam(name = "second_date", defaultValue = DEFAULT_VALUE_TO_DATE)
+                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
+
+        return orderService.getProductStatistic(fromDate, toDate);
+    }
 }

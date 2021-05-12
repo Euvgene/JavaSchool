@@ -97,9 +97,7 @@
                 </div>
             </form>
             <div style="margin-top: 20px">
-                <button class="w-100 btn btn-primary btn-lg" type="submit" id="confirmOrder" >
-                    Creat order
-                </button>
+                <input class="w-100 btn btn-primary btn-lg" type="button" id="confirmOrder" value="Pay for the order" >
             </div>
         </div>
     </div>

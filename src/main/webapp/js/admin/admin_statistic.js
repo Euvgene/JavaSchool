@@ -1,15 +1,29 @@
-let statisticName = null;
+localStorage.statisticName = "product";
 clearTable = function () {
     $('#cartHeader').empty();
-    $('#pagination').empty();
     $('#cartHead').empty();
 }
 
-setPageIndex = function (){
+setPageIndex = function () {
     localStorage.setItem("orderPageIndx", 1);
 }
 
+function checkFirstDate() {
+    if ($("#firstDate").val() !== "" && $("#secondDate").val() !== "") {
+        if ($("#firstDate").val() > $("#secondDate").val()) $("#secondDate").val($("#firstDate").val())
+
+
+    }
+}
+
+function checkSecondDate() {
+    if ($("#firstDate").val() !== "" && $("#secondDate").val() !== "") {
+        if ($("#secondDate").val() < $("#firstDate").val()) $("#firstDate").val($("#secondDate").val())
+    }
+}
+
 function getStatistic(name) {
+    localStorage.statisticName = name;
     $.ajax({
         type: "GET",
         url: "http://localhost:8189/api/v1/orders/statistic",
@@ -17,7 +31,6 @@ function getStatistic(name) {
             "Authorization": "Bearer " + localStorage.token
         },
         data: {
-            page: localStorage.orderPageIndx,
             statistic_name: name,
             first_date: $("#firstDate").val() ? $("#firstDate").val() : null,
             second_date: $("#secondDate").val() ? $("#secondDate").val() : null
@@ -34,24 +47,12 @@ function getStatistic(name) {
                 "                        <td align='center' style='white-space: nowrap'>Count</td>" +
                 "                    </tr>");
             let count = 0;
-            $('#cartHeader').append("Statistic");
-            if (name !== "proceeds"){
-                $('#pagination').append("  <ul class=\"pagination\">" +
-                    "                <li class=\"page-item\" id='prePage'>" +
-                    "                    <button class=\"page-link\" tabIndex=\"-1\" onclick=\"prePage()\">Previous</button>" +
-                    "                </li>\n" +
-                    "                <li class=\"page-item active\" aria-current=\"page\" id=\"currentPage\">" +
-                    "                </li>\n" +
-                    "                <li class=\"page-item\" id='nextPage'>" +
-                    "                    <button class=\"page-link\" onclick=\"nextPage()\">Next</button>" +
-                    "                </li>\n" +
-                    "            </ul>");
-            }
+            $('#example').empty();
+            if (order.length > 0) {
+                $('#cartHeader').append("Statistic");
 
-            $('#currentPage').empty();
-            while (count < order.length) {
-                $('#example').empty();
-                if (order.length > 0) {
+                while (count < order.length) {
+
 
                     for (let k = 0; k < order.length; k++) {
                         count++;
@@ -71,65 +72,99 @@ function getStatistic(name) {
                             "</tr>");
                     }
 
-                    $("#nextPage").attr('disabled', false);
-                } else {
-                    $('#cartHeader').append("Statistic is empty");
                 }
-            }
-            if (order.length > 0) {
-                $('#currentPage').append("<span class=\"page-link\">" + localStorage.orderPageIndx + "</span>");
-            }
-            if (order.length === 0 && localStorage.orderPageIndx > 1) {
-               /* $("#nextPage").attr('disabled', true);*/
-                let orderPageIndx = Number(localStorage.getItem("orderPageIndx"));
-                localStorage.setItem("orderPageIndx", --orderPageIndx);
-                $('#currentPage').append("<span class=\"page-link\">" + localStorage.orderPageIndx + "</span>");
-            } else if (order.length === 0) {
-                clearTable();
-                $('#example').empty();
+            } else {
+                clearTable()
                 $('#cartHeader').append("Statistic is empty");
             }
         }
     })
 }
 
-prePage = function () {
-    if (localStorage.orderPageIndx < 2) {
-        $(this).attr('disabled', true);
+
+function getProductStatistic() {
+    localStorage.statisticName = "product";
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8189/api/v1/orders/product-statistic",
+        headers: {
+            "Authorization": "Bearer " + localStorage.token
+        },
+        data: {
+            first_date: $("#firstDate").val() ? $("#firstDate").val() : null,
+            second_date: $("#secondDate").val() ? $("#secondDate").val() : null
+        },
+        success: function (response) {
+            console.log(response)
+            let order = response;
+            clearTable();
+            $('#cartHead').append(
+                "                    <tr>" +
+                "                        <td align='center' style='white-space: nowrap'>Name</td>" +
+                "                        <td align='center' style='white-space: nowrap'>Count</td>" +
+                "                        <td align='center' style='white-space: nowrap'>Price</td>" +
+                "                        <td align='center' style='white-space: nowrap'>Total price</td>" +
+                "                    </tr>");
+            let count = 0;
+            $('#example').empty();
+            if (order.length > 0) {
+                $('#cartHeader').append("Product statistic");
+                while (count < order.length) {
+                    for (let k = 0; k < order.length; k++) {
+                        count++;
+                        let rd = $('<tr class=""></tr>');
+                        rd.append(
+                            "<td align='center' '> " + order[k].name + " </td>" +
+                            "<td align='center' '> " + order[k].number + '' + '</td>' +
+                            "<td align='center' >" + order[k].pricePerProduct + "" + " $" + "</td>" +
+                            "<td align='center' >" + order[k].pricePerProduct * order[k].number + "" + " $" + "</td>");
+                        $('#example').append(rd);
+                    }
+                }
+            } else {
+                clearTable()
+                $('#cartHeader').append("Statistic is empty");
+            }
+        }
+
+    })
+}
+
+function chooseStatistic() {
+    console.log(localStorage.statisticName)
+    if (localStorage.statisticName === "product") {
+        getProductStatistic()
     } else {
-        $(this).attr('disabled', false);
-        const orderPageIndx = Number(localStorage.getItem("orderPageIndx"));
-        localStorage.setItem("orderPageIndx", String(orderPageIndx - 1));
-
-        getStatistic(statisticName);
+        getStatistic(localStorage.statisticName)
     }
-};
 
-nextPage = function () {
-    let pageIndx = Number(localStorage.getItem("orderPageIndx"));
-    localStorage.setItem("orderPageIndx", ++pageIndx);
-    getStatistic(statisticName);
-};
+}
+
 $(document).ready(function () {
-    localStorage.setItem("orderPageIndx", 1);
+    getProductStatistic();
     $("#productButton").click(function (event) {
         event.preventDefault();
-        statisticName = "product"
-        setPageIndex()
-        getStatistic(statisticName);
+        getProductStatistic();
     });
 
     $("#userButton").click(function (event) {
         event.preventDefault();
-        statisticName = "user"
-        setPageIndex()
-        getStatistic(statisticName)
+        getStatistic("user")
     });
 
     $("#proceeds").click(function (event) {
         event.preventDefault();
-        statisticName = "proceeds"
-        setPageIndex()
-        getStatistic(statisticName);
+        getStatistic("proceeds");
     });
+
+    $("#firstDate").on('change', function (event) {
+        event.preventDefault();
+        checkFirstDate()
+        chooseStatistic();
+    })
+    $("#secondDate").on('change', function (event) {
+        event.preventDefault();
+        checkSecondDate()
+        chooseStatistic();
+    })
 });

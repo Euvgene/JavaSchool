@@ -1,6 +1,5 @@
-const delay = 5500;
+const delay = 3500;
 let cartList = null
-
 
 let clearTable = function () {
     $('#example').empty();
@@ -9,6 +8,25 @@ let clearTable = function () {
     $("#errorMassage").empty()
 }
 
+function checkValidCount(isChecked) {
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8189/api/v1/cart/clear",
+        data: {
+            uuid: localStorage.marketCartUuid
+        },
+        success: function () {
+            if (isChecked) createOrder()
+        }, error: function () {
+            $("#errorMassage").append("<input type=\"text\" " +
+                "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;outline: none;\"" +
+                " value=' Sorry you order become invalid we will refresh it'>");
+            setTimeout(function () {
+                getOrderProducts();
+            }, delay);
+        }
+    });
+}
 
 
 getOrderProducts = function () {
@@ -28,7 +46,6 @@ getOrderProducts = function () {
                     "                        <td >Price</td>" +
                     "                    </tr>");
 
-                console.log(cartList);
                 if (cartList.length > 0) {
                     for (let k = 0; k < cartList.length; k++) {
 
@@ -64,6 +81,7 @@ getOrderProducts = function () {
                     location.assign("http://localhost:8189/user-products")
                 }, delay);
             }
+
         }
     });
 }
@@ -74,76 +92,47 @@ appendMessage = function (response) {
         " value='" + response + "'>")
 }
 
-createOrder = function (isValid) {
-    console.log(localStorage.marketCartUuid)
+createOrder = function () {
+
     const order = {
         cartId: localStorage.marketCartUuid,
         address: $('#deliveryToHome').is(':checked') ? $('#orderAddress').val() : "from store",
         paymentMethod: $('#creditCart').is(':checked') ? "credit card" : "cash"
     }
     if ($("#addressForm").valid() && $("#paymentForm").valid()) {
-        if (isValid === 1) {
-            $.ajax({
-                type: "POST",
-                url: "http://localhost:8189/api/v1/orders",
-                headers: {
-                    "Authorization": "Bearer " + localStorage.token
-                },
-                contentType: "application/json",
-                data: JSON.stringify(order),
-                success: function (result) {
-                    console.log(result)
-                    localStorage.orderUuid = result.orderId;
-                    console.log(localStorage.orderUuid)
-                    location.assign("http://localhost:8189/orders-result")
 
-                }, error: function (response) {
-                    console.log(response)
-                    if (response.responseJSON.message.length > 1) {
-                        for (let k = 0; k < response.responseJSON.message.length; k++) {
-                            appendMessage(response.responseJSON.message[k])
-                        }
-                    } else {
-                        appendMessage(response.responseJSON.message)
-                    }
-                }
-            });
-        }
-
-    }
-}
-
-function checkValidCount() {
-    let isValidCount = 0;
-    return function () {
         $.ajax({
-            type: "GET",
-            url: "http://localhost:8189/api/v1/cart/clear",
-            data: {
-                uuid: localStorage.marketCartUuid
+            type: "POST",
+            url: "http://localhost:8189/api/v1/orders",
+            headers: {
+                "Authorization": "Bearer " + localStorage.token
             },
-            success: function () {
-                isValidCount = 1;
-            }, error: function () {
-                $("#errorMassage").append("<input type=\"text\" " +
-                    "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;outline: none;\"" +
-                    " value=' Sorry you order become invalid we will refresh it'>");
-                isValidCount = 0;
-                setTimeout(function () {
-                    getOrderProducts();
-                }, delay);
+            contentType: "application/json",
+            data: JSON.stringify(order),
+            success: function (result) {
+                localStorage.orderUuid = result.orderId;
+                location.assign("http://localhost:8189/orders-result")
+            }, error: function (response) {
+                if (response.responseJSON.message.length > 1) {
+                    for (let k = 0; k < response.responseJSON.message.length; k++) {
+                        appendMessage(response.responseJSON.message[k])
+                    }
+                } else {
+                    appendMessage(response.responseJSON.message)
+                }
             }
         });
-        console.log(isValidCount)
-        return isValidCount;
     }
 }
 
-let valid = checkValidCount();
+
+function checkValidOrder() {
+    checkValidCount(true)
+}
 
 $(document).ready(function () {
     getOrderProducts()
-    valid()
+    checkValidCount(false)
     $('#deliveryToHome').click(function () {
         if ($(this).is(':checked')) {
             $('#address').show(100);
@@ -168,11 +157,12 @@ $(document).ready(function () {
         if ($(this).is(':checked')) {
             $('#cash').prop("checked", false)
             $('#creditCartPayment').show(100);
+            $("#confirmOrder").prop('value', "Pay for the order")
 
         } else {
             $('#cash').prop("checked", true)
             $('#creditCartPayment').hide(100);
-
+            $("#confirmOrder").prop('value', "Create order")
         }
     });
 
@@ -180,14 +170,16 @@ $(document).ready(function () {
         if ($(this).is(':checked')) {
             $('#creditCart').prop("checked", false)
             $('#creditCartPayment').hide(100);
+            $("#confirmOrder").prop('value', "Create order")
         } else {
             $('#creditCart').prop("checked", true)
             $('#creditCartPayment').show(100);
+            $("#confirmOrder").prop('value', "Pay for the order")
         }
     });
 
     $('#confirmOrder').click(function () {
-        createOrder(valid());
+        checkValidOrder()
     });
 
 });

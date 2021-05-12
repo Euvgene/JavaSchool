@@ -9,7 +9,7 @@ deleteProduct = function (id) {
             product_id: id,
         },
         success: function (result) {
-            $("#buttonDelete"+id).hide(100);
+            $("#buttonDelete" + id).hide(100);
         }
     })
 }
@@ -52,12 +52,14 @@ function getProducts() {
                             "<p class=\"page-information\"> Age:  " + productList[k].parameters.productAge + "</p>" +
                             "<p class=\"page-information\"> Lifespan:  " + productList[k].parameters.productLifespan + "</p>" +
                             "<p class=\"page-information\"> Price:  " + productList[k].productPrice + "</p>" +
+                            "<p class=\"page-information\" id=\"quantity" + productList[k].productId + "\"> Quantity:  " + productList[k].productQuantity + "</p>" +
                             "<input class=\"btn btn-primary\" type='button' onclick= \"changeProduct(" + productList[k].productId + ")\"  value='Change product'/>" +
-                            "<input class=\"btn btn-danger\" type='button' id=\'buttonDelete"+productList[k].productId +"\' onclick= \"deleteProduct(" + productList[k].productId + ")\"  value='Delete product'/>" +
+                            "<input class=\"btn btn-danger\" type='button' id=\'buttonDelete" + productList[k].productId + "\' onclick= \"deleteProduct(" + productList[k].productId + ")\"  value='Delete product'/>" +
                             "</div>");
                         $('#example').append(rd);
                         if (productList[k].productQuantity === 0) {
-                            $("#buttonDelete"+productList[k].productId).hide();
+                            $("#buttonDelete" + productList[k].productId).hide();
+                            $("#quantity" + productList[k].productId).css("color","red");
                         }
                     }
                     $("#nextPage").attr('disabled', false);

@@ -3,6 +3,7 @@ package com.evgenii.my_market.service;
 import com.evgenii.my_market.dao.OrderDAO;
 import com.evgenii.my_market.dto.OrderConfirmDto;
 import com.evgenii.my_market.dto.OrderDto;
+import com.evgenii.my_market.dto.ProductStatisticDto;
 import com.evgenii.my_market.dto.StatisticDto;
 import com.evgenii.my_market.entity.*;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
@@ -71,9 +72,13 @@ public class OrderService {
     }
 
     public List<StatisticDto> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate) {
-
         return orderDAO.getStatistic(statisticName, fromDate, toDate).stream().map(StatisticDto::new).collect(Collectors.toList());
     }
+
+    public List<ProductStatisticDto> getProductStatistic(LocalDate fromDate, LocalDate toDate) {
+        return orderDAO.getProductStatistic( fromDate, toDate).stream().map(ProductStatisticDto::new).collect(Collectors.toList());
+    }
+
 
 
     private int getPage(int page, int total) {

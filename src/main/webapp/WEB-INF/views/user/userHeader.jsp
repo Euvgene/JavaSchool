@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <header>
     <meta charset="utf-8" >
@@ -41,9 +42,9 @@
                     </li>
                 </ul>
                 <form class="d-flex "  id="navLoginSubmit">
-                    <button id="exitButton" class="btn btn-outline-success mt-2" style="margin-left: 10px; white-space: nowrap"
-                            type="submit">Exit
-                    </button>
+                    <input id="exitButton" class="btn btn-outline-success mt-2" style="margin-left: 10px; white-space: nowrap"
+                            type="submit" value="Exit">
+
                 </form>
             </div>
         </div>
