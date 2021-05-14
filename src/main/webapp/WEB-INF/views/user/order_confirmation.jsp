@@ -71,7 +71,7 @@
                 <div class="row gy-3" id="creditCartPayment">
                     <div class="col-md-6">
                         <label for="cc-name" class="form-label">Name on card</label>
-                        <input type="text" class="form-control" id="cc-name" placeholder="JOHN BLACK" name="cardname">
+                        <input type="text" class="form-control" id="cc-name" placeholder="JOHN BLACK" name="cardname" style="text-transform: uppercase">
                         <small class="text-muted">Full name as displayed on card</small>
                     </div>
 

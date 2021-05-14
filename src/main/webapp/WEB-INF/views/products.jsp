@@ -50,16 +50,8 @@
             <div>
                 <button class="btn btn-success" type="submit" id="filterButton">Submit</button>
             </div>
-        <nav style="margin-left: 15px">
+        <nav aria-label="Page navigation">
             <ul class="pagination" id="pagination">
-                <li class="page-item" id="prePage">
-                    <button class="page-link" tabindex="-1" >Previous</button>
-                </li>
-                <li class="page-item active" aria-current="page" id="currentPage">
-                </li>
-                <li class="page-item" id="nextPage">
-                    <button class="page-link" >Next</button>
-                </li>
             </ul>
         </nav>
         <div>

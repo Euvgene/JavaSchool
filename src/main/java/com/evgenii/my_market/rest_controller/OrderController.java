@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.math.BigInteger;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
@@ -55,6 +56,25 @@ public class OrderController {
         return orderService.findAllOrdersByOwnerName(principal.getName(), fromDate, toDate, page);
     }
 
+    @GetMapping("get-user-order-page-count")
+    public BigInteger getCurrentUserOrdersCount(@RequestParam(name = "first_date", defaultValue = DEFAULT_VALUE_FROM_DATE)
+                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+                                                @RequestParam(name = "second_date", defaultValue = DEFAULT_VALUE_TO_DATE)
+                                                @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+                                                Principal principal) {
+        return orderService.getOrdersCountByOwnerName(principal.getName(), fromDate, toDate);
+    }
+
+    @GetMapping("get-all-order-page-count")
+    public BigInteger getAllUserOrdersCount(@RequestParam(name = "first_date", defaultValue = DEFAULT_VALUE_FROM_DATE)
+                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+                                            @RequestParam(name = "second_date", defaultValue = DEFAULT_VALUE_TO_DATE)
+                                            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+                                            @RequestParam(name = "state", defaultValue = "") String state) {
+
+        return orderService.getOrdersCount(fromDate, toDate, state);
+    }
+
     @GetMapping("/all")
     public List<OrderDto> getAllOrders(@RequestParam(name = "page", defaultValue = "1") int page,
                                        @RequestParam(name = "first_date", defaultValue = DEFAULT_VALUE_FROM_DATE)
@@ -88,10 +108,10 @@ public class OrderController {
 
     @GetMapping("/product-statistic")
     public List getProductStatistic(
-                             @RequestParam(name = "first_date", defaultValue = DEFAULT_VALUE_FROM_DATE)
-                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
-                             @RequestParam(name = "second_date", defaultValue = DEFAULT_VALUE_TO_DATE)
-                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
+            @RequestParam(name = "first_date", defaultValue = DEFAULT_VALUE_FROM_DATE)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+            @RequestParam(name = "second_date", defaultValue = DEFAULT_VALUE_TO_DATE)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
 
         return orderService.getProductStatistic(fromDate, toDate);
     }

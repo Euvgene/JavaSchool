@@ -21,31 +21,23 @@
 <main class="flex-shrink-0" style="margin-top: 80px;">
 
     <div class="container mt-auto" style="margin-top: 100px;">
-        <div class="form-group row">
-            <div class="form-group col-md-3">
+        <div class="form-group row" >
+            <div class="form-group col-md-3" style=" margin: auto" align="center">
                 <label for="firstDate">From date</label>
                 <input class="form-control" type="date" id="firstDate">
             </div>
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-3" style=" margin: auto" align="center">
                 <label for="secondDate">To date</label>
                 <input class="form-control" type="date" id="secondDate">
             </div>
-            <div class="form-group col-md-3">
-                <label for="state" >State</label>
+            <div class="form-group col-md-3" style=" margin: auto" align="center">
+                <label for="state">State</label>
                 <select class="form-select" id="state" required="">
-                    <option value="0">ALl</option>
+                    <option value="0">ALL</option>
                     <option value="1">Active</option>
                     <option value="2">Delivered</option>
                     <option value="3">Return</option>
                 </select>
-
-                <div class="invalid-feedback">
-                    Please provide a valid state.
-                </div>
-
-            </div>
-            <div class="form-group col-md-1" style="margin-top: 23px">
-                <button class="btn btn-success" type="submit" id="filterButton">Submit</button>
             </div>
         </div>
 
@@ -54,28 +46,28 @@
 
         <div>
             <form id='changeOrderForm'>
-            <table class="table table-success table-striped" cellpadding="0" cellspacing="0"
-                   style="border-collapse: separate;">
-                <style>
-                    thead {
-                        font-size: 1.3rem;
-                    }
+                <table class="table table-success table-striped" cellpadding="0" cellspacing="0"
+                       style="border-collapse: separate;">
+                    <style>
+                        thead {
+                            font-size: 1.3rem;
+                        }
 
-                    .justify-content-md-center {
-                        height: 55px;
-                        align-items: center;
-                    }
-                </style>
-                <thead id="cartHead"></thead>
-                <tbody id="example"></tbody>
+                        .justify-content-md-center {
+                            height: 55px;
+                            align-items: center;
+                        }
+                    </style>
+                    <thead id="cartHead"></thead>
+                    <tbody id="example"></tbody>
 
-            </table>
+                </table>
             </form>
         </div>
-        <nav id="pagination">
-
+        <nav aria-label="Page navigation">
+            <ul class="pagination" id="pagination">
+            </ul>
         </nav>
-
     </div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>

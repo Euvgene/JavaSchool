@@ -18,8 +18,7 @@
 <main class="flex-shrink-0">
 
     <div class="col-md-6" style="margin: auto">
-        <h3  style="margin-top: 100px;">Filter</h3>
-        <div class="form-group row">
+        <div class="form-group row" style="margin-top: 100px;">
             <div class="form-group col-md-3">
                 <label for="firstDate">From date</label>
                 <input class="form-control" type="date" id="firstDate">
@@ -30,11 +29,7 @@
             </div>
         </div>
 
-        <div>
-            <button class="btn btn-success" type="submit" id="filterButton">Submit</button>
-        </div>
-
-        <h3 id="cartHeader" style="margin-top: 100px;"></h3>
+        <h3 id="cartHeader" style="margin-top: 50px;"></h3>
 
         <div>
             <table  class="table table-success table-striped" cellpadding="0" cellspacing="0"
@@ -52,8 +47,9 @@
                 <tbody id="example"></tbody>
             </table>
         </div>
-        <nav id="pagination">
-
+        <nav aria-label="Page navigation">
+            <ul class="pagination" id="pagination">
+            </ul>
         </nav>
 
     </div>

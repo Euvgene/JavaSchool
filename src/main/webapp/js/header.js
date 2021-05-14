@@ -1,3 +1,26 @@
+confirmUser = function (){
+    $.ajax({
+        type: "GET",
+        url: 'http://localhost:8189/user-cart',
+        headers: {
+            "Authorization": "Bearer " + localStorage.token
+        }
+    })
+}
+
+confirmAdmin = function (){
+    $.ajax({
+        type: "GET",
+        url: 'http://localhost:8189/admin-products',
+        headers: {
+            "Authorization": "Bearer " + localStorage.token
+        }
+    })
+}
+
+
+
+
 function tryToAuth() {
     $("#errorMassageAuth").empty();
     let formData = {
@@ -20,28 +43,26 @@ function tryToAuth() {
             localStorage.role = result.userRole;
             if (window.location.href.endsWith("/cart")) {
                 if (localStorage.role === "[ROLE_USER]") {
-                    $.ajax({
-                        type: "GET",
-                        url: 'http://localhost:8189/user-cart',
-                        headers: {
-                            "Authorization": "Bearer " + localStorage.token
-                        }, success: function (response) {
-                            window.location.href = "user-cart";
-                        }
-                    })
+                   confirmUser();
+                    window.location.href = "user-cart";
                 } else {
-                    window.location.href = "admin-main";
+                    confirmAdmin()
+                    window.location.href = "admin-products";
                 }
             } else if (window.location.href.endsWith("/products")) {
                 if (localStorage.role === "[ROLE_USER]") {
+                    confirmUser()
                     window.location.href = "user-products";
                 } else {
+                    confirmAdmin()
                     window.location.href = "admin-products";
                 }
             } else {
                 if (localStorage.role === "[ROLE_USER]") {
+                    confirmUser()
                     window.location.href = "user-products";
                 } else {
+                    confirmAdmin()
                     window.location.href = "admin-products";
                 }
             }

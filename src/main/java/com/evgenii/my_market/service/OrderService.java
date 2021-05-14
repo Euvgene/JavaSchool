@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 
 import javax.transaction.Transactional;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,8 @@ public class OrderService {
     private final CartService cartService;
     private final UserService userService;
 
+    private final int TOTAL_ORDERS_IN_PAGE = 8;
+    private final int CHECK_PAGE_NUMBER = 1;
     @Transactional
     public Order createFromUserCart(OrderConfirmDto orderConfirmDto) {
         boolean paymentState = true;
@@ -40,7 +43,7 @@ public class OrderService {
     }
 
     public List<OrderDto> findAllOrdersByOwnerName(String username, LocalDate fromDate, LocalDate toDate, int page) {
-        int total = 5;
+        int total = TOTAL_ORDERS_IN_PAGE;
         return orderDAO.findAllByOwnerUsername(username, fromDate, toDate, getPage(page, total), total).stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
@@ -49,7 +52,7 @@ public class OrderService {
     }
 
     public List<OrderDto> findAllOrders(LocalDate fromDate, LocalDate toDate, int page, String state) {
-        int total = 5;
+        int total = TOTAL_ORDERS_IN_PAGE;
         return orderDAO.findAlL(fromDate, toDate, getPage(page, total), state, total).stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
@@ -82,10 +85,18 @@ public class OrderService {
 
 
     private int getPage(int page, int total) {
-        if (page != 1) {
-            page = (page - 1) * total + 1;
-            return page - 1;
+        if (page != CHECK_PAGE_NUMBER) {
+            page = (page - CHECK_PAGE_NUMBER) * total + CHECK_PAGE_NUMBER;
+            return page - CHECK_PAGE_NUMBER;
         }
         return 0;
+    }
+
+    public BigInteger getOrdersCountByOwnerName(String name, LocalDate fromDate, LocalDate toDate) {
+        return orderDAO.getOrdersCountByOwnerName(name,fromDate,toDate);
+    }
+
+    public BigInteger getOrdersCount(LocalDate fromDate, LocalDate toDate, String state) {
+        return orderDAO.getAllOrderCount(fromDate,toDate, state);
     }
 }

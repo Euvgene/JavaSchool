@@ -38,10 +38,9 @@ $(function () {
             name: "required",
             cardname: {
                 required: "#cc-name:visible",
-                pattern: /^[A-Z_ ]*$/,
+                pattern: /^[a-zA-Z_ ]*$/,
             },
             number: {
-
                 required: "#cc-number:visible",
                 pattern: /^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/,
             },
@@ -52,8 +51,7 @@ $(function () {
             },
             cvv: {
                 required: "#cc-cvv:visible",
-                pattern:/^[0-9]{3}/,
-
+                pattern:/^[0-9]{3}$/,
             },
         },
         messages: {

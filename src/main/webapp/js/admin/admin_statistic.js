@@ -4,15 +4,10 @@ clearTable = function () {
     $('#cartHead').empty();
 }
 
-setPageIndex = function () {
-    localStorage.setItem("orderPageIndx", 1);
-}
 
 function checkFirstDate() {
     if ($("#firstDate").val() !== "" && $("#secondDate").val() !== "") {
         if ($("#firstDate").val() > $("#secondDate").val()) $("#secondDate").val($("#firstDate").val())
-
-
     }
 }
 
@@ -36,9 +31,7 @@ function getStatistic(name) {
             second_date: $("#secondDate").val() ? $("#secondDate").val() : null
         },
         success: function (response) {
-            console.log(response)
             let order = response;
-            let money = ""
             let total = null;
             clearTable();
             $('#cartHead').append(
@@ -50,28 +43,21 @@ function getStatistic(name) {
             $('#example').empty();
             if (order.length > 0) {
                 $('#cartHeader').append("Statistic");
-
-                while (count < order.length) {
-
-
-                    for (let k = 0; k < order.length; k++) {
-                        count++;
-                        total = total + order[k].number;
-                        let rd = $('<tr class=""></tr>');
-                        rd.append(
-                            "<td align='center' '> " + order[k].name + " </td>" +
-                            "<td align='center' '> " + order[k].number + '' + money + '</td>');
-                        $('#example').append(rd);
-                    }
-                    if (name === "proceeds") {
-                        $('#example').append("<tr>" +
-                            "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
-                            "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
-                            "font-weight: bold \" align='center' >Total</td>" +
-                            "<td align='center' >" + total + "" + "$" + "</td>" +
-                            "</tr>");
-                    }
-
+                for (let k = 0; k < order.length; k++) {
+                    total = total + order[k].number;
+                    let rd = $('<tr class=""></tr>');
+                    rd.append(
+                        "<td align='center' > " + order[k].name + " </td>" +
+                        "<td align='center' > " + order[k].number + '' + " $" + '</td>');
+                    $('#example').append(rd);
+                }
+                if (name === "proceeds") {
+                    $('#example').append("<tr>" +
+                        "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
+                        "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
+                        "font-weight: bold \" align='center' >Total</td>" +
+                        "<td align='center' >" + total + "" + " $" + "</td>" +
+                        "</tr>");
                 }
             } else {
                 clearTable()
@@ -95,7 +81,6 @@ function getProductStatistic() {
             second_date: $("#secondDate").val() ? $("#secondDate").val() : null
         },
         success: function (response) {
-            console.log(response)
             let order = response;
             clearTable();
             $('#cartHead').append(
@@ -114,8 +99,8 @@ function getProductStatistic() {
                         count++;
                         let rd = $('<tr class=""></tr>');
                         rd.append(
-                            "<td align='center' '> " + order[k].name + " </td>" +
-                            "<td align='center' '> " + order[k].number + '' + '</td>' +
+                            "<td align='center' > " + order[k].name + " </td>" +
+                            "<td align='center' > " + order[k].number + '' + '</td>' +
                             "<td align='center' >" + order[k].pricePerProduct + "" + " $" + "</td>" +
                             "<td align='center' >" + order[k].pricePerProduct * order[k].number + "" + " $" + "</td>");
                         $('#example').append(rd);
@@ -131,7 +116,6 @@ function getProductStatistic() {
 }
 
 function chooseStatistic() {
-    console.log(localStorage.statisticName)
     if (localStorage.statisticName === "product") {
         getProductStatistic()
     } else {

@@ -17,20 +17,20 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
 
     @Override
     public boolean isValid(final Object value, final ConstraintValidatorContext context) {
-        boolean toReturn = false;
+        boolean isPasswordsEquals = false;
         try {
             final Object firstObj = BeanUtils.getProperty(value, firstFieldName);
             final Object secondObj = BeanUtils.getProperty(value, secondFieldName);
-            toReturn = firstObj == null && secondObj == null || firstObj != null && firstObj.equals(secondObj);
-        } catch (final Exception e) {
+            isPasswordsEquals = firstObj == null && secondObj == null || firstObj != null && firstObj.equals(secondObj);
+        } catch (Exception e) {
             System.out.println(e.toString());
         }
 
-        if(!toReturn) {
+        if(!isPasswordsEquals) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(errorMessageName).addPropertyNode(firstFieldName).addConstraintViolation();
         }
-        return toReturn;
+        return isPasswordsEquals;
 
     }
 }

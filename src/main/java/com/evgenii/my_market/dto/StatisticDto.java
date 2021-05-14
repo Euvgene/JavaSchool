@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class StatisticDto {
-    private final int STATISTIC_NAME = 0;
+    private final int STATISTIC_OBJECT_NAME = 0;
+    private final int STATISTIC_OBJECT_COUNT = 1;
+
     String name;
     int number;
 
     public StatisticDto(Object[] o) {
-        this.name = o[STATISTIC_NAME].toString();
-        this.number = (int) o[1];
+        this.name = o[STATISTIC_OBJECT_NAME].toString();
+        this.number = (int) o[STATISTIC_OBJECT_COUNT];
     }
 }

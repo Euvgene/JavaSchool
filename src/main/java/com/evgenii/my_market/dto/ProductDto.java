@@ -34,7 +34,7 @@ public class ProductDto {
     private Parameters parameters;
     @NotNull(message = "Please provide quantity")
     @Positive(message ="Quantity must be positive" )
-    private byte productQuantity;//
+    private byte productQuantity;
 
     public ProductDto(Product product) {
         this.productId = product.getProductId();
