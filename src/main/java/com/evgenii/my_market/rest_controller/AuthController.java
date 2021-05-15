@@ -7,6 +7,8 @@ import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.service.CartService;
 import com.evgenii.my_market.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,13 +28,13 @@ public class AuthController {
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
     private final CartService cartService;
-
+    private static Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        } catch ( AuthenticationException ex) {
+        } catch (AuthenticationException ex) {
             return new ResponseEntity<>(new MarketError(HttpStatus.UNAUTHORIZED.value(), "Incorrect username or password"), HttpStatus.UNAUTHORIZED);
         }
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
@@ -41,6 +43,7 @@ public class AuthController {
             cartService.getCartForUser(authRequest.getUsername(), authRequest.getCartId());
         }
 
+        LOGGER.info("User " + authRequest.getUsername() + " auth ");
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getAuthorities().toString()));
     }
 }

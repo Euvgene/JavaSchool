@@ -32,4 +32,10 @@ public class CategoryService {
         if (categoryDAO.getActiveCategory(value) == null) categoryInDb = false;
         return categoryInDb;
     }
+
+    @Transactional
+    public void update(CategoryDto newCategory, String categoryOldName) {
+        Category category = categoryDAO.getActiveCategory(categoryOldName);
+        category.setCategoryName(newCategory.getCategoryName());
+    }
 }

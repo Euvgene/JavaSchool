@@ -36,16 +36,20 @@
                 <form class="col-md-3 validate" id="categoryNameForm">
                     <label for="category" class="form-label">Category</label>
                     <select class="form-select" id="category" name="category">
-                        <option value="">Choose...</option>
+                        <option >Choose...</option>
                     </select>
                 </form>
 
                 <div class="col-md-3" style="margin-top: 47px; white-space: nowrap">
-                    <button id="showNewCategoryForm" class="btn btn-primary" type="submit">+new category</button>
+                    <button id="showNewCategoryForm" class="btn btn-primary" type="submit">Add category</button>
+                    <button id="showChangeCategoryForm" class="btn btn-warning" type="submit" style="width: 117px"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-counterclockwise" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M12.83 6.706a5 5 0 0 0-7.103-3.16.5.5 0 1 1-.454-.892A6 6 0 1 1 2.545 5.5a.5.5 0 1 1 .91.417 5 5 0 1 0 9.375.789z"/>
+                        <path fill-rule="evenodd" d="M7.854.146a.5.5 0 0 0-.708 0l-2.5 2.5a.5.5 0 0 0 0 .708l2.5 2.5a.5.5 0 1 0 .708-.708L5.707 3 7.854.854a.5.5 0 0 0 0-.708z"/>
+                    </svg> category</button>
                 </div>
             </div>
 
-            <div class="row g-3">
+            <div class="row g-3" id="newCategoryDiv">
                 <form class="col-md-4" id="newCategoryForm">
                     <input type="text" class="form-control" id="newCategory" placeholder="New category name"
                            name="newCategoryName">
@@ -53,6 +57,18 @@
 
                 <div class="col-md-3" style="white-space: nowrap">
                     <button id="addCategoryButton" class="btn btn-primary" onclick="createNewCategory()">Add
+                    </button>
+                </div>
+            </div>
+
+            <div class="row g-3" id="changeCategoryDiv">
+                <form class="col-md-4" id="changeCategoryForm">
+                    <input type="text" class="form-control" id="changeCategory" placeholder="New category name"
+                           name="newCategoryName">
+                </form>
+
+                <div class="col-md-3" style="white-space: nowrap">
+                    <button id="changeCategoryButton" class="btn btn-info" onclick="changeCategory()">Change
                     </button>
                 </div>
             </div>

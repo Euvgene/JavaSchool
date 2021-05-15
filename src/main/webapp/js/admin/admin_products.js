@@ -14,6 +14,12 @@ deleteProduct = function (id) {
     })
 }
 
+function clearTable() {
+    $('#example').empty();
+    $("#pagination").empty()
+}
+
+
 function generatePagesIndexes(startPage, endPage) {
     let arr = [];
     for (let i = startPage; i < endPage + 1; i++) {
@@ -31,21 +37,18 @@ function getProductCount(formData) {
         dataType: 'json',
         success: function (response) {
             productCount = response;
-            if (productCount < 8) {
-
-
+            $("#pagination").empty()
+            if (productCount > 8) {
                 let totalPages = productCount / 8
                 let minPageIndex = (currentPage >= totalPages) ? currentPage - 2 : currentPage - 1;
                 if (minPageIndex < 1) {
                     minPageIndex = 1;
                 }
-
                 let maxPageIndex = (currentPage === 1) ? currentPage + 2 : currentPage + 1;
                 if (maxPageIndex > totalPages) {
                     maxPageIndex = totalPages;
                 }
                 let PaginationArray = generatePagesIndexes(minPageIndex, maxPageIndex)
-                $("#pagination").empty()
                 $("#pagination").append("<li class=\"page-item\" >\n" +
                     "                    <button class=\"page-link\" tabindex=\"-1\" id='prePage' onclick=' getProducts(currentPage - 1)' >Previous</button>\n" +
                     "                </li>")
@@ -62,8 +65,6 @@ function getProductCount(formData) {
                 if (currentPage >= totalPages) {
                     $("#nextPage").prop('disabled', true)
                 } else $("#nextPage").prop('disabled', false)
-            } else {
-                $("#pagination").empty()
             }
         }
     })
@@ -90,7 +91,6 @@ function getProducts(pageIndex = 1) {
             currentPage = pageIndex
             productList = result;
             console.log(result)
-
             $('#example').empty();
             $('#currentPage').empty();
             let rd = $('<div ></div>');
@@ -113,9 +113,11 @@ function getProducts(pageIndex = 1) {
                         $("#quantity" + productList[k].productId).css("color", "red");
                     }
                 }
+                getProductCount(formData)
+            } else {
+                clearTable()
+                $('#example').append("<h3>Product list is empty</h3>");
             }
-        }, complete: function () {
-            getProductCount(formData)
         }
     });
 }

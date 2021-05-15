@@ -30,6 +30,10 @@
         </div>
 
         <h3 id="cartHeader" style="margin-top: 50px;"></h3>
+        <nav aria-label="Page navigation">
+            <ul class="pagination" id="pagination">
+            </ul>
+        </nav>
 
         <div>
             <table  class="table table-success table-striped" cellpadding="0" cellspacing="0"
@@ -47,10 +51,7 @@
                 <tbody id="example"></tbody>
             </table>
         </div>
-        <nav aria-label="Page navigation">
-            <ul class="pagination" id="pagination">
-            </ul>
-        </nav>
+
 
     </div>
 </main>

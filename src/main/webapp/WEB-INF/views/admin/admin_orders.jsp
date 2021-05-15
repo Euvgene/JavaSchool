@@ -43,6 +43,10 @@
 
 
         <h3 id="cartHeader" style="margin-top: 100px;"></h3>
+        <nav aria-label="Page navigation">
+            <ul class="pagination" id="pagination">
+            </ul>
+        </nav>
 
         <div>
             <form id='changeOrderForm'>
@@ -64,10 +68,7 @@
                 </table>
             </form>
         </div>
-        <nav aria-label="Page navigation">
-            <ul class="pagination" id="pagination">
-            </ul>
-        </nav>
+
     </div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>

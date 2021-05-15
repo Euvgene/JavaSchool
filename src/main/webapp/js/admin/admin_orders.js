@@ -46,6 +46,7 @@ function getOrderCount() {
         success: function (response) {
             console.log(response)
             productCount = response;
+            $("#pagination").empty()
             if (productCount > 5) {
                 let totalPages = productCount / 8
                 let minPageIndex = (currentPage >= totalPages) ? currentPage - 2 : currentPage - 1;
@@ -58,7 +59,7 @@ function getOrderCount() {
                     maxPageIndex = totalPages;
                 }
                 let PaginationArray = generatePagesIndexes(minPageIndex, maxPageIndex)
-                $("#pagination").empty()
+
                 $("#pagination").append("<li class=\"page-item\" >\n" +
                     "                    <button class=\"page-link\" tabindex=\"-1\" id='prePage' onclick=' getAllOrders(currentPage - 1)' >Previous</button>\n" +
                     "                </li>")
@@ -75,8 +76,6 @@ function getOrderCount() {
                 if (currentPage >= totalPages) {
                     $("#nextPage").prop('disabled', true)
                 } else $("#nextPage").prop('disabled', false)
-            } else {
-                $("#pagination").empty()
             }
         }
     })
