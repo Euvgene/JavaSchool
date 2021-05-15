@@ -1,25 +1,3 @@
-confirmUser = function (){
-    $.ajax({
-        type: "GET",
-        url: 'http://localhost:8189/user-cart',
-        headers: {
-            "Authorization": "Bearer " + localStorage.token
-        }
-    })
-}
-
-confirmAdmin = function (){
-    $.ajax({
-        type: "GET",
-        url: 'http://localhost:8189/admin-products',
-        headers: {
-            "Authorization": "Bearer " + localStorage.token
-        }
-    })
-}
-
-
-
 
 function tryToAuth() {
     $("#errorMassageAuth").empty();
@@ -43,27 +21,69 @@ function tryToAuth() {
             localStorage.role = result.userRole;
             if (window.location.href.endsWith("/cart")) {
                 if (localStorage.role === "[ROLE_USER]") {
-                   confirmUser();
-                    window.location.href = "user-cart";
+                    $.ajax({
+                        type: "GET",
+                        url: 'http://localhost:8189/',
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.token
+                        },complete:function (){
+                            window.location.href = "user-cart";
+                        }
+                    })
                 } else {
-                    confirmAdmin()
-                    window.location.href = "admin-products";
+                    $.ajax({
+                        type: "GET",
+                        url: 'http://localhost:8189/',
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.token
+                        },complete:function (){
+                            window.location.href = "admin-products";
+                        }
+                    })
                 }
             } else if (window.location.href.endsWith("/products")) {
                 if (localStorage.role === "[ROLE_USER]") {
-                    confirmUser()
-                    window.location.href = "user-products";
+                    $.ajax({
+                        type: "GET",
+                        url: 'http://localhost:8189/',
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.token
+                        },complete:function (){
+                            window.location.href = "user-products";
+                        }
+                    })
                 } else {
-                    confirmAdmin()
-                    window.location.href = "admin-products";
+                    $.ajax({
+                        type: "GET",
+                        url: 'http://localhost:8189/',
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.token
+                        },complete:function (){
+                            window.location.href = "admin-products";
+                        }
+                    })
                 }
             } else {
                 if (localStorage.role === "[ROLE_USER]") {
-                    confirmUser()
-                    window.location.href = "user-products";
+                    $.ajax({
+                        type: "GET",
+                        url: 'http://localhost:8189/',
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.token
+                        }, complete: function () {
+                            window.location.href = "user-products";
+                        }
+                    })
                 } else {
-                    confirmAdmin()
-                    window.location.href = "admin-products";
+                        $.ajax({
+                            type: "GET",
+                            url: 'http://localhost:8189/',
+                            headers: {
+                                "Authorization": "Bearer " + localStorage.token
+                            }, complete: function () {
+                                window.location.href = "admin-products";
+                            }
+                        })
                 }
             }
         }, error: function (response) {
@@ -79,10 +99,26 @@ function tryToAuth() {
 function isUserLoggedIn() {
     if (localStorage.currentUserName) {
         if (localStorage.role === "[ROLE_USER]") {
-            location.assign("http://localhost:8189/user-main");
+            $.ajax({
+                type: "GET",
+                url: 'http://localhost:8189/',
+                headers: {
+                    "Authorization": "Bearer " + localStorage.token
+                },complete:function (){
+                    window.location.href = "user-products";
+                }
+            })
 
         } else if (localStorage.role === "[ROLE_ADMIN]") {
-            location.assign("http://localhost:8189/admin-main");
+            $.ajax({
+                type: "GET",
+                url: 'http://localhost:8189/',
+                headers: {
+                    "Authorization": "Bearer " + localStorage.token
+                },complete:function (){
+                    window.location.href = "admin-products";
+                }
+            })
         }
     }
 }

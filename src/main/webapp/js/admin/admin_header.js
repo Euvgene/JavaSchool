@@ -7,7 +7,7 @@ function addProduct() {
             "Authorization": "Bearer " + localStorage.token
         },
         success: function () {
-            location.assign("http://localhost:8189/addproducts");
+            location.assign("http://localhost:8189/add-products");
         }
     });
 }

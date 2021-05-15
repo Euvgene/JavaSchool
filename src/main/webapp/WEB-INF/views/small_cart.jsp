@@ -15,7 +15,7 @@
 </header>
 <body >
 
-<h6 class="smallCartHeader" id="smallCartHeader" ></h6>
+<h6 class="smallCartHeader" id="smallCartHeader" align="center"></h6>
     <div class="smallCartDiv" id = "smallCart">
 
 

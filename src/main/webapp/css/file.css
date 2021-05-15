@@ -58,13 +58,19 @@
     background-color: #ffffff;
 }
 
-
+.forbiddenPage{
+    width:600px;
+    position: absolute;
+    margin:200px auto;
+    left:0;
+    right:0
+}
 .smallCartHeader{
     width: 150px;
     position: fixed;
     top: 0;
     right: 50px;
-    margin-top: 145px;
+    margin-top: 135px;
     height: 600px;
     overflow: auto;
     font-size: 13px

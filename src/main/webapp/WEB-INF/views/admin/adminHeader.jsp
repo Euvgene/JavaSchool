@@ -32,10 +32,10 @@
                         <a class="nav-link active" aria-current="page" href="http://localhost:8189/admin-products">Product</a>
                     </li>
                     <li id="addProduct" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/addproducts">Add product</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/add-products">Add product</a>
                     </li>
                     <li id="changeOrder" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/change-orderes">Change Orders</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/change-orders">Change Orders</a>
                     </li>
                     <li id="statistic" class="nav-item">
                         <a class="nav-link active" aria-current="page" href="http://localhost:8189/statistic">Orders Statistic</a>

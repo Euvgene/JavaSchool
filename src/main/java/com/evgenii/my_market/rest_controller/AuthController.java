@@ -7,6 +7,7 @@ import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.service.CartService;
 import com.evgenii.my_market.service.UserService;
 import lombok.RequiredArgsConstructor;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class AuthController {
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
     private final CartService cartService;
-    private static Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
@@ -39,11 +40,10 @@ public class AuthController {
         }
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
-        if (!userDetails.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
+        if (!userDetails.getAuthorities().toString().equals("[ROLE_ADMIN]") && !userDetails.getAuthorities().toString().equals("[ROLE_GUEST]")) {
             cartService.getCartForUser(authRequest.getUsername(), authRequest.getCartId());
         }
-
-        LOGGER.info("User " + authRequest.getUsername() + " auth ");
+        LOGGER.info("User " + authRequest.getUsername() + "auth");
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getAuthorities().toString()));
     }
 }

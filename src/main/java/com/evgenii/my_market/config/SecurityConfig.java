@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
@@ -26,14 +27,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/asd").hasRole("USER")
+                .antMatchers("/", "/registration", "/api/v1/auth", "/cart","/products")
+                .permitAll()
+                .antMatchers("/user-info").hasAuthority("ROLE_USER")
+                .antMatchers("/user-products").hasAuthority("ROLE_USER")
+                .antMatchers("/user-main").hasAuthority("ROLE_USER")
                 .antMatchers("/user-cart").hasAuthority("ROLE_USER")
-                .antMatchers("/addproducts").hasAuthority("ROLE_ADMIN")
-                /*      .antMatchers("/user-cart").hasRole("USER")*//*todo*/
-                .antMatchers("/products").permitAll()
-                /*.antMatchers("/admin"+"**").hasAuthority("ROLE_ADMIN")*/
-                .antMatchers("/api/v1/auth").permitAll()
+                .antMatchers("/order-confirmation").hasAuthority("ROLE_USER")
+                .antMatchers("/orders-result").hasAuthority("ROLE_USER")
+                .antMatchers("/user-orders").hasAuthority("ROLE_USER")
+                .antMatchers("/change-password").hasAuthority("ROLE_USER")
+                .antMatchers("/add-products").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/statistic").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/change-orders").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/change-orders").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/admin-main").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/admin-products").hasAuthority("ROLE_ADMIN")
                 .anyRequest().permitAll()
+                .and()
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .and()
@@ -58,4 +70,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+    @Bean
+    public AccessDeniedHandler accessDeniedHandler() {
+        return new CustomAccessDeniedHandler();
+    }
+
+
 }

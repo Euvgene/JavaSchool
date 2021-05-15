@@ -67,9 +67,9 @@ public class ProductDAO {
     public BigInteger getProductCount(FilterDto filterDto) {
 
         Query query = entityManager.createNativeQuery(
-                " SELECT COUNT(*) FROM  products p INNER JOIN parameters param ON p.product_param = param.parameters_id where" +
-                        "                         p.price >=:min_price and p.price <=:max_price and" +
-                        "                        p.productTitle like :name and param.gender like :gender");
+                " SELECT COUNT(*) FROM  products p INNER JOIN parameters param ON p.product_param = param.parameters_id where " +
+                        "p.price >=:min_price and p.price <=:max_price and " +
+                        "p.productTitle like :name and param.gender like :gender");
 
         String title = "%" + filterDto.getName() + "%";
         String gender = filterDto.getGender()+ "%";

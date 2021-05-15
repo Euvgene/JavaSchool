@@ -25,13 +25,17 @@ public class MainController {
         return "products";
     }
 
+    @GetMapping("/access-denied")
+    public String getAccessDenied() {
+        return "denied";
+    }
 
     @GetMapping("/admin-products")
     public String getProductsForAdmin() {
         return "admin/admin_products";
     }
 
-    @GetMapping("/addproducts")
+    @GetMapping("/add-products")
     public String getNewProductsPage() {
         return "admin/new_product";
     }
@@ -83,7 +87,7 @@ public class MainController {
         return "user/change_password";
     }
 
-    @GetMapping("/change-orderes")
+    @GetMapping("/change-orders")
     public String changeOrdersPage() {
         return "admin/admin_orders";
     }

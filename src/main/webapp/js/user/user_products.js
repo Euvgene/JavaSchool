@@ -121,8 +121,8 @@ function getProducts(pageIndex = 1) {
                             "<p class=\"page-information\"> Price:  " + productList[k].productPrice + "</p>" +
                             button);
                         $('#example').append(rd);
-                        getProductCount(formData)
                     }
+                    getProductCount(formData)
                 }else {
                    clearTable()
                     $('#example').append("<h3>Product list is empty</h3>");
