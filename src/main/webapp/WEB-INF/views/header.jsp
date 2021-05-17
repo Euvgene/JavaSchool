@@ -52,7 +52,6 @@
             </div>
         </div>
     </nav>
-    </form>
     <div class="errorMassageAuth" id="errorMassageAuth" >
     </div>
 </header>

@@ -3,9 +3,11 @@ package com.evgenii.my_market.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Getter
@@ -34,6 +36,10 @@ public class CartItem {
 
     @Column(name = "cart_item_price")
     private BigDecimal price;
+
+    @CreationTimestamp
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 
 
     public CartItem(Product product) {

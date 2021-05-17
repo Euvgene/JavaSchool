@@ -1,5 +1,7 @@
 package com.evgenii.my_market.exception_handling;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,9 +23,11 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
+    private final Logger LOGGER = LoggerFactory.getLogger(CustomGlobalExceptionHandler.class);
     @ExceptionHandler
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException e) {
         MarketError err = new MarketError(HttpStatus.NOT_FOUND.value(), e.getMessage());
+        LOGGER.warn(e.getMessage());
         return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
     }
 
@@ -36,7 +40,6 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         body.put("timestamp", LocalDate.now());
         body.put("status", status.value());
 
-        //Get all errors todo useless comment
         List<String> errors = ex.getBindingResult()
                 .getFieldErrors()
                 .stream()
@@ -52,6 +55,7 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
     @ExceptionHandler(SQLException.class)
     public String handleSQLException(HttpServletRequest request, Exception ex){
+        LOGGER.warn(ex.getMessage());
         return "database_error";
     }
 }

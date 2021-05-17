@@ -9,6 +9,8 @@ import com.evgenii.my_market.entity.User;
 import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class CartService {
     private final ProductService productService;
     private final UserService userService;
     private final CartItemDAO cartItemDAO;
+    private final Logger LOGGER = LoggerFactory.getLogger(CartService.class);
 
     @Transactional
     public Cart save(Cart cart) {
@@ -75,17 +78,22 @@ public class CartService {
             if (cartItems.get(i).getQuantity() == 0) {
                 cartItemDAO.deleteCartItem(cartItems.get(i).getId());
                 cart.recalculate();
+                LOGGER.warn(cartItems.get(i).getProduct().getProductTitle()
+                        + " is over but user try to order it");
                 isValid = false;
             } else if (cartItems.get(i).getProduct().getProductQuantity() < cartItems.get(i).getQuantity()) {
                 cartItems.get(i).setQuantity(cartItems.get(i).getProduct().getProductQuantity());
                 cartItems.get(i).recalculate();
                 cart.recalculate();
+                LOGGER.warn(cartItems.get(i).getProduct().getProductTitle()
+                        + " quantity is not enough for user order");
                 isValid = false;
             }
         }
-        if (isValid) return ResponseEntity.ok(HttpStatus.ACCEPTED);
+        if (isValid) return responseEntity;
         else
-            return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "Your cart is not valid"), HttpStatus.CONFLICT);
+            return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(),
+                    "Your cart is not valid. Quantity of product is not enough or ended. Refreshing cart list"), HttpStatus.CONFLICT);
     }
 
     @Transactional

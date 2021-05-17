@@ -7,8 +7,11 @@ import com.evgenii.my_market.dto.UserEmailDto;
 import com.evgenii.my_market.dto.UserNameDto;
 import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
+import com.evgenii.my_market.service.ProductService;
 import com.evgenii.my_market.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +24,14 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class UserRestController {
     private final UserService userService;
-
+    private final Logger LOGGER = LoggerFactory.getLogger(UserRestController.class);
     @PostMapping
     public ResponseEntity<?> saveUser(@Valid @RequestBody UserDto newUsers) {
         if (userService.findByUsernameAndEmail(newUsers.getFirstName(), newUsers.getEmail()).size() > 0) {
             return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "This username or email already exist"), HttpStatus.CONFLICT);
         } else {
             userService.save(newUsers);
+            LOGGER.info("Registration new user " + newUsers.getFirstName());
             return ResponseEntity.ok(HttpStatus.CREATED);
         }
     }

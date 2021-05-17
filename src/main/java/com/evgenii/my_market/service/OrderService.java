@@ -6,8 +6,9 @@ import com.evgenii.my_market.dto.OrderDto;
 import com.evgenii.my_market.dto.ProductStatisticDto;
 import com.evgenii.my_market.dto.StatisticDto;
 import com.evgenii.my_market.entity.*;
-import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 
@@ -25,20 +26,21 @@ public class OrderService {
     private final OrderDAO orderDAO;
     private final CartService cartService;
     private final UserService userService;
-
+    private final Logger LOGGER = LoggerFactory.getLogger(OrderService.class);
     private final int TOTAL_ORDERS_IN_PAGE = 8;
     private final int CHECK_PAGE_NUMBER = 1;
     @Transactional
     public Order createFromUserCart(OrderConfirmDto orderConfirmDto) {
         boolean paymentState = true;
-        User user = userService.findByUsername(orderConfirmDto.getUsername()).orElseThrow(() -> new ResourceNotFoundException("User not found"));//TODO disable DB and check method throws exc
-        Cart cart = cartService.findById(UUID.fromString(orderConfirmDto.getCartId())).orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
+        User user = userService.findByUsername(orderConfirmDto.getUsername()).get();
+        Cart cart = cartService.findById(UUID.fromString(orderConfirmDto.getCartId())).get();
         if (orderConfirmDto.getPaymentMethod().equals("cash")) paymentState = false;
         Order order = new Order(cart, user, user.getUserAddress(), orderConfirmDto.getAddress(), orderConfirmDto.getPaymentMethod(), paymentState);
         order.setOrderState(StateEnum.AWAITING_SHIPMENT);
         order = orderDAO.saveOrder(order);
         cart.getCartItems().forEach(cartItem -> cartItem.getProduct().decrementQuantityProduct(cartItem.getQuantity()));
         cartService.clearCart(UUID.fromString(orderConfirmDto.getCartId()));
+        LOGGER.info("Create order with id "  + order.getId());
         return order;
     }
 
@@ -62,13 +64,14 @@ public class OrderService {
         if (orderState.equals("DELIVERED")) {
             order.setPaymentState(true);
         } else if (orderState.equals("RETURN")) {
-            decrementProducts(order.getItems());
+            incrementProducts(order.getItems());
         }
         order.setOrderState(StateEnum.valueOf(orderState));
         order.setDeliveryMethode(orderAddress);
+        LOGGER.info("Update order with  id " + order.getId());
     }
 
-    private void decrementProducts(List<OrderItem> items) {
+    private void incrementProducts(List<OrderItem> items) {
         for (OrderItem i : items) {
             i.getProduct().incrementQuantityProduct((byte) i.getQuantity());
         }

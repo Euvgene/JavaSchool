@@ -10,6 +10,8 @@ deleteProduct = function (id) {
         },
         success: function (result) {
             $("#buttonDelete" + id).hide(100);
+            $("#quantity"+ id).text("Quantity: 0");
+            $("#quantity"+ id).css("color", "red");
         }
     })
 }
@@ -126,12 +128,12 @@ function getProducts(pageIndex = 1) {
 changeProduct = function (id) {
     $.ajax({
         type: "GET",
-        url: 'http://localhost:8189/addproducts',
+        url: 'http://localhost:8189/add-products',
         headers: {
             "Authorization": "Bearer " + localStorage.token
         }, success: function (response) {
             localStorage.productId = id;
-            location.assign("http://localhost:8189/addproducts")
+            location.assign("http://localhost:8189/add-products")
         }
     })
 }

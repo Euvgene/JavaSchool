@@ -1,4 +1,3 @@
-
 function createCart() {
     $.ajax({
         type: "POST",
@@ -26,6 +25,7 @@ function authGuest() {
         dataType: 'json',
         success: function (result) {
             localStorage.token = result.token;
+            localStorage.role = result.userRole;
             $.ajax({
                 type: "GET",
                 url: 'http://localhost:8189/',
@@ -34,12 +34,13 @@ function authGuest() {
                 }
             })
         }
-        })
+    })
 }
 
 $(document).ready(function () {
-/*   delete localStorage.marketCartUuid*/
-    authGuest()
+    /*   delete localStorage.marketCartUuid*/
+    if(!localStorage.role)
+        authGuest()
     if (!localStorage.marketCartUuid) {
         createCart();
     }

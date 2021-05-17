@@ -1,4 +1,4 @@
-const delay = 3500;
+const delay = 2500;
 let cartList = null
 
 let clearTable = function () {
@@ -6,6 +6,12 @@ let clearTable = function () {
     $('#cartHead').empty();
     $('#cartHeader').empty();
     $("#errorMassage").empty()
+}
+
+appendMessage = function (response) {
+    $("#errorMassage").append("<input type=\"text\" " +
+        "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;outline: none;\"" +
+        " value='" + response + "'>")
 }
 
 function checkValidCount(isChecked) {
@@ -17,10 +23,8 @@ function checkValidCount(isChecked) {
         },
         success: function () {
             if (isChecked) createOrder()
-        }, error: function () {
-            $("#errorMassage").append("<input type=\"text\" " +
-                "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;outline: none;\"" +
-                " value=' Sorry you order become invalid we will refresh it'>");
+        }, error: function (response) {
+            appendMessage(response.responseJSON.message)
             setTimeout(function () {
                 getOrderProducts();
             }, delay);
@@ -86,11 +90,7 @@ getOrderProducts = function () {
     });
 }
 
-appendMessage = function (response) {
-    $("#errorMassage").append("<input type=\"text\" " +
-        "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;outline: none;\"" +
-        " value='" + response + "'>")
-}
+
 
 createOrder = function () {
 

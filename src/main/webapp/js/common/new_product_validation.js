@@ -47,6 +47,23 @@ $(function () {
         }
     })
 
+    $("#changeCategoryForm").validate({
+
+        rules: {
+            name: "required",
+            newCategoryName: {
+                required: "#newCategory:visible",
+                pattern: /^[a-zA-Z]+$/
+            },
+        },
+        messages: {
+            newCategoryName: {
+                pattern: "Use only letters",
+                required: "This field is required",
+            },
+        }
+    })
+
 
     $("#middleForm").validate({
 

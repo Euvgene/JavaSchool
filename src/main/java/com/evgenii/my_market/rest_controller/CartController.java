@@ -41,7 +41,7 @@ public class CartController {
 
 
     @GetMapping("/clear")
-    public ResponseEntity<?> clearOldItemsFromCArt(@RequestParam(name = "uuid")  UUID uuid) {
+    public ResponseEntity<?> clearOldItemsFromCart(@RequestParam(name = "uuid")  UUID uuid) {
        return cartService.clearOldCartItems(uuid);
 
     }

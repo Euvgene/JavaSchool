@@ -61,6 +61,9 @@ changeUser = function () {
             url: "http://localhost:8189/api/v1/users",
             data: JSON.stringify(formData),
             dataType: 'json',
+            headers: {
+                "Authorization": "Bearer " + localStorage.token
+            },
             success: function () {
                 $.ajax({
                     type: "GET",

@@ -2,7 +2,7 @@
 function addProduct() {
     $.ajax({
         type: "GET",
-        url: "http://localhost:8189/addproducts",
+        url: "http://localhost:8189/add-products",
         headers: {
             "Authorization": "Bearer " + localStorage.token
         },

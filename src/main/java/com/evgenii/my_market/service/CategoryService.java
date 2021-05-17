@@ -3,8 +3,9 @@ package com.evgenii.my_market.service;
 import com.evgenii.my_market.dao.CategoryDAO;
 import com.evgenii.my_market.dto.CategoryDto;
 import com.evgenii.my_market.entity.Category;
-import com.evgenii.my_market.entity.User;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CategoryService {
     private final CategoryDAO categoryDAO;
+    private final Logger LOGGER = LoggerFactory.getLogger(CategoryService.class);
 
     @Transactional
     public List<Category> getAllCategory() {
@@ -24,6 +26,7 @@ public class CategoryService {
     public void save(CategoryDto newCategory) {
         Category category = new Category(newCategory);
         categoryDAO.saveNewCategory(category);
+        LOGGER.info("Creat new category with name " + category.getCategoryName());
     }
 
     @Transactional
@@ -37,5 +40,6 @@ public class CategoryService {
     public void update(CategoryDto newCategory, String categoryOldName) {
         Category category = categoryDAO.getActiveCategory(categoryOldName);
         category.setCategoryName(newCategory.getCategoryName());
+        LOGGER.info("Update category " + categoryOldName + " to " + newCategory.getCategoryName());
     }
 }

@@ -8,6 +8,8 @@ import com.evgenii.my_market.entity.Role;
 import com.evgenii.my_market.entity.User;
 import com.evgenii.my_market.exception_handling.MarketError;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
     private final UserDAO userDAO;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     public Optional<User> findByUsername(String username) {
         return userDAO.findByUsername(username);
@@ -82,6 +85,7 @@ public class UserService implements UserDetailsService {
             user.setUserId(oldUser.getUserId());
             user.setRole(oldUser.getRole());
             userDAO.update(user);
+            LOGGER.info("User " + user.getFirstName() + " update user info");
             return ResponseEntity.ok(HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "Wrong password"), HttpStatus.CONFLICT);
@@ -96,6 +100,7 @@ public class UserService implements UserDetailsService {
         if (passwordEncoder.matches(passwordDto.getOldPassword(), user.getPassword())) {
             user.setPassword(passwordEncoder.encode(passwordDto.getFirstPassword()));
             userDAO.update(user);
+            LOGGER.info("User " + user.getFirstName() + " update password");
             return ResponseEntity.ok(HttpStatus.ACCEPTED);
         } else    return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "Wrong old password"), HttpStatus.CONFLICT);
 

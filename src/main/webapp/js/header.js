@@ -1,4 +1,3 @@
-
 function tryToAuth() {
     $("#errorMassageAuth").empty();
     let formData = {
@@ -26,7 +25,7 @@ function tryToAuth() {
                         url: 'http://localhost:8189/',
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
-                        },complete:function (){
+                        }, complete: function () {
                             window.location.href = "user-cart";
                         }
                     })
@@ -36,7 +35,7 @@ function tryToAuth() {
                         url: 'http://localhost:8189/',
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
-                        },complete:function (){
+                        }, complete: function () {
                             window.location.href = "admin-products";
                         }
                     })
@@ -48,7 +47,7 @@ function tryToAuth() {
                         url: 'http://localhost:8189/',
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
-                        },complete:function (){
+                        }, complete: function () {
                             window.location.href = "user-products";
                         }
                     })
@@ -58,7 +57,7 @@ function tryToAuth() {
                         url: 'http://localhost:8189/',
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
-                        },complete:function (){
+                        }, complete: function () {
                             window.location.href = "admin-products";
                         }
                     })
@@ -75,15 +74,15 @@ function tryToAuth() {
                         }
                     })
                 } else {
-                        $.ajax({
-                            type: "GET",
-                            url: 'http://localhost:8189/',
-                            headers: {
-                                "Authorization": "Bearer " + localStorage.token
-                            }, complete: function () {
-                                window.location.href = "admin-products";
-                            }
-                        })
+                    $.ajax({
+                        type: "GET",
+                        url: 'http://localhost:8189/',
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.token
+                        }, complete: function () {
+                            window.location.href = "admin-products";
+                        }
+                    })
                 }
             }
         }, error: function (response) {
@@ -104,7 +103,7 @@ function isUserLoggedIn() {
                 url: 'http://localhost:8189/',
                 headers: {
                     "Authorization": "Bearer " + localStorage.token
-                },complete:function (){
+                }, complete: function () {
                     window.location.href = "user-products";
                 }
             })
@@ -115,7 +114,7 @@ function isUserLoggedIn() {
                 url: 'http://localhost:8189/',
                 headers: {
                     "Authorization": "Bearer " + localStorage.token
-                },complete:function (){
+                }, complete: function () {
                     window.location.href = "admin-products";
                 }
             })
@@ -128,13 +127,24 @@ function goToRegistration() {
     window.location.href = "registration"
 }
 
+function auth() {
+    $.ajax({
+        type: "GET",
+        url: 'http://localhost:8189/logout'
+        , complete: function () {
+            tryToAuth()
+        }
+    })
+
+}
+
 $(document).ready(function () {
 
     isUserLoggedIn();
 
     $("#logIn").click(function (event) {
         event.preventDefault();
-        tryToAuth()
+        auth()
     });
 
     $("#regButton").click(function (event) {

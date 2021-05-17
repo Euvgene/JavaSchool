@@ -7,10 +7,10 @@ checkValidCount = function () {
         data: {
             uuid: localStorage.marketCartUuid
         },
-        error: function () {
+        error: function (response) {
             $("#errorMassage").append("<input type=\"text\" " +
                 "disabled    class=\"errorText\" style=\"text-align: center; width: 100%; border: none;outline: none;\"" +
-                " value=' Sorry you order become invalid we will refresh it'>");
+                " value='" + response.responseJSON.message + "'>")
             const delay = 2500;
             setTimeout(function () {
                 getCartProducts();

@@ -27,7 +27,7 @@ function getSmallCartProducts() {
                 $('#smallCartHeader').append(
                     "<p>Total: " + result.totalPrice + ' $' + "</p>");
             } else {
-                $('#smallCart').append("<p>Cart is empty</p>");
+                $('#smallCart').append("<p align='center'>Cart is empty</p>");
             }
         }
     });

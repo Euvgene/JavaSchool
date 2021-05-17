@@ -43,7 +43,7 @@ public class AuthController {
         if (!userDetails.getAuthorities().toString().equals("[ROLE_ADMIN]") && !userDetails.getAuthorities().toString().equals("[ROLE_GUEST]")) {
             cartService.getCartForUser(authRequest.getUsername(), authRequest.getCartId());
         }
-        LOGGER.info("User " + authRequest.getUsername() + "auth");
+        LOGGER.info("User " + authRequest.getUsername() + " auth");
         return ResponseEntity.ok(new JwtResponse(token, userDetails.getAuthorities().toString()));
     }
 }
