@@ -27,7 +27,7 @@
 
         <file>${WARN_LOG}</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>WARN</level>
+            <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
@@ -46,7 +46,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.evgenii.my_market" level="warn" additivity="false">
+    <logger name="com.evgenii.my_market" level="error" additivity="false">
         <appender-ref ref="FILE-WARN"/>
     </logger>
 

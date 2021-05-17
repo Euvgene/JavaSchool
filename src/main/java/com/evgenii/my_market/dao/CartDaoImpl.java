@@ -1,10 +1,13 @@
 package com.evgenii.my_market.dao;
 
+import com.evgenii.my_market.dao.interfaces.CartDao;
 import com.evgenii.my_market.entity.Cart;
+import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class CartDAO {
+public class CartDaoImpl implements CartDao {
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -28,12 +31,16 @@ public class CartDAO {
         return cart;
     }
 
-    public Optional<Cart> findById(UUID id) {
+    public Cart findById(UUID id) {
         TypedQuery<Cart> query = entityManager.createQuery(
                 "SELECT c FROM Cart c where c.cartId = :id", Cart.class);
-        return Optional.of(query
-                .setParameter("id", id)
-                .getSingleResult());
+        try{
+            return  query
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e){
+            throw new ResourceNotFoundException("Unable to find cart with id: " + id);
+        }
     }
 
     public List<Cart> findByUserId(int id) {

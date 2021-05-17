@@ -25,7 +25,7 @@ public class CartController {
 
     @GetMapping("/{uuid}")
     public CartDto getCurrentCart(@PathVariable UUID uuid) {
-        Cart cart = cartService.findById(uuid).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + uuid));
+        Cart cart = cartService.findById(uuid);
         return new CartDto(cart);
     }
 

@@ -52,10 +52,8 @@ public class SpringConfig implements WebMvcConfigurer {
     @Bean
     public DataSource myDataSource() {
 
-        // create connection pool
         ComboPooledDataSource myDataSource = new ComboPooledDataSource();
 
-        // set the jdbc driver
         try {
             myDataSource.setDriverClass("com.mysql.jdbc.Driver");
         } catch (PropertyVetoException exc) {
@@ -113,7 +111,6 @@ public class SpringConfig implements WebMvcConfigurer {
 
         return transactionManager;
     }
-
 
     Properties additionalProperties() {
         Properties properties = new Properties();

@@ -1,13 +1,11 @@
 package com.evgenii.my_market.rest_controller;
 
-import com.evgenii.my_market.config.JwtTokenUtil;
 import com.evgenii.my_market.dto.UpdatePasswordDto;
 import com.evgenii.my_market.dto.UserDto;
 import com.evgenii.my_market.dto.UserEmailDto;
 import com.evgenii.my_market.dto.UserNameDto;
 import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
-import com.evgenii.my_market.service.ProductService;
 import com.evgenii.my_market.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -22,9 +20,9 @@ import java.security.Principal;
 @RestController
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor
-public class UserRestController {
+public class UserController {
     private final UserService userService;
-    private final Logger LOGGER = LoggerFactory.getLogger(UserRestController.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     @PostMapping
     public ResponseEntity<?> saveUser(@Valid @RequestBody UserDto newUsers) {
         if (userService.findByUsernameAndEmail(newUsers.getFirstName(), newUsers.getEmail()).size() > 0) {

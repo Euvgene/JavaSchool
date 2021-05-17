@@ -1,7 +1,8 @@
 package com.evgenii.my_market.service;
 
-import com.evgenii.my_market.dao.CartDAO;
+import com.evgenii.my_market.dao.CartDaoImpl;
 import com.evgenii.my_market.dao.CartItemDAO;
+import com.evgenii.my_market.dao.interfaces.CartDao;
 import com.evgenii.my_market.entity.Cart;
 import com.evgenii.my_market.entity.CartItem;
 import com.evgenii.my_market.entity.Product;
@@ -17,13 +18,12 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
-    private final CartDAO cartDAO;
+    private final CartDao cartDao;
     private final ProductService productService;
     private final UserService userService;
     private final CartItemDAO cartItemDAO;
@@ -31,23 +31,23 @@ public class CartService {
 
     @Transactional
     public Cart save(Cart cart) {
-        return cartDAO.save(cart);
+        return cartDao.save(cart);
     }
 
     @Transactional
-    public Optional<Cart> findById(UUID id) {
-        Cart cart = cartDAO.findById(id).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + id));
+    public Cart findById(UUID id) {
+        Cart cart = cartDao.findById(id);
         for (CartItem ci : cart.getCartItems()) {
             if (ci.getProduct().getProductQuantity() == 0) {
                 ci.setQuantity((byte) 0);
             }
         }
-        return Optional.of(cart);
+        return cart;
     }
 
     @Transactional
     public void addToCart(UUID cartId, int productId) {
-        Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        Cart cart = findById(cartId);
         CartItem cartItem = cart.getItemByProductId(productId);
         if (cartItem != null && cartItem.getProduct().getProductQuantity() > cartItem.getQuantity()) {
             cartItem.incrementQuantity();
@@ -64,14 +64,14 @@ public class CartService {
 
     @Transactional
     public void clearCart(UUID cartId) {
-        Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        Cart cart = findById(cartId);
         cart.clear();
     }
 
     @Transactional
     public ResponseEntity<?> clearOldCartItems(UUID cartId) {
         boolean isValid = true;
-        Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        Cart cart = findById(cartId);
         List<CartItem> cartItems = cart.getCartItems();
         ResponseEntity<?> responseEntity = ResponseEntity.ok(HttpStatus.ACCEPTED);
         for (int i = 0; cart.getCartItems().size() > i; i++) {
@@ -98,7 +98,7 @@ public class CartService {
 
     @Transactional
     public List<Cart> findByUserId(int id) {
-        return cartDAO.findByUserId(id);
+        return cartDao.findByUserId(id);
     }
 
 
@@ -106,13 +106,13 @@ public class CartService {
     public UUID getCartForUser(String username, UUID cartUuid) {
         if (username != null && cartUuid != null) {
             User user = userService.findByUsername(username).get();
-            Cart cart = findById(cartUuid).get();
+            Cart cart = findById(cartUuid);
             List<Cart> oldCartList = findByUserId(user.getUserId());
 
             if (!oldCartList.isEmpty() && oldCartList.get(0).getCartId() != cart.getCartId()) {
                 Cart oldCart = oldCartList.get(0);
                 cart.merge(oldCart);
-                cartDAO.delete(oldCart);
+                cartDao.delete(oldCart);
             }
             cart.setUser(user);
         }
@@ -128,7 +128,7 @@ public class CartService {
 
     @Transactional
     public void updateQuantityOrDeleteProductInCart(UUID cartId, int productId, int number) {
-        Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        Cart cart = findById(cartId);
         CartItem cartItem = cart.getItemByProductId(productId);
         Product p = productService.findProductById(productId).get(0);
         if (number != 0) {

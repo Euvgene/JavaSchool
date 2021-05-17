@@ -33,7 +33,7 @@ public class OrderService {
     public Order createFromUserCart(OrderConfirmDto orderConfirmDto) {
         boolean paymentState = true;
         User user = userService.findByUsername(orderConfirmDto.getUsername()).get();
-        Cart cart = cartService.findById(UUID.fromString(orderConfirmDto.getCartId())).get();
+        Cart cart = cartService.findById(UUID.fromString(orderConfirmDto.getCartId()));
         if (orderConfirmDto.getPaymentMethod().equals("cash")) paymentState = false;
         Order order = new Order(cart, user, user.getUserAddress(), orderConfirmDto.getAddress(), orderConfirmDto.getPaymentMethod(), paymentState);
         order.setOrderState(StateEnum.AWAITING_SHIPMENT);

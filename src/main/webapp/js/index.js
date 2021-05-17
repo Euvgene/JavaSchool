@@ -38,7 +38,9 @@ function authGuest() {
 }
 
 $(document).ready(function () {
-    /*   delete localStorage.marketCartUuid*/
+/*
+       delete localStorage.marketCartUuid
+*/
     if(!localStorage.role)
         authGuest()
     if (!localStorage.marketCartUuid) {
