@@ -4,7 +4,6 @@ appendMessage = function (response) {
         " value='" + response + "'>")
 }
 
-
 function checkout() {
     if ($("#form").valid()) {
         $("#errorMassage").empty();
@@ -39,16 +38,11 @@ function checkout() {
                 console.log(result)
                 $("#username").val($("#firstName").val());
                 $("#password").val($("#userPassword").val());
-                tryToAuth();
+            auth();
+
             }, error: function (response) {
                 console.log(response);
-                if (response.responseJSON.message.length > 1) {
-                    for (let k = 0; k < response.responseJSON.message.length; k++) {
-                        appendMessage(response.responseJSON.message[k])
-                    }
-                } else {
-                    appendMessage(response.responseJSON.message)
-                }
+                appendMessage(response.responseJSON.message)
 
             }
         });

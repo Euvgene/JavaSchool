@@ -40,7 +40,6 @@ public class MainController {
         return "admin/new_product";
     }
 
-
     @GetMapping("/user-main")
     public String getUserPage() {
         return "user/user_main";

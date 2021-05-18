@@ -14,8 +14,9 @@
     <link rel="stylesheet" type="text/css" href="/css/file.css">
 </header>
 <head>
-    <jsp:include page="adminHeader.jsp"/>
     <title>Orders</title>
+    <jsp:include page="adminHeader.jsp"/>
+
 </head>
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0" style="margin-top: 80px;">

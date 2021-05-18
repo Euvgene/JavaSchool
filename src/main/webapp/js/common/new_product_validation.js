@@ -4,7 +4,7 @@ $(function () {
         rules: {
             productName: {
                 required: true,
-                pattern: /^[a-zA-Z]+$/
+                pattern: /^[a-zA-Z_ ]+$/
             },
         },
         messages: {
@@ -74,19 +74,23 @@ $(function () {
             },
             age: {
                 required: true,
-                pattern: /^[1-9]*$/,
+                min: 1,
+                pattern: /^[0-9]*$/,
             },
             weight: {
                 required: true,
-                pattern: /^[1-9]*$/,
+                min: 1,
+                pattern: /^[0-9]*$/,
             },
             price: {
                 required: true,
-                pattern: /^[1-9]*$/,
+                min: 1,
+                pattern: /^[0-9]*$/,
             },
             count: {
                 required: true,
-                pattern: /^[1-9]*$/,
+                min: 0,
+                pattern: /^[0-9]*$/,
             },
             lifespan: {
                 required: true,
@@ -101,18 +105,22 @@ $(function () {
             },
             age: {
                 pattern: "Invalid number",
+                min: "Enter a value greater than 0",
                 required: "This field is required",
             },
             weight: {
                 pattern: "Invalid number",
+                min: "Enter a value greater than 0",
                 required: "This field is required",
             },
             price: {
                 pattern: "Invalid number",
+                min: "Enter a value greater than 0",
                 required: "This field is required",
             },
             count: {
                 pattern: "Invalid number",
+                min: "Enter a value greater than or equal to 0",
                 required: "This field is required",
             },
             lifespan: {

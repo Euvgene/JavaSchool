@@ -1,16 +1,17 @@
 package com.evgenii.my_market.dao;
 
-import com.evgenii.my_market.dto.CategoryDto;
+import com.evgenii.my_market.dao.api.CategoryDAO;
 import com.evgenii.my_market.entity.Category;
-import com.evgenii.my_market.entity.User;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.*; // todo fixed ""*""
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class CategoryDAO {
+public class CategoryDAOImpl implements CategoryDAO {
 
     @PersistenceContext
     EntityManager entityManager;

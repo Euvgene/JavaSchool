@@ -25,12 +25,12 @@
 
 #fl_nm {
     margin-top: 25px;
-    color: #f00;
+    color: #36cd15;
 }
 
 .block {
     width: 300px;
-    height: 350px;
+    height: 323px;
     background: #f1f1f1;
     float: left;
     margin: 0 15px 15px 0;
@@ -50,7 +50,28 @@
     width: 150px;
     position: fixed;
     top: 0;
-    right: 50px;
+    right: 100px;
+    margin-top: 200px;
+    max-height: 600px;
+    overflow: auto;
+    font-size: 13px;
+    background-color: #ffffff;
+}
+
+#footer {
+    position: fixed; /* Фиксированное положение */
+    left: 0; bottom: 0; /* Левый нижний угол */
+    padding: 10px; /* Поля вокруг текста */
+    background: #0f100f; /* Цвет фона */
+    color: #fff; /* Цвет текста */
+    width: 100%; /* Ширина слоя */
+}
+
+.filterDiv{
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 50px;
     margin-top: 200px;
     max-height: 600px;
     overflow: auto;
@@ -70,7 +91,7 @@
     position: fixed;
     top: 0;
     right: 50px;
-    margin-top: 135px;
+    margin-top: 200px;
     height: 600px;
     overflow: auto;
     font-size: 13px

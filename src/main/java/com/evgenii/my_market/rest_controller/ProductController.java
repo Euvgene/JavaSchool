@@ -3,16 +3,14 @@ package com.evgenii.my_market.rest_controller;
 import com.evgenii.my_market.dto.FilterDto;
 import com.evgenii.my_market.dto.ProductDto;
 import com.evgenii.my_market.entity.Product;
-import com.evgenii.my_market.service.ProductService;
+import com.evgenii.my_market.service.api.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

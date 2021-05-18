@@ -1,7 +1,5 @@
 package com.evgenii.my_market.validator;
 
-import com.evgenii.my_market.entity.Role;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;

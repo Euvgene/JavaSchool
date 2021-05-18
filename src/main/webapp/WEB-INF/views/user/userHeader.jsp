@@ -50,5 +50,8 @@
         </div>
     </nav>
 </header>
+<div id="footer">
+    &copy; Java School 2021
+</div>
 </body>
 </html>

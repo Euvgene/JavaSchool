@@ -6,7 +6,7 @@ import com.evgenii.my_market.dto.UserEmailDto;
 import com.evgenii.my_market.dto.UserNameDto;
 import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
-import com.evgenii.my_market.service.UserService;
+import com.evgenii.my_market.service.api.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +23,7 @@ import java.security.Principal;
 public class UserController {
     private final UserService userService;
     private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+
     @PostMapping
     public ResponseEntity<?> saveUser(@Valid @RequestBody UserDto newUsers) {
         if (userService.findByUsernameAndEmail(newUsers.getFirstName(), newUsers.getEmail()).size() > 0) {
@@ -42,7 +43,7 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<?> updateUser(@Valid @RequestBody UserDto user, Principal principal) {
-       return  userService.updateUser(user, principal.getName());
+        return userService.updateUser(user, principal.getName());
     }
 
     @PostMapping("/password")
@@ -55,6 +56,7 @@ public class UserController {
     public ResponseEntity<?> checkUserName(@Valid @RequestBody UserNameDto name) {
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
+
     @PostMapping("/email")
     public ResponseEntity<?> checkUserEmail(@Valid @RequestBody UserEmailDto email) {
         return ResponseEntity.ok(HttpStatus.ACCEPTED);

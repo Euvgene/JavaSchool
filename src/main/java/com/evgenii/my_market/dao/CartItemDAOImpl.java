@@ -1,13 +1,13 @@
 package com.evgenii.my_market.dao;
 
-import com.evgenii.my_market.entity.CartItem;
+import com.evgenii.my_market.dao.api.CartItemDAO;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class CartItemDAO {
+public class CartItemDAOImpl implements CartItemDAO {
     @PersistenceContext
     EntityManager entityManager;
 

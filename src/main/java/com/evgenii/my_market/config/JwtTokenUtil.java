@@ -20,7 +20,7 @@ import java.util.function.Function;
 @Component
 @PropertySource({"classpath:secured.properties"})
 public class JwtTokenUtil {
-    private final int LIFECYCLE_TOKEN = 50 * 60 * 1000;
+    private final int LIFECYCLE_TOKEN = 50 * 600 * 1000;
     @Value("${jwt.secret}")
     private String secret;
 

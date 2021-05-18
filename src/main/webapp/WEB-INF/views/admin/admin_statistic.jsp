@@ -12,8 +12,9 @@
     <script type="text/javascript" src="/js/admin/admin_statistic.js"></script>
 </header>
 <head>
+    <title>Statistic</title>
     <jsp:include page="adminHeader.jsp"/>
-    <title>Orders</title>
+
 </head>
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0" style="margin-top: 80px;">

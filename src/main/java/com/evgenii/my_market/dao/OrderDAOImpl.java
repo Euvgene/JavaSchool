@@ -1,7 +1,9 @@
 package com.evgenii.my_market.dao;
 
-import com.evgenii.my_market.entity.*;
-import org.hibernate.type.*;
+import com.evgenii.my_market.dao.api.OrderDAO;
+import com.evgenii.my_market.entity.Order;
+import org.hibernate.type.StringType;
+import org.hibernate.type.IntegerType;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -15,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public class OrderDAO {
+public class OrderDAOImpl implements OrderDAO {
     @PersistenceContext
     EntityManager entityManager;
 
@@ -71,7 +73,7 @@ public class OrderDAO {
                         " order by o.createdAt desc ";
                 break;
         }
-            TypedQuery<Order> query = entityManager.createQuery(
+        TypedQuery<Order> query = entityManager.createQuery(
                 myQuery, Order.class)
                 .setFirstResult(page)
                 .setMaxResults(total);
@@ -84,12 +86,12 @@ public class OrderDAO {
     public List<Object[]> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate) {
         String myQuery = null;
         switch (statisticName) {
-            case "user":
+            case "User":
                 myQuery = "SELECT first_name name,sum(price) as count " +
                         "FROM orders o INNER JOIN users u ON o.owner_id = u.user_id where  o.created_at >= :from_date and o.created_at <= :to_date " +
                         "GROUP BY owner_id asc limit 10;";
                 break;
-            case "proceeds":
+            case "Proceeds":
                 myQuery = "SELECT payment_method name, sum(price) as count " +
                         " FROM orders o where payment_state = 1 and o.created_at >= :from_date and o.created_at <= :to_date  group by payment_method asc;";
                 break;
@@ -99,13 +101,13 @@ public class OrderDAO {
                 .unwrap(org.hibernate.query.NativeQuery.class)
                 .addScalar("name", StringType.INSTANCE)
                 .addScalar("count", IntegerType.INSTANCE)
-                .setParameter("from_date",fromDate)
-                .setParameter("to_date",toDate);
+                .setParameter("from_date", fromDate)
+                .setParameter("to_date", toDate);
         return query.getResultList();
     }
 
     public List<Object[]> getProductStatistic(LocalDate fromDate, LocalDate toDate) {
-        Query query = entityManager.createNativeQuery( "SELECT p.productTitle name,count(*) as count, p.price as price " +
+        Query query = entityManager.createNativeQuery("SELECT p.productTitle name,count(*) as count, p.price as price " +
                 "FROM order_items o INNER JOIN products p ON o.product_id = p.product_id where  o.created_at >= :from_date and o.created_at <= :to_date + INTERVAL 1 DAY " +
                 "GROUP BY p.productTitle " +
                 "order by count desc  limit 10 ")
@@ -113,8 +115,8 @@ public class OrderDAO {
                 .addScalar("name", StringType.INSTANCE)
                 .addScalar("count", IntegerType.INSTANCE)
                 .addScalar("price", IntegerType.INSTANCE)
-                .setParameter("from_date",fromDate)
-                .setParameter("to_date",toDate);
+                .setParameter("from_date", fromDate)
+                .setParameter("to_date", toDate);
         return query.getResultList();
     }
 

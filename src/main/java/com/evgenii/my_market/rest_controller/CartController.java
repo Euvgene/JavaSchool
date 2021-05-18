@@ -2,10 +2,8 @@ package com.evgenii.my_market.rest_controller;
 
 import com.evgenii.my_market.dto.CartDto;
 import com.evgenii.my_market.entity.Cart;
-import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
-import com.evgenii.my_market.service.CartService;
+import com.evgenii.my_market.service.api.CartService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,8 +1,10 @@
 package com.evgenii.my_market.service;
 
-import com.evgenii.my_market.dao.CategoryDAO;
+
+import com.evgenii.my_market.dao.api.CategoryDAO;
 import com.evgenii.my_market.dto.CategoryDto;
 import com.evgenii.my_market.entity.Category;
+import com.evgenii.my_market.service.api.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryService {
+public class CategoryServiceImpl implements CategoryService {
     private final CategoryDAO categoryDAO;
     private final Logger LOGGER = LoggerFactory.getLogger(CategoryService.class);
 

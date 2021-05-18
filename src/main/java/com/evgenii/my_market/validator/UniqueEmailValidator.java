@@ -1,8 +1,9 @@
 package com.evgenii.my_market.validator;
 
-import com.evgenii.my_market.service.UserService;
+import com.evgenii.my_market.service.api.UserService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -10,7 +11,7 @@ import javax.validation.ConstraintValidatorContext;
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
 
     @Autowired
-    private  UserService userService;
+    private UserService userService;
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {

@@ -9,15 +9,16 @@
     <script type="text/javascript" src="/js/order_confirmation.js"></script>
 </header>
 <head id="header">
-    <jsp:include page="userHeader.jsp"/>
     <title>Order confirmation</title>
+    <jsp:include page="userHeader.jsp"/>
+
 </head>
 
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0">
 
     <div class="col-md-5" style="margin: auto">
-        <h3 id="cartHeader" style="margin-top: 100px;"></h3>
+        <h3 id="cartHeader" style="margin-top: 90px;"></h3>
 
         <div>
             <table class="table table-success table-striped" cellpadding="0" cellspacing="0"
@@ -38,8 +39,8 @@
         </div>
 
         <div id="orderConfirmDiv">
-            <h4 class="mb-3">Delivery terms</h4>
-            <div class="my-3">
+            <h4 >Delivery terms</h4>
+            <div>
                 <div>
                     <input id="deliveryToHome" type="checkbox" class="form-check-input" checked>
                     <label class="form-check-label" for="deliveryToHome" style="margin-left: 10px">Need delivery</label>
@@ -51,13 +52,13 @@
                 </div>
             </div>
             <form id="addressForm">
-                <div class="form-group" style="margin-bottom: 15px;" id="address">
-                    <label for="orderAddress" style="margin-bottom: 10px">Delivery address</label>
+                <div class="form-group" style="margin-bottom: 8px;" id="address">
+                    <label for="orderAddress" style="margin-bottom: 7px">Delivery address</label>
                     <input class="form-control" type="text" id="orderAddress" name="address">
                 </div>
             </form>
-            <h4 class="mb-3">Payment</h4>
-            <div class="my-3">
+            <h4>Payment</h4>
+            <div>
                 <div class="form-check">
                     <input id="creditCart" type="checkbox" value="card" class="form-check-input" checked>
                     <label class="form-check-label" for="creditCart" style="margin-left: 10px">Credit card</label>
@@ -96,8 +97,8 @@
 
                 </div>
             </form>
-            <div style="margin-top: 20px">
-                <input class="w-100 btn btn-primary btn-lg" type="button" id="confirmOrder" value="Pay for the order" >
+            <div style="margin-top: 10px">
+                <input class="w-100 btn btn-primary" type="button" id="confirmOrder" value="Pay for the order" >
             </div>
         </div>
     </div>

@@ -62,28 +62,18 @@ function tryToAuth() {
                         }
                     })
                 }
-            } else {
-                if (localStorage.role === "[ROLE_USER]") {
+            } else if (window.location.href.endsWith("/registration")) {
+
                     $.ajax({
                         type: "GET",
-                        url: 'http://localhost:8189/',
+                        url: 'http://localhost:8189/products',
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
                         }, complete: function () {
-                            window.location.href = "user-products";
+                            console.log("nen")
+                            window.location.href = "/";
                         }
                     })
-                } else {
-                    $.ajax({
-                        type: "GET",
-                        url: 'http://localhost:8189/',
-                        headers: {
-                            "Authorization": "Bearer " + localStorage.token
-                        }, complete: function () {
-                            window.location.href = "admin-products";
-                        }
-                    })
-                }
             }
         }, error: function (response) {
             console.log(response)

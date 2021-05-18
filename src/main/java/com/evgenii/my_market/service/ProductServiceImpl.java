@@ -1,12 +1,13 @@
 package com.evgenii.my_market.service;
 
 
-import com.evgenii.my_market.dao.ProductDAO;
 
+
+import com.evgenii.my_market.dao.api.ProductDAO;
 import com.evgenii.my_market.dto.FilterDto;
 import com.evgenii.my_market.dto.ProductDto;
 import com.evgenii.my_market.entity.Product;
-import com.evgenii.my_market.rest_controller.AuthController;
+import com.evgenii.my_market.service.api.ProductService;
 import lombok.RequiredArgsConstructor;
 
 import org.slf4j.Logger;
@@ -20,12 +21,11 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ProductService {
+public class ProductServiceImpl implements ProductService {
+    private final ProductDAO dao;
+    private final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
     private final int TOTAL_PRODUCTS_IN_PAGE = 8;
     private final int CHECK_PAGE_NUMBER = 1;
-    private final ProductDAO dao;
-    private final Logger LOGGER = LoggerFactory.getLogger(ProductService.class);
-
 
     @Transactional
     public List<ProductDto> getProductsPage(FilterDto filterDto) { // todo rename p  and magic NUMBERS
@@ -35,7 +35,7 @@ public class ProductService {
             page = (page - CHECK_PAGE_NUMBER) * total + CHECK_PAGE_NUMBER;
         }
 
-        return dao.getProductsPage(page - 1, total, filterDto).stream()
+        return dao.getProductsPage(page - CHECK_PAGE_NUMBER, total, filterDto).stream()
                 .map(ProductDto::new)
                 .collect(Collectors.toList());
     }

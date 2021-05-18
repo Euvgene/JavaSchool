@@ -8,38 +8,18 @@
     <script type="text/javascript" src="/js/user/user_products.js"></script>
 </header>
 <head id="header">
-    <jsp:include page="userHeader.jsp" />
-    <jsp:include page="../small_cart.jsp" />
     <title>Products</title>
+    <jsp:include page="userHeader.jsp" />
+    <jsp:include page="../filter_product.jsp" />
+    <jsp:include page="../small_cart.jsp" />
 </head>
 
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0">
 
     <div class="container mt-5">
-        <h3  style="margin-top: 100px;">Filter</h3>
-        <div class="form-group row">
-            <div class="form-group col-md-3">
-                <label for="filterTitle">Product name</label>
-                <input class="form-control" type="text" id="filterTitle">
-            </div>
-            <div class="form-group col-md-3">
-                <label for="filterGender">Gender</label>
-                <input class="form-control" type="text" id="filterGender" >
-            </div>
-            <div class="form-group col-md-3">
-                <label for="filterMinCost">Min price</label>
-                <input class="form-control" type="number"  id="filterMinCost" >
-            </div>
-            <div class="form-group col-md-3">
-                <label for="filterMaxCost">Max price</label>
-                <input class="form-control" type="number"  id="filterMaxCost">
-            </div>
-        </div>
-        <div>
-            <button class="btn btn-success" type="submit" id="filterButton">Submit</button>
-        </div>
-        <nav aria-label="Page navigation">
+
+        <nav aria-label="Page navigation" style="margin-left: 10px; margin-top: 100px">
             <ul class="pagination" id="pagination">
             </ul>
         </nav>

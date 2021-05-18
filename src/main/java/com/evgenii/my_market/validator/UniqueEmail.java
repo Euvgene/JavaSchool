@@ -18,5 +18,5 @@ public @interface UniqueEmail {
 
     public Class<?>[] groups() default {};
 
-    public Class<? extends Payload>[] payload() default{};
+    public Class<? extends Payload>[] payload() default {};
 }

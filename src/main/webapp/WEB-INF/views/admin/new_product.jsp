@@ -18,8 +18,9 @@
 
 </header>
 <head>
-    <%@ include file="adminHeader.jsp" %>
     <title>Add New Product</title>
+    <%@ include file="adminHeader.jsp" %>
+
 </head>
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0" style="margin-top: 80px;">
@@ -124,7 +125,7 @@
                         <label><input id="fl_inp" type="file">Choose file</label>
                     </div>
                     <div class="col-md-7" id="fl_nm" style="margin-left: 0px">
-                        <input id="fileName" style=" border: white; width: 100%" value="No file selected" disabled/>
+                        <input id="fileName" style=" border: white; width: 100%" placeholder="No file selected" disabled/>
                     </div>
                 </div>
             </form>

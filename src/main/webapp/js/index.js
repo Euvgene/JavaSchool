@@ -9,6 +9,18 @@ function createCart() {
     });
 }
 
+requestWithToken = function (){
+    $.ajax({
+        type: "GET",
+        url: 'http://localhost:8189/',
+        headers: {
+            "Authorization": "Bearer " + localStorage.token
+        },success:function (){
+            window.location.href = "http://localhost:8189/products";
+        }
+    })
+}
+
 
 function authGuest() {
     let formData = {
@@ -26,13 +38,7 @@ function authGuest() {
         success: function (result) {
             localStorage.token = result.token;
             localStorage.role = result.userRole;
-            $.ajax({
-                type: "GET",
-                url: 'http://localhost:8189/',
-                headers: {
-                    "Authorization": "Bearer " + localStorage.token
-                }
-            })
+         requestWithToken()
         }
     })
 }
@@ -41,8 +47,13 @@ $(document).ready(function () {
 /*
        delete localStorage.marketCartUuid
 */
-    if(!localStorage.role)
+    if(!localStorage.role){
+        console.log("nen")
         authGuest()
+    } else{
+        requestWithToken()
+    }
+
     if (!localStorage.marketCartUuid) {
         createCart();
     }

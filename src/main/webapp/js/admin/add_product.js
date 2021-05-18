@@ -1,5 +1,6 @@
 let methodeName = "POST";
-let newNameCategory= null;
+let newNameCategory = null;
+let newCategoryName = null;
 
 
 appendMessage = function (response) {
@@ -20,8 +21,10 @@ function loadCategory() {
             for (let i = 0; i < result.length; i++) {
                 $('#category').append('<option>' + result[i].categoryName + '</option>');
             }
-            if(newNameCategory !== null){
+            if (newNameCategory !== null) {
                 $('#category').val(newNameCategory)
+            } else if (newCategoryName !== null) {
+                $('#category').val(newCategoryName)
             }
             checkCategory()
             return result
@@ -68,9 +71,10 @@ changeCategory = function () {
 }
 
 function createNewCategory() {
+    let newName = $("#newCategory").val();
     if ($("#newCategoryForm").valid()) {
         const formData = {
-            categoryName: $("#newCategory").val()
+            categoryName: newName
         }
         $.ajax({
             type: "POST",
@@ -79,6 +83,7 @@ function createNewCategory() {
             data: JSON.stringify(formData),
             dataType: 'json',
             success: function () {
+                newCategoryName = newName;
                 loadCategory()
             }, error: function (response) {
                 appendMessage(response.responseJSON.message)
@@ -161,6 +166,7 @@ function getProduct(productId) {
             $('#fileName').val(result.fotoId)
             $('#divFoto').append("<p class=\"page-information\"><img src=\"/images/" + $('#fileName').val() + "\" + width=\"150\" height=\"150\"></p>");
             $('#createProduct').val("Update product")
+            delete localStorage.productId
             methodeName = "PUT";
             checkCategory();
         }

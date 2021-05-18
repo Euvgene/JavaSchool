@@ -39,10 +39,9 @@ function getStatistic(name) {
                 "                        <td align='center' style='white-space: nowrap'>Name</td>" +
                 "                        <td align='center' style='white-space: nowrap'>Count</td>" +
                 "                    </tr>");
-            let count = 0;
             $('#example').empty();
             if (order.length > 0) {
-                $('#cartHeader').append("Statistic");
+                $('#cartHeader').append(name + " statistic");
                 for (let k = 0; k < order.length; k++) {
                     total = total + order[k].number;
                     let rd = $('<tr class=""></tr>');
@@ -133,12 +132,12 @@ $(document).ready(function () {
 
     $("#userButton").click(function (event) {
         event.preventDefault();
-        getStatistic("user")
+        getStatistic("User")
     });
 
     $("#proceeds").click(function (event) {
         event.preventDefault();
-        getStatistic("proceeds");
+        getStatistic("Proceeds");
     });
 
     $("#firstDate").on('change', function (event) {

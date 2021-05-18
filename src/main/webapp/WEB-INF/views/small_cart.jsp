@@ -13,14 +13,12 @@
     <script type="text/javascript" src="/js/common/small_cart.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/file.css">
 </header>
-<body >
-
-<h6 class="smallCartHeader" id="smallCartHeader" align="center"></h6>
-    <div class="smallCartDiv" id = "smallCart">
-
-
+<body>
+<div class="smallCartDiv"  >
+    <h6  id="smallCartHeader" align="center"></h6>
+    <div id="smallCart">
     </div>
-
+</div>
 
 
 </body>

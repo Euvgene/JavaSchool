@@ -1,16 +1,18 @@
 package com.evgenii.my_market.service;
 
-import com.evgenii.my_market.dao.OrderDAO;
+import com.evgenii.my_market.dao.api.OrderDAO;
 import com.evgenii.my_market.dto.OrderConfirmDto;
 import com.evgenii.my_market.dto.OrderDto;
 import com.evgenii.my_market.dto.ProductStatisticDto;
 import com.evgenii.my_market.dto.StatisticDto;
 import com.evgenii.my_market.entity.*;
+import com.evgenii.my_market.service.api.CartService;
+import com.evgenii.my_market.service.api.OrderService;
+import com.evgenii.my_market.service.api.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
 
 import javax.transaction.Transactional;
 import java.math.BigInteger;
@@ -22,13 +24,14 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService {
+public class OrderServiceImpl implements OrderService {
     private final OrderDAO orderDAO;
     private final CartService cartService;
     private final UserService userService;
     private final Logger LOGGER = LoggerFactory.getLogger(OrderService.class);
     private final int TOTAL_ORDERS_IN_PAGE = 8;
     private final int CHECK_PAGE_NUMBER = 1;
+
     @Transactional
     public Order createFromUserCart(OrderConfirmDto orderConfirmDto) {
         boolean paymentState = true;

@@ -4,10 +4,10 @@ import com.evgenii.my_market.config.JwtTokenUtil;
 import com.evgenii.my_market.dto.JwtRequest;
 import com.evgenii.my_market.dto.JwtResponse;
 import com.evgenii.my_market.exception_handling.MarketError;
-import com.evgenii.my_market.service.CartService;
-import com.evgenii.my_market.service.UserService;
-import lombok.RequiredArgsConstructor;
+import com.evgenii.my_market.service.CartServiceImpl;
 
+import com.evgenii.my_market.service.api.UserService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
-    private final CartService cartService;
+    private final CartServiceImpl cartService;
     private final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
     @PostMapping("/auth")

@@ -18,8 +18,9 @@
     <script type="text/javascript" src="/js/registration.js"></script>
 </header>
 <head>
-    <jsp:include page="header.jsp" />
     <title>Registration</title>
+    <jsp:include page="header.jsp" />
+
 </head>
 
 <body class="bg-light">
@@ -81,9 +82,6 @@
                         <div class="col-md-5">
                             <label for="country" class="form-label">Country</label>
                             <input type="text" class="form-control" id="country" name="country" placeholder="Country" >
-                            <div class="invalid-feedback">
-                                Please select a valid country.
-                            </div>
                         </div>
 
                         <div class="col-md-4">
@@ -106,6 +104,7 @@
             </div>
         </div>
     </main>
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>

@@ -8,8 +8,8 @@
     <script type="text/javascript" src="/js/cart.js"></script>
 </header>
 <head id="header">
-    <jsp:include page="header.jsp"/>
     <title>Cart</title>
+    <jsp:include page="header.jsp"/>
 </head>
 
 <body class="d-flex flex-column h-100" onload="getCartProducts()">

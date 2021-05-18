@@ -11,8 +11,9 @@
     <script type="text/javascript" src="/js/user/order_result.js"></script>
 </header>
 <head>
-    <jsp:include page="userHeader.jsp"/>
     <title>New order</title>
+    <jsp:include page="userHeader.jsp"/>
+
 </head>
 <body class="d-flex flex-column h-100" onload="showOrder()">
 <main class="flex-shrink-0">

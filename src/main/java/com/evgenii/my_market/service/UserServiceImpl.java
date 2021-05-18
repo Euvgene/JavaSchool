@@ -1,27 +1,25 @@
 package com.evgenii.my_market.service;
 
-import com.evgenii.my_market.dao.UserDAO;
+import com.evgenii.my_market.dao.UserDAOImpl;
 
 import com.evgenii.my_market.dto.UpdatePasswordDto;
 import com.evgenii.my_market.dto.UserDto;
 import com.evgenii.my_market.entity.Role;
 import com.evgenii.my_market.entity.User;
 import com.evgenii.my_market.exception_handling.MarketError;
+import com.evgenii.my_market.service.api.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,8 +29,8 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements UserDetailsService {
-    private final UserDAO userDAO;
+public class UserServiceImpl implements UserService {
+    private final UserDAOImpl userDAO;
     private final BCryptPasswordEncoder passwordEncoder;
     private final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
@@ -44,12 +42,10 @@ public class UserService implements UserDetailsService {
         return userDAO.findByUsername(username).map(UserDto::new);
     }
 
-
     public List<User> findByUsernameAndEmail(String username, String email) {
         return userDAO.findByUsernameAndEmail(username, email);
     }
 
-    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
@@ -64,10 +60,6 @@ public class UserService implements UserDetailsService {
                 .collect(Collectors.toList());
     }
 
-    public List<User> getAll() {
-        return userDAO.getAllUsers();
-    }
-
     @Transactional
     public void save(UserDto newUser) {
         User user = new User(newUser);
@@ -78,7 +70,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public ResponseEntity<?> updateUser(UserDto changedUser, String oldName) {
         User oldUser = userDAO.findByUsername(oldName).get();
-        if(passwordEncoder.matches(changedUser.getPassword(), oldUser.getPassword())){
+        if (passwordEncoder.matches(changedUser.getPassword(), oldUser.getPassword())) {
             changedUser.getUserAddress().setAddressId(oldUser.getUserAddress().getAddressId());
             User user = new User(changedUser);
             user.setPassword(oldUser.getPassword());
@@ -102,7 +94,8 @@ public class UserService implements UserDetailsService {
             userDAO.update(user);
             LOGGER.info("User " + user.getFirstName() + " update password");
             return ResponseEntity.ok(HttpStatus.ACCEPTED);
-        } else    return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "Wrong old password"), HttpStatus.CONFLICT);
+        } else
+            return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "Wrong old password"), HttpStatus.CONFLICT);
 
     }
 

@@ -1,6 +1,7 @@
 package com.evgenii.my_market.validator;
 
 import org.apache.commons.beanutils.BeanUtils;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -26,7 +27,7 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
             System.out.println(e.toString());
         }
 
-        if(!isPasswordsEquals) {
+        if (!isPasswordsEquals) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(errorMessageName).addPropertyNode(firstFieldName).addConstraintViolation();
         }

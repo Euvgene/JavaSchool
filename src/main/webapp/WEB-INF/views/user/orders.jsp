@@ -11,8 +11,9 @@
     <script type="text/javascript" src="/js/user/orders.js"></script>
 </header>
 <head>
-    <jsp:include page="userHeader.jsp"/>
     <title>Orders</title>
+    <jsp:include page="userHeader.jsp"/>
+
 </head>
 <body class="d-flex flex-column h-100" onload="showOrders()">
 <main class="flex-shrink-0">

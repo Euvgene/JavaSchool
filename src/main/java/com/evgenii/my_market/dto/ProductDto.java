@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -33,7 +34,7 @@ public class ProductDto {
     @NotNull(message = "Please provide parameters")
     private Parameters parameters;
     @NotNull(message = "Please provide quantity")
-    @Positive(message ="Quantity must be positive" )
+    @Min(value = 0)
     private byte productQuantity;
 
     public ProductDto(Product product) {

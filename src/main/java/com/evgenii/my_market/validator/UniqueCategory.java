@@ -10,7 +10,7 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Target({FIELD,PARAMETER})
+@Target({FIELD, PARAMETER})
 @Retention(RUNTIME)
 @Constraint(validatedBy = UniqueCategoryValidator.class)
 @Documented
@@ -19,5 +19,5 @@ public @interface UniqueCategory {
 
     public Class<?>[] groups() default {};
 
-    public Class<? extends Payload>[] payload() default{};
+    public Class<? extends Payload>[] payload() default {};
 }

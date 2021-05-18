@@ -1,5 +1,6 @@
 let currentPage = null;
-
+const ALL_PRODUCT = 0
+const AVAILABLE_PRODUCT = 1
 
 deleteProduct = function (id) {
     $.ajax({
@@ -10,10 +11,16 @@ deleteProduct = function (id) {
         },
         success: function (result) {
             $("#buttonDelete" + id).hide(100);
-            $("#quantity"+ id).text("Quantity: 0");
-            $("#quantity"+ id).css("color", "red");
+            $("#quantity" + id).text("Quantity: 0");
+            $("#quantity" + id).css("color", "red");
         }
     })
+}
+
+toCheck = function () {
+    if ($('#notAvailable').is(':checked')) {
+        $('#available').prop("checked", false)
+    }
 }
 
 function clearTable() {
@@ -74,13 +81,17 @@ function getProductCount(formData) {
 
 
 function getProducts(pageIndex = 1) {
-    products = new Map();
+    const genderName = document.getElementById("gender");
+    const categoryName = document.getElementById("category");
     let formData = {
         page: pageIndex,
         minPrice: $("#filterMinCost").val() ? $("#filterMinCost").val() : "0",
         maxPrice: $("#filterMaxCost").val() ? $("#filterMaxCost").val() : Number.MAX_VALUE + "",
         name: $("#filterTitle").val() ? $("#filterTitle").val() : "",
-        gender: $("#filterGender").val() ? $("#filterGender").val() : "",
+        gender: (genderName.options[genderName.selectedIndex].text === "Choose...") ? "" : genderName.options[genderName.selectedIndex].text,
+        category: (categoryName.options[categoryName.selectedIndex].text === "Choose...") ? "" : categoryName.options[categoryName.selectedIndex].text,
+        quantity: $('#available').is(':checked') ? AVAILABLE_PRODUCT : ALL_PRODUCT,
+        notAvailable: $('#notAvailable').is(':checked') ? AVAILABLE_PRODUCT : ALL_PRODUCT,
     }
     console.log(formData)
     $.ajax({
@@ -102,9 +113,9 @@ function getProducts(pageIndex = 1) {
                         "<p class=\"page-information\"><img id=\"photoId" + productList[k].productId + "\" src=\"/images/" + productList[k].fotoId + "\" + width=\"130\" height=\"130\"></p>" +
                         "<p class=\"page-information\"> Name: " + productList[k].productTitle + "</p>" +
                         "<p class=\"page-information\"> Gender: " + productList[k].parameters.productGender + "</p>" +
-                        "<p class=\"page-information\"> Age:  " + productList[k].parameters.productAge + "</p>" +
+                        "<p class=\"page-information\"> Age: <  " + productList[k].parameters.productAge + " year</p>" +
                         "<p class=\"page-information\"> Lifespan:  " + productList[k].parameters.productLifespan + "</p>" +
-                        "<p class=\"page-information\"> Price:  " + productList[k].productPrice + "</p>" +
+                        "<p class=\"page-information\"> Price:  " + productList[k].productPrice + " $</p>" +
                         "<p class=\"page-information\" id=\"quantity" + productList[k].productId + "\"> Quantity:  " + productList[k].productQuantity + "</p>" +
                         "<input class=\"btn btn-primary\" type='button' onclick= \"changeProduct(" + productList[k].productId + ")\"  value='Change product'/>" +
                         "<input class=\"btn btn-danger\" type='button' id=\'buttonDelete" + productList[k].productId + "\' onclick= \"deleteProduct(" + productList[k].productId + ")\"  value='Delete product'/>" +
@@ -141,6 +152,17 @@ changeProduct = function (id) {
 $(document).ready(function () {
     delete localStorage.productId;
     getProducts()
+
+    $("#notAvailableDiv").append("<div class=\"form-check\">\n" +
+        "            <input id=\"notAvailable\" type=\"checkbox\" class=\"form-check-input\" onclick='toCheck()'>\n" +
+        "            <label class=\"form-check-label\" for=\"notAvailable\" style=\"margin-left: 6px\">Not available</label>\n" +
+        "        </div>")
+
+    $('#available').click(function () {
+        if ($(this).is(':checked')) {
+            $('#notAvailable').prop("checked", false)
+        }
+    });
 
     $("#filterButton").click(function (event) {
         localStorage.setItem("pageIndx", 1);

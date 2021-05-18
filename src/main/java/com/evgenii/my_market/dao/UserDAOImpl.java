@@ -1,5 +1,6 @@
 package com.evgenii.my_market.dao;
 
+import com.evgenii.my_market.dao.api.UserDAO;
 import com.evgenii.my_market.entity.User;
 import org.springframework.stereotype.Repository;
 
@@ -7,12 +8,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class UserDAO {
+public class UserDAOImpl implements UserDAO {
 
     @PersistenceContext
     EntityManager entityManager;
@@ -40,13 +40,6 @@ public class UserDAO {
                 .getResultList();
     }
 
-    public List<User> getAllUsers() {
-
-        TypedQuery<User> query = entityManager.createQuery(
-                "SELECT u FROM User u ", User.class);
-        return query
-                .getResultList();
-    }
 
     public void saveUser(User newUsers) {
         entityManager.persist(newUsers);

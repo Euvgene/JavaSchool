@@ -1,14 +1,16 @@
 package com.evgenii.my_market.service;
 
-import com.evgenii.my_market.dao.CartDaoImpl;
-import com.evgenii.my_market.dao.CartItemDAO;
-import com.evgenii.my_market.dao.interfaces.CartDao;
+import com.evgenii.my_market.dao.api.CartDao;
+import com.evgenii.my_market.dao.api.CartItemDAO;
 import com.evgenii.my_market.entity.Cart;
 import com.evgenii.my_market.entity.CartItem;
 import com.evgenii.my_market.entity.Product;
 import com.evgenii.my_market.entity.User;
 import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
+import com.evgenii.my_market.service.api.CartService;
+import com.evgenii.my_market.service.api.ProductService;
+import com.evgenii.my_market.service.api.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +24,13 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class CartService {
+public class CartServiceImpl implements CartService {
     private final CartDao cartDao;
     private final ProductService productService;
     private final UserService userService;
     private final CartItemDAO cartItemDAO;
-    private final Logger LOGGER = LoggerFactory.getLogger(CartService.class);
+
+    private final Logger LOGGER = LoggerFactory.getLogger(CartServiceImpl.class);
 
     @Transactional
     public Cart save(Cart cart) {

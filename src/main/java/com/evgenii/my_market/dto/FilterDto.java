@@ -13,6 +13,9 @@ public class FilterDto {
     private int page;
     private String name;
     private String gender;
+    private String category;
+    private byte quantity;
+    private byte notAvailable;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
 
