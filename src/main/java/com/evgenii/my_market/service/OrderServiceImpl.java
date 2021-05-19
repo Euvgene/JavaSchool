@@ -43,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
         order = orderDAO.saveOrder(order);
         cart.getCartItems().forEach(cartItem -> cartItem.getProduct().decrementQuantityProduct(cartItem.getQuantity()));
         cartService.clearCart(UUID.fromString(orderConfirmDto.getCartId()));
-        LOGGER.info("Create order with id "  + order.getId());
+        LOGGER.info("Create order with id " + order.getId());
         return order;
     }
 
@@ -85,9 +85,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public List<ProductStatisticDto> getProductStatistic(LocalDate fromDate, LocalDate toDate) {
-        return orderDAO.getProductStatistic( fromDate, toDate).stream().map(ProductStatisticDto::new).collect(Collectors.toList());
+        return orderDAO.getProductStatistic(fromDate, toDate).stream().map(ProductStatisticDto::new).collect(Collectors.toList());
     }
-
 
 
     private int getPage(int page, int total) {
@@ -99,10 +98,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     public BigInteger getOrdersCountByOwnerName(String name, LocalDate fromDate, LocalDate toDate) {
-        return orderDAO.getOrdersCountByOwnerName(name,fromDate,toDate);
+        return orderDAO.getOrdersCountByOwnerName(name, fromDate, toDate);
     }
 
     public BigInteger getOrdersCount(LocalDate fromDate, LocalDate toDate, String state) {
-        return orderDAO.getAllOrderCount(fromDate,toDate, state);
+        return orderDAO.getAllOrderCount(fromDate, toDate, state);
     }
 }

@@ -166,7 +166,6 @@ function getProduct(productId) {
             $('#fileName').val(result.fotoId)
             $('#divFoto').append("<p class=\"page-information\"><img src=\"/images/" + $('#fileName').val() + "\" + width=\"150\" height=\"150\"></p>");
             $('#createProduct').val("Update product")
-            delete localStorage.productId
             methodeName = "PUT";
             checkCategory();
         }
@@ -191,7 +190,6 @@ function showChangeCategoryDiv() {
 }
 
 $(document).ready(function () {
-    checkCategory()
     loadCategory()
     if (localStorage.productId) {
         getProduct(localStorage.productId)

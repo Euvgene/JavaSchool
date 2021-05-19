@@ -85,7 +85,15 @@ changeUser = function () {
                                 localStorage.token = result.token;
                                 const delay = 1500;
                                 setTimeout(function () {
-                                    location.assign("http://localhost:8189/user-products")
+                                    $.ajax({
+                                        type: "GET",
+                                        url: 'http://localhost:8189/',
+                                        headers: {
+                                            "Authorization": "Bearer " + localStorage.token
+                                        }, complete: function () {
+                                            window.location.href = "user-products";
+                                        }
+                                    })
                                 }, delay);
                             }, error: function (response) {
                                 console.log(response)

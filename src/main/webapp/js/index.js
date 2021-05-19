@@ -48,7 +48,6 @@ $(document).ready(function () {
        delete localStorage.marketCartUuid
 */
     if(!localStorage.role){
-        console.log("nen")
         authGuest()
     } else{
         requestWithToken()
