@@ -50,7 +50,7 @@ function getStatistic(name) {
                         "<td align='center' > " + order[k].number + '' + " $" + '</td>');
                     $('#example').append(rd);
                 }
-                if (name === "proceeds") {
+                if (name === "Proceeds") {
                     $('#example').append("<tr>" +
                         "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
                         "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
