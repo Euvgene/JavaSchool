@@ -1,6 +1,7 @@
 let methodeName = "POST";
 let newNameCategory = null;
 let newCategoryName = null;
+let productId = null;
 
 
 appendMessage = function (response) {
@@ -95,7 +96,7 @@ function createNewCategory() {
 
 function createProduct(methode) {
     if (methode === "POST") {
-        localStorage.productId = null;
+        productId = null;
         localStorage.parametersId = null;
     }
     let isValid = $("#productNameForm").valid() && $("#categoryNameForm").valid() && $("#middleForm").valid();
@@ -104,7 +105,7 @@ function createProduct(methode) {
         const e = document.getElementById("gender");
         const name = document.getElementById('fl_inp');
         const prodData = {
-            productId: localStorage.productId,
+            productId: productId,
             productTitle: $("#productName").val(),
             productPrice: $("#price").val(),
             category: categories.find(item => item.categoryName === $("#category").val()),
@@ -166,6 +167,7 @@ function getProduct(productId) {
             $('#fileName').val(result.fotoId)
             $('#divFoto').append("<p class=\"page-information\"><img src=\"/images/" + $('#fileName').val() + "\" + width=\"150\" height=\"150\"></p>");
             $('#createProduct').val("Update product")
+            delete localStorage.productId
             methodeName = "PUT";
             checkCategory();
         }
@@ -192,7 +194,8 @@ function showChangeCategoryDiv() {
 $(document).ready(function () {
     loadCategory()
     if (localStorage.productId) {
-        getProduct(localStorage.productId)
+        productId = localStorage.productId
+        getProduct(productId)
     }
     $("#fl_inp").change(function () {
         const filename = $(this).val().replace(/.*\\/, "");
