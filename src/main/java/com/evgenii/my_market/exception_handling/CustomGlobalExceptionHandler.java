@@ -52,10 +52,4 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
 
     }
 
-
-    @ExceptionHandler(SQLException.class)
-    public String handleSQLException(HttpServletRequest request, Exception ex){
-        LOGGER.warn(ex.getMessage());
-        return "database_error";
-    }
 }

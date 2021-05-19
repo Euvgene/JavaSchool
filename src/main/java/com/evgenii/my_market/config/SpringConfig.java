@@ -34,7 +34,6 @@ public class SpringConfig implements WebMvcConfigurer {
 
     private final Environment env;
 
-
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -72,14 +71,6 @@ public class SpringConfig implements WebMvcConfigurer {
         return myDataSource;
     }
 
-    private Properties getHibernateProperties() {
-        Properties props = new Properties();
-        props.setProperty("hibernate.dialect", env.getProperty("hibernate.dialect"));
-        props.setProperty("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-        return props;
-    }
-
-
     private int getIntProperty(String propName) { /*todo test if null*/
 
         String propVal = env.getProperty(propName);
@@ -87,7 +78,6 @@ public class SpringConfig implements WebMvcConfigurer {
         assert propVal != null;
         return Integer.parseInt(propVal);
     }
-
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
@@ -115,7 +105,7 @@ public class SpringConfig implements WebMvcConfigurer {
     Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        properties.setProperty("hibernate.show_sql", "true");
+        properties.setProperty("hibernate.show_sql", "false");
 
         return properties;
     }
