@@ -56,7 +56,7 @@
                 <table class="table table-success table-striped" cellpadding="0" cellspacing="0"
                        style="border-collapse: separate;" aria-describedby="">
                     <tr style="display: none">
-                        <th></th>
+                        <th id=""></th>
                     </tr>
                     <thead id="cartHead" style=" font-size: 1.3rem;"></thead>
                     <tbody id="example"></tbody>
