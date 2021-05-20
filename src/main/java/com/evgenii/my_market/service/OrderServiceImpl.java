@@ -6,12 +6,14 @@ import com.evgenii.my_market.dto.OrderDto;
 import com.evgenii.my_market.dto.ProductStatisticDto;
 import com.evgenii.my_market.dto.StatisticDto;
 import com.evgenii.my_market.entity.*;
+import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.service.api.CartService;
 import com.evgenii.my_market.service.api.OrderService;
 import com.evgenii.my_market.service.api.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -35,7 +37,8 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public Order createFromUserCart(OrderConfirmDto orderConfirmDto) {
         boolean paymentState = true;
-        User user = userService.findByUsername(orderConfirmDto.getUsername()).get();
+        User user = userService.findByUsername(orderConfirmDto.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", orderConfirmDto.getUsername())));
         Cart cart = cartService.findById(UUID.fromString(orderConfirmDto.getCartId()));
         if (orderConfirmDto.getPaymentMethod().equals("cash")) paymentState = false;
         Order order = new Order(cart, user, user.getUserAddress(), orderConfirmDto.getAddress(), orderConfirmDto.getPaymentMethod(), paymentState);
@@ -63,7 +66,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     public void updateOrder(UUID orderId, String orderAddress, String orderState) {
-        Order order = orderDAO.findById(orderId).get();
+        Order order = orderDAO.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order with id "+ orderId + " not found"));
         if (orderState.equals("DELIVERED")) {
             order.setPaymentState(true);
         } else if (orderState.equals("RETURN")) {

@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final JwtTokenUtil jwtTokenUtil;
-    private final UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,

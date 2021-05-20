@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public ResponseEntity<?> updateUser(UserDto changedUser, String oldName) {
-        User oldUser = userDAO.findByUsername(oldName).get();
+        User oldUser = userDAO.findByUsername(oldName).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", oldName)));
         if (passwordEncoder.matches(changedUser.getPassword(), oldUser.getPassword())) {
             changedUser.getUserAddress().setAddressId(oldUser.getUserAddress().getAddressId());
             User user = new User(changedUser);
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     public ResponseEntity<?> updatePassword(UpdatePasswordDto passwordDto, String userName) {
-        User user = userDAO.findByUsername(userName).get();
+        User user = userDAO.findByUsername(userName).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", userName)));
         if (passwordEncoder.matches(passwordDto.getOldPassword(), user.getPassword())) {
             user.setPassword(passwordEncoder.encode(passwordDto.getFirstPassword()));
             userDAO.update(user);

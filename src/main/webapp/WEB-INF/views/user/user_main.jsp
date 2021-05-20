@@ -1,4 +1,5 @@
-<html>
+<!doctype html>
+<html lang="en-GB">
 <header>
     <meta charset="utf-8">
 </header>

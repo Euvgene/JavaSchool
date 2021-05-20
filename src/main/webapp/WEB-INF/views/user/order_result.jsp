@@ -6,7 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!doctype html>
+<html lang="en-GB">
 <header>
     <script type="text/javascript" src="/js/user/order_result.js"></script>
 </header>
