@@ -5,7 +5,7 @@
   Time: 14:41
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="" %>
 <!doctype html>
 <html lang="en-GB">
 <header>
@@ -25,16 +25,8 @@
         <div>
             <table  class="table table-success table-striped" cellpadding="0" cellspacing="0"
                     style="border-collapse: separate;">
-                <style>
-                    thead {
-                        font-size: 1.3rem;
-                    }
-                    .justify-content-md-center {
-                        height: 55px;
-                        align-items: center;
-                    }
-                </style>
-                <thead id="cartHead"></thead>
+
+                <thead id="cartHead" style="font-size: 1.3rem;"></thead>
                 <tbody id="example"></tbody>
             </table>
         </div>
