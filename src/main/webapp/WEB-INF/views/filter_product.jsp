@@ -5,17 +5,18 @@
   Time: 13:04
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!doctype html>
 <html lang="en-GB">
-
 <header>
     <meta charset="utf-8">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/css/file.css">
     <script  type="text/javascript" src="/js/common/filter.js"></script>
 </header>
-<title></title>
+<head>
+    <title></title>
+</head>
 <body onload="loadCategory()">
 
 <h6 align="center"></h6>

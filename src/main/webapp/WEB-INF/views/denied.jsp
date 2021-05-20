@@ -9,7 +9,7 @@
 <body>
 
 <div class="forbiddenPage">
-    <p class="page-information"><img src="/images/di-UUKI.jpg" + width="500" height="500"></p>
+    <p class="page-information"><img src="/images/di-UUKI.jpg" + width="500" height="500" alt=""></p>
     <h2>Not this time, access forbidden!</h2>
     <input class="btn btn-info" type="button" onclick="history.back();" value="Back"/>
 </div>

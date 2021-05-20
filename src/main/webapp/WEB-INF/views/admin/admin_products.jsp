@@ -11,7 +11,6 @@
     <title>Products</title>
     <jsp:include page="adminHeader.jsp" />
     <jsp:include page="../filter_product.jsp" />
-
 </head>
 
 <body class="d-flex flex-column h-100">
