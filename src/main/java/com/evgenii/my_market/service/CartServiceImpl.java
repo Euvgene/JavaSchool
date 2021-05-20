@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -108,7 +109,7 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public UUID getCartForUser(String username, UUID cartUuid) {
         if (username != null && cartUuid != null) {
-            User user = userService.findByUsername(username).get();
+            User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
             Cart cart = findById(cartUuid);
             List<Cart> oldCartList = findByUserId(user.getUserId());
 
@@ -123,7 +124,7 @@ public class CartServiceImpl implements CartService {
             Cart cart = save(new Cart());
             return cart.getCartId();
         }
-        User user = userService.findByUsername(username).get();
+        User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
         List<Cart> cart = findByUserId(user.getUserId());
         return cart.get(0).getCartId();
 

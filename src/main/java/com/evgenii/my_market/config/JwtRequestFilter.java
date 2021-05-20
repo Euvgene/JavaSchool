@@ -1,6 +1,7 @@
 package com.evgenii.my_market.config;
 
 
+import com.evgenii.my_market.service.api.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final JwtTokenUtil jwtTokenUtil;
+    private final UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -41,8 +43,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UsernamePasswordAuthenticationToken token =
                     new UsernamePasswordAuthenticationToken(username, null, jwtTokenUtil.getRoles(jwt).stream()
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList()));
+                            .map(SimpleGrantedAuthority::new)
+                            .collect(Collectors.toList()));
             SecurityContextHolder.getContext().setAuthentication(token);
         }
 
