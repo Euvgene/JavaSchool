@@ -23,7 +23,7 @@
 
         <div>
             <table class="table table-success table-striped" cellpadding="0" cellspacing="0"
-                   style="border-collapse: separate;">
+                   style="border-collapse: separate;" aria-describedby="">
                 <thead id="cartHead" style="font-size: 1.3rem;"></thead>
                 <tbody id="example"></tbody>
             </table>
