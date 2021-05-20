@@ -24,7 +24,7 @@
 <main class="flex-shrink-0" style="margin-top: 80px;">
 
     <div class="container mt-auto" style="margin-top: 100px;">
-        <div class="form-group row" >
+        <div class="form-group row">
             <div class="form-group col-md-3" style=" margin: auto" align="center">
                 <label for="firstDate">From date</label>
                 <input class="form-control" type="date" id="firstDate">
@@ -55,6 +55,9 @@
             <form id='changeOrderForm'>
                 <table class="table table-success table-striped" cellpadding="0" cellspacing="0"
                        style="border-collapse: separate;" aria-describedby="">
+                    <tr style="display: none">
+                        <th></th>
+                    </tr>
                     <thead id="cartHead" style=" font-size: 1.3rem;"></thead>
                     <tbody id="example"></tbody>
 
