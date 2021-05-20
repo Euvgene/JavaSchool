@@ -1,7 +1,6 @@
 package com.evgenii.my_market.config;
 
 
-import com.evgenii.my_market.service.api.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
