@@ -133,12 +133,12 @@ function getAllOrders(pageIndex = 1) {
                 clearTable();
                 $('#cartHead').append(
                     "                    <tr>" +
-                    "                        <th align='center' style='white-space: nowrap'>Order number</th>" +
-                    "                        <th align='center' style='white-space: nowrap'>Order price</th>" +
-                    "                        <th align='center' style='white-space: nowrap'>Delivery address</th>" +
-                    "                        <th align='center' style='white-space: nowrap'>Payment method</th>" +
-                    "                        <th align='center' style='white-space: nowrap'>State</th>" +
-                    "                        <th align='center' style='white-space: nowrap'>Order date</th>" +
+                    "                        <td align='center' style='white-space: nowrap'>Order number</td>" +
+                    "                        <td align='center' style='white-space: nowrap'>Order price</td>" +
+                    "                        <td align='center' style='white-space: nowrap'>Delivery address</td>" +
+                    "                        <td align='center' style='white-space: nowrap'>Payment method</td>" +
+                    "                        <td align='center' style='white-space: nowrap'>State</td>" +
+                    "                        <td align='center' style='white-space: nowrap'>Order date</td>" +
                     "                    </tr>");
 
                 $('#cartHeader').append("Orders");
