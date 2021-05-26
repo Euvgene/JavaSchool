@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ProductStatisticDto {
-    private final int STATISTIC_PRODUCT_NAME = 0;
-    private final int STATISTIC_PRODUCT_COUNT = 1;
-    private final int STATISTIC_PRODUCT_PRICE_PER_PRODUCT = 2;
+    private static final int STATISTIC_PRODUCT_NAME = 0;
+    private static final int STATISTIC_PRODUCT_COUNT = 1;
+    private static final int STATISTIC_PRODUCT_PRICE_PER_PRODUCT = 2;
 
     String name;
     int number;

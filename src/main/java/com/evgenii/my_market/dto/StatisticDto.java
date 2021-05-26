@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class StatisticDto {
-    private final int STATISTIC_OBJECT_NAME = 0;
-    private final int STATISTIC_OBJECT_COUNT = 1;
+    private static final int STATISTIC_OBJECT_NAME = 0;
+    private static final int STATISTIC_OBJECT_COUNT = 1;
 
     String name;
     int number;

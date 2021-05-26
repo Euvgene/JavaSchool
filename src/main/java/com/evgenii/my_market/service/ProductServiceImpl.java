@@ -7,6 +7,7 @@ import com.evgenii.my_market.dao.api.ProductDAO;
 import com.evgenii.my_market.dto.FilterDto;
 import com.evgenii.my_market.dto.ProductDto;
 import com.evgenii.my_market.entity.Product;
+import com.evgenii.my_market.service.api.MessageService;
 import com.evgenii.my_market.service.api.ProductService;
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +26,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDAO dao;
     private final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
     private final int TOTAL_PRODUCTS_IN_PAGE = 8;
+ /*   private final MessageService messageService;*/
     private final int CHECK_PAGE_NUMBER = 1;
 
     @Transactional
@@ -34,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
         if (filterDto.getPage() != CHECK_PAGE_NUMBER) {
             page = (page - CHECK_PAGE_NUMBER) * total + CHECK_PAGE_NUMBER;
         }
-
+     /*   messageService.send("create");*/
         return dao.getProductsPage(page - CHECK_PAGE_NUMBER, total, filterDto).stream()
                 .map(ProductDto::new)
                 .collect(Collectors.toList());

@@ -240,19 +240,26 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.rabbitmq/amqp-client -->
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>5.12.0</version>
+        </dependency>
+
 
     </dependencies>
 
     <build>
         <finalName>my-market</finalName>
-            <plugins>
-                <plugin>
-                    <!-- Add Maven coordinates (GAV) for: maven-war-plugin -->
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>3.2.0</version>
-                </plugin>
-            </plugins>
+                <plugins>
+                    <plugin>
+                        <!-- Add Maven coordinates (GAV) for: maven-war-plugin -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <version>3.2.0</version>
+                    </plugin>
+                </plugins>
         <pluginManagement>
             <plugins>
                 <plugin>
