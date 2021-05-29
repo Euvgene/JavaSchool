@@ -49,7 +49,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     public List<Order> findAlL(LocalDate fromDate, LocalDate toDate, int page, String state, int total) {
-        String myQuery = null;
+        String myQuery;
         switch (state) {
             case "Active":
                 myQuery = "SELECT o FROM Order o WHERE" +
@@ -109,6 +109,7 @@ public class OrderDAOImpl implements OrderDAO {
     public List<Object[]> getProductStatistic(LocalDate fromDate, LocalDate toDate) {
         Query query = entityManager.createNativeQuery("SELECT p.productTitle name,count(*) as count, o.price as price " +
                 "FROM order_items o INNER JOIN products p ON o.product_id = p.product_id where  o.created_at >= :from_date and o.created_at <= :to_date + INTERVAL 1 DAY " +
+                " and o.order_state <> 'RETURN' " +
                 "GROUP BY p.productTitle " +
                 "order by count desc  limit 10 ")
                 .unwrap(org.hibernate.query.NativeQuery.class)

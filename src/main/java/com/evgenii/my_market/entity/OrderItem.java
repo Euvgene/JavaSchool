@@ -40,11 +40,16 @@ public class OrderItem {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public OrderItem(CartItem cartItem) {
+    @Column(name = "order_state")
+    @Enumerated(EnumType.STRING)
+    private StateEnum orderState;
+
+    public OrderItem(CartItem cartItem, StateEnum orderState) {
         this.product = cartItem.getProduct();
         this.quantity = cartItem.getQuantity();
         this.pricePerProduct = cartItem.getPricePerProduct();
         this.price = cartItem.getPrice();
+        this.orderState = orderState;
     }
 
 }

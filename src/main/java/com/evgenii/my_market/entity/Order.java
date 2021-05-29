@@ -59,8 +59,9 @@ public class Order {
 
 
     public Order(Cart cart, User user, Address address,
-                 String deliveryMethode,String paymentMethod,  boolean paymentState) {
+                 String deliveryMethode,String paymentMethod,  boolean paymentState,StateEnum orderState ) {
         this.items = new ArrayList<>();
+        this.orderState = orderState;
         this.owner = user;
         this.address = address;
         this.deliveryMethode = deliveryMethode;
@@ -68,7 +69,7 @@ public class Order {
         this.paymentMethod = paymentMethod;
         this.paymentState = paymentState;
         for (CartItem ci : cart.getCartItems()) {
-            OrderItem oi = new OrderItem(ci);
+            OrderItem oi = new OrderItem(ci, orderState);
             oi.setOrder(this);
             this.items.add(oi);
         }

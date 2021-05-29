@@ -43,8 +43,8 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", orderConfirmDto.getUsername())));
         Cart cart = cartService.findById(UUID.fromString(orderConfirmDto.getCartId()));
         if (orderConfirmDto.getPaymentMethod().equals("cash")) paymentState = false;
-        Order order = new Order(cart, user, user.getUserAddress(), orderConfirmDto.getAddress(), orderConfirmDto.getPaymentMethod(), paymentState);
-        order.setOrderState(StateEnum.AWAITING_SHIPMENT);
+        Order order = new Order(cart, user, user.getUserAddress(), orderConfirmDto.getAddress(),
+                orderConfirmDto.getPaymentMethod(), paymentState,StateEnum.AWAITING_SHIPMENT);
         order = orderDAO.saveOrder(order);
         cart.getCartItems().forEach(cartItem -> cartItem.getProduct().decrementQuantityProduct(cartItem.getQuantity()));
         cartService.clearCart(UUID.fromString(orderConfirmDto.getCartId()));
@@ -83,7 +83,9 @@ public class OrderServiceImpl implements OrderService {
     private void incrementProducts(List<OrderItem> items) {
         for (OrderItem i : items) {
             i.getProduct().incrementQuantityProduct((byte) i.getQuantity());
+            i.setOrderState(StateEnum.RETURN);
         }
+        messageService.send("update");
     }
 
     public List<StatisticDto> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate) {
