@@ -79,25 +79,31 @@ public class CartServiceImpl implements CartService {
         List<CartItem> cartItems = cart.getCartItems();
         ResponseEntity<?> responseEntity = ResponseEntity.ok(HttpStatus.ACCEPTED);
         for (int i = 0; cart.getCartItems().size() > i; i++) {
-            if (cartItems.get(i).getQuantity() == 0) {
-                cartItemDAO.deleteCartItem(cartItems.get(i).getId());
+            CartItem cartItem = cartItems.get(i);
+            Product product = cartItem.getProduct();
+            byte productQuantity = product.getProductQuantity();
+            byte itemQuantity = cartItem.getQuantity();
+            if (itemQuantity == 0) {
+                cartItemDAO.deleteCartItem(cartItem.getId());
                 cart.recalculate();
-                LOGGER.warn(cartItems.get(i).getProduct().getProductTitle()
+                LOGGER.warn(product.getProductTitle()
                         + " is over but user try to order it");
                 isValid = false;
-            } else if (cartItems.get(i).getProduct().getProductQuantity() < cartItems.get(i).getQuantity()) {
-                cartItems.get(i).setQuantity(cartItems.get(i).getProduct().getProductQuantity());
-                cartItems.get(i).recalculate();
+            } else if (productQuantity < itemQuantity) {
+                cartItem.setQuantity(productQuantity);
+                cartItem.recalculate();
                 cart.recalculate();
-                LOGGER.warn(cartItems.get(i).getProduct().getProductTitle()
+                LOGGER.warn(product.getProductTitle()
                         + " quantity is not enough for user order");
                 isValid = false;
             }
         }
-        if (isValid) return responseEntity;
-        else
+        if (isValid) {
+            return responseEntity;
+        } else{
             return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(),
                     "Your cart is not valid. Quantity of product is not enough or ended. Refreshing cart list"), HttpStatus.CONFLICT);
+        }
     }
 
     @Transactional

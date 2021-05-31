@@ -30,12 +30,6 @@ public class MessageServiceImpl implements MessageService {
         channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.DIRECT);
     }
 
-/*    @PreDestroy
-    public void destroy() {
-        send("goodbye");
-    }*/
-
-
     @Override
     public void send(String message) {
         try {
