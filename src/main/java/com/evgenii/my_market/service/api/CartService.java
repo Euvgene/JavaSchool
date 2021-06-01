@@ -22,6 +22,6 @@ public interface CartService {
 
     public UUID getCartForUser(String username, UUID cartUuid);
 
-    public void updateQuantityOrDeleteProductInCart(UUID cartId, int productId, int number);
+    public void updateQuantityInCart(UUID cartId, int productId, int number);
 
 }

@@ -1,5 +1,6 @@
 package com.evgenii.my_market.service;
 
+import com.evgenii.my_market.config.MessageSender;
 import com.evgenii.my_market.dao.api.OrderDAO;
 import com.evgenii.my_market.dto.OrderConfirmDto;
 import com.evgenii.my_market.dto.OrderDto;
@@ -8,7 +9,7 @@ import com.evgenii.my_market.dto.StatisticDto;
 import com.evgenii.my_market.entity.*;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.service.api.CartService;
-import com.evgenii.my_market.service.api.MessageService;
+
 import com.evgenii.my_market.service.api.OrderService;
 import com.evgenii.my_market.service.api.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final OrderDAO orderDAO;
     private final CartService cartService;
-    private final MessageService messageService;
+    private final MessageSender messageSender;
     private final UserService userService;
     private final Logger LOGGER = LoggerFactory.getLogger(OrderService.class);
     private final int TOTAL_ORDERS_IN_PAGE = 8;
@@ -49,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
         cart.getCartItems().forEach(cartItem -> cartItem.getProduct().decrementQuantityProduct(cartItem.getQuantity()));
         cartService.clearCart(UUID.fromString(orderConfirmDto.getCartId()));
         LOGGER.info("Create order with id " + order.getId());
-        messageService.send("update");
+        messageSender.send("update");
         return order;
     }
 
@@ -85,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
             i.getProduct().incrementQuantityProduct((byte) i.getQuantity());
             i.setOrderState(StateEnum.RETURN);
         }
-        messageService.send("update");
+        messageSender.send("update");
     }
 
     public List<StatisticDto> getStatistic(String statisticName, LocalDate fromDate, LocalDate toDate) {

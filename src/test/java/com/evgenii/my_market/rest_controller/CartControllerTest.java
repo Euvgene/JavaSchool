@@ -42,15 +42,15 @@ class CartControllerTest {
 
         mockMvc.perform(post("/api/v1/cart/add")
                 .param("uuid", uuid)
-                .param("prod_id", "1"))
+                .param("prod_id", "65"))
                 .andExpect(status().isOk());
 
         mockMvc.perform(get("/api/v1/cart/" + uuid)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.items").isArray())
                 .andExpect(jsonPath("$.items", hasSize(1)))
-                .andExpect(jsonPath("$.items[0].productTitle", is("testProduct")))
-                .andExpect(jsonPath("$.items[0].price", is(1234.0)));
+                .andExpect(jsonPath("$.items[0].productTitle", is("Mimi cat")))
+                .andExpect(jsonPath("$.items[0].price", is(459.00)));
     }
 
     @Test

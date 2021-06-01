@@ -34,7 +34,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public boolean isCategoryAlreadyInUse(String value) {
         boolean categoryInDb = true;
-        if (categoryDAO.getActiveCategory(value) == null) categoryInDb = false;
+        if (categoryDAO.getActiveCategory(value) == null) {
+            categoryInDb = false;
+        }
         return categoryInDb;
     }
 

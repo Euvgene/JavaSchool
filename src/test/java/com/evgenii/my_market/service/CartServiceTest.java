@@ -5,6 +5,8 @@ import com.evgenii.my_market.dao.api.CartItemDAO;
 import com.evgenii.my_market.entity.Cart;
 import com.evgenii.my_market.entity.CartItem;
 import com.evgenii.my_market.entity.Product;
+import com.evgenii.my_market.entity.User;
+import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.service.api.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,27 +18,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CartServiceTest {
 
     private static final UUID FIRST_CART_UID = UUID.fromString("64fc8473-97b5-46cb-9197-a631e3fb7e57");
-    private static final UUID SECOND_CART_UID = UUID.fromString("64fc8473-97b5-46cb-9197-a631e3fb7e57");
+    private static final UUID SECOND_CART_UID = UUID.fromString("12fc8473-97b5-46cb-9197-a631e3fb7e12");
     private static final int PRODUCT_ID = 1;
     private static final BigDecimal PRODUCT_PRICE = BigDecimal.valueOf(100);
+    private static final String USERNAME = "Bob";
     private static final int FIRST_PRODUCT_ITEM_INDEX = 0;
     private static final int PRODUCT_QUANTITY_ZERO = 0;
     private static final int PRODUCT_QUANTITY_ONE = 1;
     private static final int PRODUCT_QUANTITY_TWO = 2;
     private static final ResponseEntity<?> RESPONSE_ENTITY_ACCEPTED = ResponseEntity.ok(HttpStatus.ACCEPTED);
-    private static final ResponseEntity<?> RESPONSE_ENTITY_CONFLICT = ResponseEntity.ok(HttpStatus.CONFLICT);
+    private static final ResponseEntity<?> RESPONSE_ENTITY_CONFLICT = new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(),
+            "Some message"), HttpStatus.CONFLICT);
 
 
     @Mock
@@ -157,9 +159,9 @@ class CartServiceTest {
 
         when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
 
-        tested.clearOldCartItems(FIRST_CART_UID);
+        ResponseEntity<?> responseEntity = tested.clearOldCartItems(FIRST_CART_UID);
 
-        assertEquals(RESPONSE_ENTITY_CONFLICT, RESPONSE_ENTITY_CONFLICT);
+        assertEquals(responseEntity.getStatusCode(), RESPONSE_ENTITY_CONFLICT.getStatusCode());
     }
 
 
@@ -173,8 +175,9 @@ class CartServiceTest {
         Cart expectedCart = createTestCart(cartItem);
 
         when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
-        tested.clearOldCartItems(FIRST_CART_UID);
-        assertEquals(RESPONSE_ENTITY_CONFLICT, RESPONSE_ENTITY_CONFLICT);
+        ResponseEntity<?> responseEntity = tested.clearOldCartItems(FIRST_CART_UID);
+
+        assertEquals(responseEntity.getStatusCode(), RESPONSE_ENTITY_CONFLICT.getStatusCode());
     }
 
     @Test
@@ -186,8 +189,8 @@ class CartServiceTest {
         Cart expectedCart = createTestCart(cartItem);
 
         when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
-        tested.clearOldCartItems(FIRST_CART_UID);
-        assertEquals(RESPONSE_ENTITY_ACCEPTED, RESPONSE_ENTITY_ACCEPTED);
+        ResponseEntity<?> responseEntity = tested.clearOldCartItems(FIRST_CART_UID);
+        assertEquals(responseEntity.getStatusCode(), RESPONSE_ENTITY_ACCEPTED.getStatusCode());
     }
 
 
@@ -198,22 +201,124 @@ class CartServiceTest {
 
         when(cartDao.findByUserId(1)).thenReturn(cartList);
 
-        tested.findByUserId(1);
+        List<Cart> testCartList = tested.findByUserId(1);
 
-        assertEquals(cartList, cartList);
+        assertEquals(testCartList, cartList);
 
     }
 
     @Test
-    void getCartForUser() {
+    void getCartForUserIfUserExist() {
+        Product product = createProduct(PRODUCT_QUANTITY_TWO);
+
+        CartItem cartItem = createCartItem(product);
+
+        Cart expectedCart = createTestCart(cartItem);
+
+        User user = createUser(USERNAME);
+
+        when(userService.findByUsername(USERNAME)).thenReturn(Optional.of(user));
+        when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
+        when(cartDao.findByUserId(user.getUserId())).thenReturn(Collections.singletonList(expectedCart));
+
+        UUID uuid = tested.getCartForUser(USERNAME, FIRST_CART_UID);
+
+        assertEquals(uuid, FIRST_CART_UID);
+
     }
 
     @Test
-    void updateQuantityOrDeleteProductInCart() {
+    void getCartForUserIfUserNotExist() {
+
+        Cart expectedCart = new Cart();
+        expectedCart.setCartId(FIRST_CART_UID);
+
+        when(cartDao.save(any())).thenReturn(expectedCart);
+
+        UUID uuid = tested.getCartForUser(null, null);
+
+        assertEquals(uuid, FIRST_CART_UID);
+
+    }
+
+    @Test
+    void getCartForUserIfUserAndCartAlreadyExist() {
+        Product product = createProduct(PRODUCT_QUANTITY_TWO);
+
+        CartItem cartItem = createCartItem(product);
+
+        Cart expectedCart = createTestCart(cartItem);
+
+        Cart oldCart = createTestCart(cartItem);
+        oldCart.setCartId(SECOND_CART_UID);
+
+        User user = createUser(USERNAME);
+
+        when(userService.findByUsername(USERNAME)).thenReturn(Optional.of(user));
+        when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
+        when(cartDao.findByUserId(user.getUserId())).thenReturn(Collections.singletonList(oldCart))
+                .thenReturn(Collections.singletonList(expectedCart));
+
+        UUID uuid = tested.getCartForUser(USERNAME, FIRST_CART_UID);
+
+        assertEquals(uuid, FIRST_CART_UID);
+
+    }
+
+
+    @Test
+    void updateQuantityInCartWhenDeleteProduct() {
+        Product product = createProduct(PRODUCT_QUANTITY_TWO);
+
+        CartItem cartItem = createCartItem(product);
+
+        Cart expectedCart = createTestCart(cartItem);
+
+        when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
+        when(productService.findProductById(PRODUCT_ID)).thenReturn(Collections.singletonList(product));
+        doNothing().when(cartItemDAO).deleteCartItem(PRODUCT_ID);
+
+        tested.updateQuantityInCart(FIRST_CART_UID, PRODUCT_ID, 1);
+
+        assertEquals(expectedCart.getPrice(), BigDecimal.valueOf(0.0));
+    }
+
+    @Test
+    void updateQuantityInCartWhenDecrementProductCount() {
+        Product product = createProduct(PRODUCT_QUANTITY_TWO);
+
+        CartItem cartItem = createCartItem(product);
+        cartItem.setQuantity((byte) PRODUCT_QUANTITY_TWO);
+
+        Cart expectedCart = createTestCart(cartItem);
+
+        when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
+        when(productService.findProductById(PRODUCT_ID)).thenReturn(Collections.singletonList(product));
+
+        tested.updateQuantityInCart(FIRST_CART_UID, PRODUCT_ID, 0);
+
+        assertEquals(expectedCart.getCartItems().get(FIRST_PRODUCT_ITEM_INDEX).getQuantity(), PRODUCT_QUANTITY_ONE);
+    }
+
+    @Test
+    void updateQuantityInCartWhenDeleteProductWhichCountEqualOne() {
+        Product product = createProduct(PRODUCT_QUANTITY_TWO);
+
+        CartItem cartItem = createCartItem(product);
+
+        Cart expectedCart = createTestCart(cartItem);
+
+        when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
+        when(productService.findProductById(PRODUCT_ID)).thenReturn(Collections.singletonList(product));
+
+        tested.updateQuantityInCart(FIRST_CART_UID, PRODUCT_ID, 0);
+
+        assertEquals(expectedCart.getCartItems().get(FIRST_PRODUCT_ITEM_INDEX).getQuantity(), PRODUCT_QUANTITY_ONE);
     }
 
     private CartItem createCartItem(Product product) {
         CartItem cartItem = new CartItem();
+        cartItem.setId(product.getProductId());
         cartItem.setProduct(product);
         cartItem.setQuantity((byte) PRODUCT_QUANTITY_ONE);
         cartItem.setPrice(PRODUCT_PRICE);
@@ -242,5 +347,12 @@ class CartServiceTest {
         expectedCart.setCartId(FIRST_CART_UID);
         expectedCart.setCartItems(new ArrayList<>());
         return expectedCart;
+    }
+
+    private User createUser(String name) {
+        User user = new User();
+        user.setUserId(1);
+        user.setFirstName(name);
+        return user;
     }
 }

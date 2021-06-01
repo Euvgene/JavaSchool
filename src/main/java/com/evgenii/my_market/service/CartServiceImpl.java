@@ -133,11 +133,10 @@ public class CartServiceImpl implements CartService {
         User user = userService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", username)));
         List<Cart> cart = findByUserId(user.getUserId());
         return cart.get(0).getCartId();
-
     }
 
     @Transactional
-    public void updateQuantityOrDeleteProductInCart(UUID cartId, int productId, int number) {
+    public void updateQuantityInCart(UUID cartId, int productId, int number) {
         Cart cart = findById(cartId);
         CartItem cartItem = cart.getItemByProductId(productId);
         Product p = productService.findProductById(productId).get(0);

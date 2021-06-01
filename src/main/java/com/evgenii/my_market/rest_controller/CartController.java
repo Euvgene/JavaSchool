@@ -48,6 +48,6 @@ public class CartController {
     public void updateQuantityOrDeleteProductInCart(@RequestParam(name = "uuid") UUID uuid,
                                                     @RequestParam(name = "product_id") int productId,
                                                     @RequestParam(name = "updateNumber",defaultValue = "0") int number) {
-        cartService.updateQuantityOrDeleteProductInCart(uuid, productId,number);
+        cartService.updateQuantityInCart(uuid, productId,number);
     }
 }
