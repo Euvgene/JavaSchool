@@ -12,8 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -61,12 +60,11 @@ class CategoryServiceImplTest {
 
     @Test
     void isCategoryAlreadyInUseFalse() {
-        boolean categoryInDb = false;
 
         when(categoryDAO.getActiveCategory(anyString())).thenReturn(null);
 
         boolean isInDb = tested.isCategoryAlreadyInUse(anyString());
-        assertEquals(isInDb, categoryInDb);
+        assertFalse(isInDb);
     }
 
     @Test

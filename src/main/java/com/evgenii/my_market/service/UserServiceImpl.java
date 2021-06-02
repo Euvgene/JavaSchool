@@ -2,6 +2,7 @@ package com.evgenii.my_market.service;
 
 import com.evgenii.my_market.dao.UserDAOImpl;
 
+import com.evgenii.my_market.dao.api.UserDAO;
 import com.evgenii.my_market.dto.UpdatePasswordDto;
 import com.evgenii.my_market.dto.UserDto;
 import com.evgenii.my_market.entity.Role;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserDAOImpl userDAO;
+    private final UserDAO userDAO;
     private final BCryptPasswordEncoder passwordEncoder;
     private final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
@@ -38,9 +39,6 @@ public class UserServiceImpl implements UserService {
         return userDAO.findByUsername(username);
     }
 
-    public Optional<UserDto> findUserDtoByUsername(String username) {
-        return userDAO.findByUsername(username).map(UserDto::new);
-    }
 
     public List<User> findByUsernameAndEmail(String username, String email) {
         return userDAO.findByUsernameAndEmail(username, email);

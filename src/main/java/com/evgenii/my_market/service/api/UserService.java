@@ -16,7 +16,6 @@ public interface UserService extends UserDetailsService {
 
     Optional<User> findByUsername(String username);
 
-    Optional<UserDto> findUserDtoByUsername(String username);
 
     List<User> findByUsernameAndEmail(String username, String email);
 
