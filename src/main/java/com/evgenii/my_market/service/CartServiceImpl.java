@@ -59,7 +59,7 @@ public class CartServiceImpl implements CartService {
             return;
         } else if (cartItem != null && cartItem.getProduct().getProductQuantity() == cartItem.getQuantity()) return;
         try {
-            Product p = productService.findProductById(productId).get(0);
+            Product p = productService.getProductById(productId);
             cart.add(new CartItem(p));
         } catch (Exception e) {
             throw new ResourceNotFoundException("Unable to add product with id: " + productId + " to cart. Product doesn't exist");
@@ -139,7 +139,7 @@ public class CartServiceImpl implements CartService {
     public void updateQuantityInCart(UUID cartId, int productId, int number) {
         Cart cart = findById(cartId);
         CartItem cartItem = cart.getItemByProductId(productId);
-        Product p = productService.findProductById(productId).get(0);
+        Product p = productService.getProductById(productId);
         if (number != 0) {
             cart.deleteProduct(p);
             cartItemDAO.deleteCartItem(cartItem.getId());

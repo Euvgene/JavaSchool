@@ -96,7 +96,7 @@ class CartServiceTest {
         Cart expectedCart = createEmptyCart();
 
         when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
-        when(productService.findProductById(PRODUCT_ID)).thenReturn(Collections.singletonList(product));
+        when(productService.getProductById(PRODUCT_ID)).thenReturn(product);
 
         tested.addToCart(FIRST_CART_UID, PRODUCT_ID);
 
@@ -275,7 +275,7 @@ class CartServiceTest {
         Cart expectedCart = createTestCart(cartItem);
 
         when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
-        when(productService.findProductById(PRODUCT_ID)).thenReturn(Collections.singletonList(product));
+        when(productService.getProductById(PRODUCT_ID)).thenReturn(product);
         doNothing().when(cartItemDAO).deleteCartItem(PRODUCT_ID);
 
         tested.updateQuantityInCart(FIRST_CART_UID, PRODUCT_ID, 1);
@@ -293,7 +293,7 @@ class CartServiceTest {
         Cart expectedCart = createTestCart(cartItem);
 
         when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
-        when(productService.findProductById(PRODUCT_ID)).thenReturn(Collections.singletonList(product));
+        when(productService.getProductById(PRODUCT_ID)).thenReturn(product);
 
         tested.updateQuantityInCart(FIRST_CART_UID, PRODUCT_ID, 0);
 
@@ -309,7 +309,7 @@ class CartServiceTest {
         Cart expectedCart = createTestCart(cartItem);
 
         when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
-        when(productService.findProductById(PRODUCT_ID)).thenReturn(Collections.singletonList(product));
+        when(productService.getProductById(PRODUCT_ID)).thenReturn(product);
 
         tested.updateQuantityInCart(FIRST_CART_UID, PRODUCT_ID, 0);
 

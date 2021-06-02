@@ -15,8 +15,6 @@ public interface ProductService {
 
     void save(ProductDto newProduct);
 
-    List<Product> findProductById(int productId);
-
     Product getProductById(int id);
 
     void update(ProductDto product);

@@ -6,10 +6,13 @@ import com.evgenii.my_market.dto.OrderConfirmDto;
 import com.evgenii.my_market.dto.OrderDto;
 import com.evgenii.my_market.dto.ProductStatisticDto;
 import com.evgenii.my_market.dto.StatisticDto;
-import com.evgenii.my_market.entity.*;
+import com.evgenii.my_market.entity.Cart;
+import com.evgenii.my_market.entity.Order;
+import com.evgenii.my_market.entity.StateEnum;
+import com.evgenii.my_market.entity.User;
+import com.evgenii.my_market.entity.OrderItem;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.service.api.CartService;
-
 import com.evgenii.my_market.service.api.OrderService;
 import com.evgenii.my_market.service.api.UserService;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +38,6 @@ public class OrderServiceImpl implements OrderService {
     private final UserService userService;
     private final Logger LOGGER = LoggerFactory.getLogger(OrderService.class);
     private final int TOTAL_ORDERS_IN_PAGE = 8;
-    private final int CHECK_PAGE_NUMBER = 1;
 
     @Transactional
     public Order createFromUserCart(OrderConfirmDto orderConfirmDto) {
@@ -43,10 +45,11 @@ public class OrderServiceImpl implements OrderService {
         User user = userService.findByUsername(orderConfirmDto.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", orderConfirmDto.getUsername())));
         Cart cart = cartService.findById(UUID.fromString(orderConfirmDto.getCartId()));
-        if (orderConfirmDto.getPaymentMethod().equals("cash")) paymentState = false;
-        Order order = new Order(cart, user, user.getUserAddress(), orderConfirmDto.getAddress(),
-                orderConfirmDto.getPaymentMethod(), paymentState,StateEnum.AWAITING_SHIPMENT);
-        order = orderDAO.saveOrder(order);
+        if (orderConfirmDto.getPaymentMethod().equals("cash")) {
+            paymentState = false;
+        }
+        Order order = orderDAO.saveOrder(new Order(cart, user, user.getUserAddress(), orderConfirmDto.getAddress(),
+                orderConfirmDto.getPaymentMethod(), paymentState, StateEnum.AWAITING_SHIPMENT));
         cart.getCartItems().forEach(cartItem -> cartItem.getProduct().decrementQuantityProduct(cartItem.getQuantity()));
         cartService.clearCart(UUID.fromString(orderConfirmDto.getCartId()));
         LOGGER.info("Create order with id " + order.getId());
@@ -70,7 +73,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     public void updateOrder(UUID orderId, String orderAddress, String orderState) {
-        Order order = orderDAO.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order with id "+ orderId + " not found"));
+        Order order = orderDAO.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order with id " + orderId + " not found"));
         if (orderState.equals("DELIVERED")) {
             order.setPaymentState(true);
         } else if (orderState.equals("RETURN")) {
@@ -99,9 +102,10 @@ public class OrderServiceImpl implements OrderService {
 
 
     private int getPage(int page, int total) {
-        if (page != CHECK_PAGE_NUMBER) {
-            page = (page - CHECK_PAGE_NUMBER) * total + CHECK_PAGE_NUMBER;
-            return page - CHECK_PAGE_NUMBER;
+        int firstPage = 1;
+        if (page != firstPage) {
+            page = (page - firstPage) * total + firstPage;
+            return page - firstPage;
         }
         return 0;
     }

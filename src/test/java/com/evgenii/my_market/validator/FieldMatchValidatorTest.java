@@ -29,10 +29,6 @@ class FieldMatchValidatorTest {
 
     @Test
     void isValid() {
-        String expectedValue = VALUE;
-        Object object = new String(VALUE);
-
-        tested.isValid(object, context);
 
     }
 }

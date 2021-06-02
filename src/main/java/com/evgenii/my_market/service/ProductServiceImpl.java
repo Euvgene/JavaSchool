@@ -22,16 +22,16 @@ public class ProductServiceImpl implements ProductService {
     private final ProductDAO dao;
     private final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
     private static final int TOTAL_PRODUCTS_IN_PAGE = 8;
-    private static final int CHECK_PAGE_NUMBER = 1;
+    private static final int FIRST_PAGE_NUMBER = 1;
 
     @Transactional
     public List<ProductDto> getProductsPage(FilterDto filterDto) {
         int total = TOTAL_PRODUCTS_IN_PAGE;
         int page = filterDto.getPage();
-        if (filterDto.getPage() != CHECK_PAGE_NUMBER) {
-            page = (page - CHECK_PAGE_NUMBER) * total + CHECK_PAGE_NUMBER;
+        if (filterDto.getPage() != FIRST_PAGE_NUMBER) {
+            page = (page - FIRST_PAGE_NUMBER) * total + FIRST_PAGE_NUMBER;
         }
-        return dao.getProductsPage(page - CHECK_PAGE_NUMBER, total, filterDto).stream()
+        return dao.getProductsPage(page - FIRST_PAGE_NUMBER, total, filterDto).stream()
                 .map(ProductDto::new)
                 .collect(Collectors.toList());
     }
@@ -41,11 +41,6 @@ public class ProductServiceImpl implements ProductService {
         Product product = new Product(newProduct);
         dao.saveNewProduct(product);
         LOGGER.info("Create product with name " + product.getProductTitle());
-    }
-
-    @Transactional
-    public List<Product> findProductById(int productId) {
-        return dao.findProductById(productId);
     }
 
     @Transactional
@@ -64,7 +59,7 @@ public class ProductServiceImpl implements ProductService {
     public void deleteProductById(int id) {
         Product product = dao.findProductById(id).get(0);
         product.setProductQuantity((byte) 0);
-        LOGGER.info("Set product quantity " + product.getProductTitle());
+        LOGGER.info("Set product quantity 0 " + product.getProductTitle());
     }
 
     public BigInteger getProductsCount(FilterDto filterDto) {
