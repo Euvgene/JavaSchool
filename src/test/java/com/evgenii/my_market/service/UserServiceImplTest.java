@@ -1,13 +1,19 @@
 package com.evgenii.my_market.service;
 
 import com.evgenii.my_market.dao.api.UserDAO;
+import com.evgenii.my_market.dto.UpdatePasswordDto;
+import com.evgenii.my_market.dto.UserDto;
+import com.evgenii.my_market.entity.Address;
 import com.evgenii.my_market.entity.Role;
 import com.evgenii.my_market.entity.User;
+import com.evgenii.my_market.exception_handling.MarketError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,15 +26,21 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
 
     private static final String USER_NAME = "Bob";
+    private static final int USER_ID = 1;
+    private static final String OLD_USER_NAME = "JACK";
     private static final String USER_EMAIL = "some@mail.com";
     private static final String USER_PASSWORD = "100";
+    private static final ResponseEntity<?> RESPONSE_ENTITY_ACCEPTED = ResponseEntity.ok(HttpStatus.ACCEPTED);
+    private static final ResponseEntity<?> RESPONSE_ENTITY_CONFLICT = new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(),
+            "Some message"), HttpStatus.CONFLICT);
 
 
     @Mock
@@ -94,26 +106,116 @@ class UserServiceImplTest {
 
         assertEquals(testUser.getUsername(), user.getFirstName());
         assertEquals(testUser.getPassword(), user.getPassword());
-        assertEquals(testUser.getAuthorities().iterator().next().getAuthority(),grantedAuthorities.iterator().next().getAuthority());
+        assertEquals(testUser.getAuthorities().iterator().next().getAuthority(), grantedAuthorities.iterator().next().getAuthority());
     }
 
     @Test
     void save() {
+        UserDto userDto = new UserDto();
+        userDto.setFirstName(USER_NAME);
+
+        User user = new User(userDto);
+
+        doNothing().when(userDAO).saveUser(user);
+
+        tested.save(userDto);
+
+        assertEquals(user.getFirstName(), USER_NAME);
     }
 
     @Test
-    void updateUser() {
+    void updateUserTrue() {
+        updateUser(true, RESPONSE_ENTITY_ACCEPTED);
     }
 
     @Test
-    void updatePassword() {
+    void updateUserFalse() {
+        updateUser(false, RESPONSE_ENTITY_CONFLICT);
     }
 
     @Test
-    void isEmailAlreadyInUse() {
+    void updatePasswordTrue() {
+        updatePassword(true, RESPONSE_ENTITY_ACCEPTED);
     }
 
     @Test
-    void isNameAlreadyInUse() {
+    void updatePasswordFalse() {
+        updatePassword(false, RESPONSE_ENTITY_CONFLICT);
+    }
+
+
+    @Test
+    void isEmailAlreadyInUseTrue() {
+        User user = new User();
+        isEmailAlreadyInUse(user, true);
+    }
+
+
+    @Test
+    void isEmailAlreadyInUseFalse() {
+        isEmailAlreadyInUse(null, false);
+    }
+
+    @Test
+    void isNameAlreadyInUseTrue() {
+        User user = new User();
+        isNameAlreadyInUse(user, true);
+    }
+
+    @Test
+    void isNameAlreadyInUseFalse() {
+        isNameAlreadyInUse(null, false);
+    }
+
+    private void isEmailAlreadyInUse(User user, boolean b) {
+        when(userDAO.getActiveEmail(USER_EMAIL)).thenReturn(user);
+
+        boolean exist = tested.isEmailAlreadyInUse(USER_EMAIL);
+
+        assertEquals(exist, b);
+
+    }
+
+    private void isNameAlreadyInUse(User user, boolean b) {
+        when(userDAO.getActiveName(USER_NAME)).thenReturn(user);
+
+        boolean exist = tested.isNameAlreadyInUse(USER_NAME);
+
+        assertEquals(exist, b);
+
+    }
+
+    private void updatePassword(boolean b, ResponseEntity<?> responseEntity) {
+        UpdatePasswordDto updatePasswordDto = new UpdatePasswordDto();
+        updatePasswordDto.setFirstPassword(USER_PASSWORD);
+        User user = new User();
+        user.setPassword(USER_PASSWORD);
+
+        when(userDAO.findByUsername(USER_NAME)).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(any(), any())).thenReturn(b);
+
+        ResponseEntity<?> testResponseEntity = tested.updatePassword(updatePasswordDto, USER_NAME);
+        assertEquals(testResponseEntity.getStatusCode(), responseEntity.getStatusCode());
+    }
+
+    private void updateUser(boolean b, ResponseEntity<?> responseEntity) {
+        User user = new User();
+        user.setUserId(USER_ID);
+        Address address = new Address();
+        address.setAddressId(1L);
+        user.setUserAddress(address);
+        user.setPassword(USER_PASSWORD);
+        Role role = new Role();
+        role.setId(1L);
+        role.setRoleName("USER");
+        user.setRole(role);
+
+        UserDto userDto = new UserDto(user);
+
+        when(userDAO.findByUsername(OLD_USER_NAME)).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(any(), any())).thenReturn(b);
+
+        ResponseEntity<?> testResponseEntity = tested.updateUser(userDto, OLD_USER_NAME);
+        assertEquals(testResponseEntity.getStatusCode(), responseEntity.getStatusCode());
     }
 }

@@ -1,7 +1,5 @@
 package com.evgenii.my_market.service;
 
-import com.evgenii.my_market.dao.UserDAOImpl;
-
 import com.evgenii.my_market.dao.api.UserDAO;
 import com.evgenii.my_market.dto.UpdatePasswordDto;
 import com.evgenii.my_market.dto.UserDto;
@@ -100,14 +98,18 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public boolean isEmailAlreadyInUse(String email) {
         boolean userInDb = true;
-        if (userDAO.getActiveEmail(email) == null) userInDb = false;
+        if (userDAO.getActiveEmail(email) == null) {
+            userInDb = false;
+        }
         return userInDb;
     }
 
     @Transactional
     public boolean isNameAlreadyInUse(String name) {
         boolean userInDb = true;
-        if (userDAO.getActiveName(name) == null) userInDb = false;
+        if (userDAO.getActiveName(name) == null) {
+            userInDb = false;
+        }
         return userInDb;
     }
 }
