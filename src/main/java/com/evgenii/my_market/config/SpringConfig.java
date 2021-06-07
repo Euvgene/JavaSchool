@@ -28,7 +28,7 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan("com.evgenii.my_market")
-@PropertySource({"classpath:application.properties"})
+@PropertySource({"classpath:application-test.properties"})
 @RequiredArgsConstructor
 public class SpringConfig implements WebMvcConfigurer {
 
@@ -56,7 +56,7 @@ public class SpringConfig implements WebMvcConfigurer {
         try {
             myDataSource.setDriverClass("com.mysql.jdbc.Driver");
         } catch (PropertyVetoException exc) {
-            throw new RuntimeException(exc); /*TODO specify exception, google do not stop the app on DB connection lost*/
+            throw new RuntimeException(exc);
         }
 
         myDataSource.setJdbcUrl(env.getProperty("jdbc.url"));

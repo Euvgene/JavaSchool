@@ -13,13 +13,13 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/category")
 @RequiredArgsConstructor
+@RequestMapping("api/v1/category")
 public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping()
-    public List<Category> pagination() {
+    public List<Category> getAllCategory() {
         return categoryService.getAllCategory();
     }
 
@@ -29,10 +29,10 @@ public class CategoryController {
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{categoryId}")
+    @PutMapping("/{oldCategoryName}")
     public ResponseEntity<?> changeCategory(@Valid @RequestBody CategoryDto newCategory,
-                                            @UniqueCategory @PathVariable String categoryId) {
-        categoryService.update(newCategory,categoryId);
+                                            @UniqueCategory @PathVariable String oldCategoryName) {
+        categoryService.update(newCategory, oldCategoryName);
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
