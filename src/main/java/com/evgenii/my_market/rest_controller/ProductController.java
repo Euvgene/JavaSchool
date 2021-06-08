@@ -21,25 +21,23 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/{id}")
-    public Product getProductBtId(@PathVariable int id) {
+    public Product getProductById(@PathVariable int id) {
         return productService.getProductById(id);
     }
 
 
     @PostMapping("/get")
     public List<ProductDto> getProductsPage(@RequestBody FilterDto filterDto) {
-
         return productService.getProductsPage(filterDto);
     }
 
     @PostMapping("/get-page-count")
     public BigInteger getProductsCount(@RequestBody FilterDto filterDto) {
-
         return productService.getProductsCount(filterDto);
     }
 
     @PostMapping
-    public ResponseEntity<?>  saveProduct(@Valid @RequestBody ProductDto newProduct) {
+    public ResponseEntity<?> saveProduct(@Valid @RequestBody ProductDto newProduct) {
         productService.save(newProduct);
         return ResponseEntity.ok(HttpStatus.CREATED);
     }

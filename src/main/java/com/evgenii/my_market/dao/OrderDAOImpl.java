@@ -10,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.persistence.NoResultException;
+
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
@@ -29,9 +31,16 @@ public class OrderDAOImpl implements OrderDAO {
     public Optional<Order> findById(UUID id) {
         TypedQuery<Order> query = entityManager.createQuery(
                 "SELECT o FROM Order o where o.id = :id", Order.class);
-        return Optional.of(query
-                .setParameter("id", id)
-                .getSingleResult());
+
+        try{
+            return Optional.of(query
+                    .setParameter("id", id)
+                    .getSingleResult());
+        }catch (NoResultException e){
+            return Optional.empty();
+        }
+
+
     }
 
     public List<Order> findAllByOwnerUsername(String username, LocalDate fromDate, LocalDate toDate, int page, int total) {
@@ -126,13 +135,11 @@ public class OrderDAOImpl implements OrderDAO {
                 " SELECT COUNT(*) FROM  orders o INNER JOIN users u ON  o.owner_id = u.user_id  where" +
                         "  o.created_at >= :from_date and o.created_at <= :to_date and first_name = :username");
 
-        BigInteger count = (BigInteger) query
+        return (BigInteger) query
                 .setParameter("username", name)
                 .setParameter("from_date", fromDate)
                 .setParameter("to_date", toDate)
                 .getSingleResult();
-
-        return count;
     }
 
     public BigInteger getAllOrderCount(LocalDate fromDate, LocalDate toDate, String state) {
@@ -159,11 +166,9 @@ public class OrderDAOImpl implements OrderDAO {
         Query query = entityManager.createNativeQuery(
                 myQuery);
 
-        BigInteger count = (BigInteger) query
+        return (BigInteger) query
                 .setParameter("from_date", fromDate)
                 .setParameter("to_date", toDate)
                 .getSingleResult();
-
-        return count;
     }
 }

@@ -3,6 +3,8 @@ package com.evgenii.my_market.rest_controller;
 import com.evgenii.my_market.dto.OrderConfirmDto;
 import com.evgenii.my_market.dto.OrderDto;
 import com.evgenii.my_market.dto.OrderResultDto;
+import com.evgenii.my_market.dto.StatisticDto;
+import com.evgenii.my_market.dto.ProductStatisticDto;
 import com.evgenii.my_market.entity.Order;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.service.api.OrderService;
@@ -19,7 +21,6 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-
 
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -95,17 +96,17 @@ public class OrderController {
     }
 
     @GetMapping("/statistic")
-    public List getStatistic(@RequestParam(name = "statistic_name") String statisticName,
-                             @RequestParam(name = "first_date", defaultValue = DEFAULT_VALUE_FROM_DATE)
-                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
-                             @RequestParam(name = "second_date", defaultValue = DEFAULT_VALUE_TO_DATE)
-                             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
+    public List<StatisticDto> getStatistic(@RequestParam(name = "statistic_name") String statisticName,
+                                           @RequestParam(name = "first_date", defaultValue = DEFAULT_VALUE_FROM_DATE)
+                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+                                           @RequestParam(name = "second_date", defaultValue = DEFAULT_VALUE_TO_DATE)
+                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
 
         return orderService.getStatistic(statisticName, fromDate, toDate);
     }
 
     @GetMapping("/product-statistic")
-    public List getProductStatistic(
+    public List<ProductStatisticDto> getProductStatistic(
             @RequestParam(name = "first_date", defaultValue = DEFAULT_VALUE_FROM_DATE)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
             @RequestParam(name = "second_date", defaultValue = DEFAULT_VALUE_TO_DATE)

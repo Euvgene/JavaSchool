@@ -28,7 +28,7 @@ import java.util.Properties;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan("com.evgenii.my_market")
-@PropertySource({"classpath:application-test.properties"})
+@PropertySource({"classpath:application.properties"})
 @RequiredArgsConstructor
 public class SpringConfig implements WebMvcConfigurer {
 
