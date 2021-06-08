@@ -28,7 +28,6 @@ public class UserDto {
     @Size(min = 8, max = 61, message = "Password size must be higher than 8 letters or numbers")
     private String password;
 
-
     @Past(message = "Must be a past date")
     @NotNull(message = "Please provide a birth date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

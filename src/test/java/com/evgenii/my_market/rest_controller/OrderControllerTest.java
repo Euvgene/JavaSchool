@@ -6,6 +6,7 @@ import com.evgenii.my_market.entity.Order;
 import com.evgenii.my_market.entity.OrderItem;
 import com.evgenii.my_market.entity.Product;
 import com.evgenii.my_market.service.OrderServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -30,7 +32,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -60,7 +62,7 @@ class OrderControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
     }
 
-    @SneakyThrows
+
     @Test
     void createOrderFromCart() {
         OrderConfirmDto orderConfirmDto = new OrderConfirmDto();
@@ -78,6 +80,24 @@ class OrderControllerTest {
         OrderDto testOrder = tested.createOrderFromCart(() -> USER_NAME, orderConfirmDto);
 
         assertEquals(testOrder.getPaymentMethod(), expectedOrder.getPaymentMethod());
+    }
+
+    @SneakyThrows
+    @Test
+    void createOrderFromCartInValid() {
+        OrderConfirmDto orderConfirmDto = new OrderConfirmDto();
+        orderConfirmDto.setUsername(USER_NAME);
+        orderConfirmDto.setCartId(String.valueOf(CART_UID));
+        orderConfirmDto.setAddress("1234567");
+        orderConfirmDto.setPaymentMethod("credit");
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        String json = mapper.writeValueAsString(orderConfirmDto);
+        mockMvc.perform(
+                post("/api/v1/orders")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(status().isBadRequest());
     }
 
     @Test

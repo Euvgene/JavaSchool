@@ -37,9 +37,7 @@ public class UserController {
 
     @GetMapping
     public UserDto getCurrentUser(Principal principal) {
-        UserDto user = userService.findByUsername(principal.getName()).map(UserDto::new)
-                .orElseThrow(() -> new ResourceNotFoundException("Unable to find user with name: " + principal.getName()));
-        return user;
+        return new UserDto(userService.findByUsername(principal.getName()).get());
     }
 
     @PutMapping

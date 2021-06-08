@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Pattern;
-import java.security.Principal;
-import java.util.UUID;
 
 @NoArgsConstructor
 @Data

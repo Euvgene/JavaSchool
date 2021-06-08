@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
         return userDAO.findByUsername(username);
     }
 
-
     public List<User> findByUsernameAndEmail(String username, String email) {
         return userDAO.findByUsernameAndEmail(username, email);
     }

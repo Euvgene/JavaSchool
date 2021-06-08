@@ -1,7 +1,6 @@
 package com.evgenii.my_market.dto;
 
 import com.evgenii.my_market.validator.UniqueEmail;
-import com.evgenii.my_market.validator.UniqueName;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
