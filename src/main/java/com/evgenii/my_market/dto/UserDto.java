@@ -1,6 +1,8 @@
 package com.evgenii.my_market.dto;
 
-import com.evgenii.my_market.entity.*;
+import com.evgenii.my_market.entity.Address;
+import com.evgenii.my_market.entity.Role;
+import com.evgenii.my_market.entity.User;
 import com.evgenii.my_market.validator.ValidRole;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

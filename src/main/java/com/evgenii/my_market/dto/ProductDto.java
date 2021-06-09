@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 public class ProductDto {
     private int productId;
     @NotNull(message = "Please provide a price")
-    @Positive(message ="price must be positive" )
+    @Positive(message = "price must be positive")
     private BigDecimal productPrice;
 
     @NotEmpty(message = "Please provide a foto")

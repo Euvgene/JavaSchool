@@ -36,11 +36,11 @@ public class Address {
 
     @Column(name = "house")
     @NotNull(message = "Please provide a house number")
-    @Positive(message ="house number must be positive" )
+    @Positive(message = "house number must be positive")
     private int houseNumber;
 
     @Column(name = "flat")
     @NotNull(message = "Please provide a flat number")
-    @Positive(message ="flat number must be positive" )
+    @Positive(message = "flat number must be positive")
     private byte flatNumber;
 }

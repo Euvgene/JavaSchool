@@ -32,7 +32,8 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,6 +47,15 @@ class OrderControllerTest {
     private static final LocalDate FROM_DATE = LocalDate.now().withDayOfMonth(1);
     private static final LocalDate TO_DATE = LocalDate.now();
     private static final String USER_NAME = "Bob";
+    private static final String PAYMENT_METHOD = "cash";
+    private static final String INVALID_PAYMENT_METHOD = "credit";
+    private static final String DELIVERY_ADDRESS = "some address";
+    private static final String PRODUCT_TITLE = "Cat";
+    private static final BigInteger EXPECTED_COUNT = BigInteger.valueOf(10);
+    private static final BigDecimal TOTAL_PRICE = BigDecimal.valueOf(100);
+    private static final int FIRST_PAGE_NUMBER = 1;
+    private static final int PRODUCT_QUANTITY = 1;
+    private static final int INDEX_OF_FIRST_ITEM = 0;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -62,17 +72,16 @@ class OrderControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
     }
 
-
     @Test
     void createOrderFromCart() {
         OrderConfirmDto orderConfirmDto = new OrderConfirmDto();
         orderConfirmDto.setUsername(USER_NAME);
         orderConfirmDto.setCartId(String.valueOf(CART_UID));
-        orderConfirmDto.setAddress("some");
-        orderConfirmDto.setPaymentMethod("cash");
+        orderConfirmDto.setAddress(DELIVERY_ADDRESS);
+        orderConfirmDto.setPaymentMethod(PAYMENT_METHOD);
 
         Order expectedOrder = new Order();
-        expectedOrder.setPaymentMethod("cash");
+        expectedOrder.setPaymentMethod(PAYMENT_METHOD);
         expectedOrder.setCreatedAt(LocalDate.now());
 
         when(orderService.createFromUserCart(orderConfirmDto)).thenReturn(expectedOrder);
@@ -88,8 +97,8 @@ class OrderControllerTest {
         OrderConfirmDto orderConfirmDto = new OrderConfirmDto();
         orderConfirmDto.setUsername(USER_NAME);
         orderConfirmDto.setCartId(String.valueOf(CART_UID));
-        orderConfirmDto.setAddress("1234567");
-        orderConfirmDto.setPaymentMethod("credit");
+        orderConfirmDto.setAddress(DELIVERY_ADDRESS);
+        orderConfirmDto.setPaymentMethod(INVALID_PAYMENT_METHOD);
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -103,27 +112,27 @@ class OrderControllerTest {
     @Test
     void getOrderByIdSuccess() {
         Product product = new Product();
-        product.setProductTitle("cat");
+        product.setProductTitle(PRODUCT_TITLE);
         OrderItemDto orderItemDto = new OrderItemDto();
         orderItemDto.setOrderId(ORDER_UID);
-        orderItemDto.setPrice(BigDecimal.valueOf(100));
+        orderItemDto.setPrice(TOTAL_PRICE);
         orderItemDto.setProductTitle(product.getProductTitle());
-        orderItemDto.setQuantity(1);
+        orderItemDto.setQuantity(PRODUCT_QUANTITY);
 
         List<OrderItemDto> orderItemList = new ArrayList<>();
         orderItemList.add(orderItemDto);
 
         OrderResultDto orderResultDto = new OrderResultDto();
         orderResultDto.setItems(orderItemList);
-        orderResultDto.setTotalPrice(BigDecimal.valueOf(100));
+        orderResultDto.setTotalPrice(TOTAL_PRICE);
 
         Order expectedOrder = new Order();
         expectedOrder.setId(ORDER_UID);
         List<OrderItem> expectedOrderItems = new ArrayList<>();
         OrderItem orderItem = new OrderItem();
-        orderItem.setQuantity(1);
+        orderItem.setQuantity(PRODUCT_QUANTITY);
         orderItem.setProduct(product);
-        orderItem.setPrice(BigDecimal.valueOf(100));
+        orderItem.setPrice(TOTAL_PRICE);
         orderItem.setOrder(expectedOrder);
         expectedOrderItems.add(orderItem);
         expectedOrder.setItems(expectedOrderItems);
@@ -131,8 +140,8 @@ class OrderControllerTest {
 
         OrderResultDto testOrderResult = tested.getOrderById(ORDER_UID);
 
-        assertEquals(testOrderResult.getItems().size(), expectedOrder.getItems().size());
-        assertEquals(testOrderResult.getTotalPrice(), expectedOrder.getPrice());
+        assertEquals(expectedOrder.getItems().size(), testOrderResult.getItems().size());
+        assertEquals(expectedOrder.getPrice(), testOrderResult.getTotalPrice());
     }
 
     @SneakyThrows
@@ -150,17 +159,16 @@ class OrderControllerTest {
         expectedList.add(orderDto);
 
         when(orderService.findAllOrdersByOwnerName(USER_NAME,
-                FROM_DATE, TO_DATE, 1)).thenReturn(expectedList);
-        List<OrderDto> testList = tested.getCurrentUserOrders(1,
-                LocalDate.now().withDayOfMonth(1),
-                LocalDate.now(), () -> USER_NAME);
+                FROM_DATE, TO_DATE, FIRST_PAGE_NUMBER)).thenReturn(expectedList);
+        List<OrderDto> testList = tested.getCurrentUserOrders(FIRST_PAGE_NUMBER,
+                FROM_DATE, TO_DATE, () -> USER_NAME);
 
-        assertEquals(testList.get(0).getOrderId(), expectedList.get(0).getOrderId());
+        assertEquals(expectedList.get(INDEX_OF_FIRST_ITEM).getOrderId(), testList.get(INDEX_OF_FIRST_ITEM).getOrderId());
     }
 
     @Test
     void getCurrentUserOrdersCount() {
-        BigInteger expectedCount = BigInteger.valueOf(10);
+        BigInteger expectedCount = EXPECTED_COUNT;
 
         when(orderService.getOrdersCountByOwnerName(USER_NAME, FROM_DATE, TO_DATE)).thenReturn(expectedCount);
 
@@ -170,7 +178,7 @@ class OrderControllerTest {
 
     @Test
     void getAllUserOrdersCount() {
-        BigInteger expectedCount = BigInteger.valueOf(10);
+        BigInteger expectedCount = EXPECTED_COUNT;
 
         when(orderService.getOrdersCount(FROM_DATE, TO_DATE, "")).thenReturn(expectedCount);
 
@@ -184,14 +192,14 @@ class OrderControllerTest {
         List<OrderDto> expectedList = new ArrayList<>();
         OrderDto orderDto = new OrderDto();
         orderDto.setOrderId(ORDER_UID);
-        orderDto.setTotalPrice(BigDecimal.valueOf(100));
+        orderDto.setTotalPrice(TOTAL_PRICE);
         expectedList.add(orderDto);
 
-        when(orderService.findAllOrders(FROM_DATE, TO_DATE, 1, "")).thenReturn(expectedList);
+        when(orderService.findAllOrders(FROM_DATE, TO_DATE, FIRST_PAGE_NUMBER, "")).thenReturn(expectedList);
 
-        List<OrderDto> testList = tested.getAllOrders(1, FROM_DATE, TO_DATE, "");
+        List<OrderDto> testList = tested.getAllOrders(FIRST_PAGE_NUMBER, FROM_DATE, TO_DATE, "");
 
-        assertEquals(expectedList.get(0).getOrderId(), testList.get(0).getOrderId());
+        assertEquals(expectedList.get(INDEX_OF_FIRST_ITEM).getOrderId(), testList.get(INDEX_OF_FIRST_ITEM).getOrderId());
 
     }
 
@@ -199,29 +207,29 @@ class OrderControllerTest {
     void getStatistic() {
         List<StatisticDto> expectedStatistic = new ArrayList<>();
         StatisticDto statisticDto = new StatisticDto();
-        statisticDto.setNumber(1);
-        statisticDto.setName("Cat");
+        statisticDto.setNumber(PRODUCT_QUANTITY);
+        statisticDto.setName(PRODUCT_TITLE);
         expectedStatistic.add(statisticDto);
 
         when(orderService.getStatistic("", FROM_DATE, TO_DATE)).thenReturn(expectedStatistic);
 
         List<StatisticDto> testList = tested.getStatistic("", FROM_DATE, TO_DATE);
 
-        assertEquals(testList.get(0).getNumber(), expectedStatistic.get(0).getNumber());
+        assertEquals(expectedStatistic.get(INDEX_OF_FIRST_ITEM).getNumber(), testList.get(INDEX_OF_FIRST_ITEM).getNumber());
     }
 
     @Test
     void getProductStatistic() {
         List<ProductStatisticDto> expectedStatistic = new ArrayList<>();
         ProductStatisticDto statisticDto = new ProductStatisticDto();
-        statisticDto.setNumber(1);
-        statisticDto.setName("Cat");
+        statisticDto.setNumber(PRODUCT_QUANTITY);
+        statisticDto.setName(PRODUCT_TITLE);
         expectedStatistic.add(statisticDto);
 
         when(orderService.getProductStatistic(FROM_DATE, TO_DATE)).thenReturn(expectedStatistic);
 
         List<ProductStatisticDto> testList = tested.getProductStatistic(FROM_DATE, TO_DATE);
 
-        assertEquals(testList.get(0).getNumber(), expectedStatistic.get(0).getNumber());
+        assertEquals(expectedStatistic.get(INDEX_OF_FIRST_ITEM).getNumber(), testList.get(INDEX_OF_FIRST_ITEM).getNumber());
     }
 }

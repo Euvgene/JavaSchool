@@ -1,11 +1,6 @@
 package com.evgenii.my_market.entity;
 
 import com.evgenii.my_market.dto.CategoryDto;
-import com.evgenii.my_market.validator.UniqueCategory;
-import com.fasterxml.jackson.annotation.JacksonInject;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

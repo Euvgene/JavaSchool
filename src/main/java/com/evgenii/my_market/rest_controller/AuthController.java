@@ -5,7 +5,6 @@ import com.evgenii.my_market.dto.JwtRequest;
 import com.evgenii.my_market.dto.JwtResponse;
 import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.service.CartServiceImpl;
-
 import com.evgenii.my_market.service.api.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

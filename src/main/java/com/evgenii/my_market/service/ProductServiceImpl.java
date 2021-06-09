@@ -6,7 +6,6 @@ import com.evgenii.my_market.dto.ProductDto;
 import com.evgenii.my_market.entity.Product;
 import com.evgenii.my_market.service.api.ProductService;
 import lombok.RequiredArgsConstructor;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

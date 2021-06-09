@@ -1,10 +1,6 @@
 package com.evgenii.my_market.rest_controller;
 
-import com.evgenii.my_market.dto.OrderConfirmDto;
-import com.evgenii.my_market.dto.OrderDto;
-import com.evgenii.my_market.dto.OrderResultDto;
-import com.evgenii.my_market.dto.StatisticDto;
-import com.evgenii.my_market.dto.ProductStatisticDto;
+import com.evgenii.my_market.dto.*;
 import com.evgenii.my_market.entity.Order;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.service.api.OrderService;

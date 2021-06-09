@@ -35,9 +35,13 @@ class UserServiceImplTest {
 
     private static final String USER_NAME = "Bob";
     private static final int USER_ID = 1;
+    private static final long ROLE_ID = 1l;
+    private static final Long ADDRESS_ID = 1l;
     private static final String OLD_USER_NAME = "JACK";
+    private static final String ROLE_NAME = "ROLE_USER";
     private static final String USER_EMAIL = "some@mail.com";
     private static final String USER_PASSWORD = "100";
+    private static final int INDEX_OF_FIRST_ITEM = 0;
     private static final ResponseEntity<?> RESPONSE_ENTITY_ACCEPTED = ResponseEntity.ok(HttpStatus.ACCEPTED);
     private static final ResponseEntity<?> RESPONSE_ENTITY_CONFLICT = new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(),
             "Some message"), HttpStatus.CONFLICT);
@@ -66,7 +70,7 @@ class UserServiceImplTest {
 
         User testUser = tested.findByUsername(USER_NAME).get();
 
-        assertEquals(testUser.getFirstName(), user.getFirstName());
+        assertEquals(user.getFirstName(), testUser.getFirstName());
     }
 
 
@@ -79,10 +83,10 @@ class UserServiceImplTest {
         userList.add(user);
         when(userDAO.findByUsernameAndEmail(USER_NAME, USER_EMAIL)).thenReturn(userList);
 
-        User testUser = tested.findByUsernameAndEmail(USER_NAME, USER_EMAIL).get(0);
+        User testUser = tested.findByUsernameAndEmail(USER_NAME, USER_EMAIL).get(INDEX_OF_FIRST_ITEM);
 
-        assertEquals(testUser.getFirstName(), user.getFirstName());
-        assertEquals(testUser.getEmail(), user.getEmail());
+        assertEquals(user.getFirstName(), testUser.getFirstName());
+        assertEquals(user.getEmail(), testUser.getEmail());
     }
 
     @Test
@@ -91,8 +95,8 @@ class UserServiceImplTest {
         user.setPassword(USER_PASSWORD);
         user.setFirstName(USER_NAME);
         Role roles = new Role();
-        roles.setId(1L);
-        roles.setRoleName("USER");
+        roles.setId(ROLE_ID);
+        roles.setRoleName(ROLE_NAME);
         user.setRole(roles);
 
         Collection<Role> roleCollection = new ArrayList<>();
@@ -104,8 +108,8 @@ class UserServiceImplTest {
 
         UserDetails testUser = tested.loadUserByUsername(USER_NAME);
 
-        assertEquals(testUser.getUsername(), user.getFirstName());
-        assertEquals(testUser.getPassword(), user.getPassword());
+        assertEquals(user.getFirstName(), testUser.getUsername());
+        assertEquals(user.getPassword(), testUser.getPassword());
         assertEquals(testUser.getAuthorities().iterator().next().getAuthority(), grantedAuthorities.iterator().next().getAuthority());
     }
 
@@ -120,7 +124,7 @@ class UserServiceImplTest {
 
         tested.save(userDto);
 
-        assertEquals(user.getFirstName(), USER_NAME);
+        assertEquals(USER_NAME, user.getFirstName());
     }
 
     @Test
@@ -172,7 +176,7 @@ class UserServiceImplTest {
 
         boolean exist = tested.isEmailAlreadyInUse(USER_EMAIL);
 
-        assertEquals(exist, b);
+        assertEquals(b, exist);
 
     }
 
@@ -181,7 +185,7 @@ class UserServiceImplTest {
 
         boolean exist = tested.isNameAlreadyInUse(USER_NAME);
 
-        assertEquals(exist, b);
+        assertEquals(b, exist);
 
     }
 
@@ -195,19 +199,19 @@ class UserServiceImplTest {
         when(passwordEncoder.matches(any(), any())).thenReturn(b);
 
         ResponseEntity<?> testResponseEntity = tested.updatePassword(updatePasswordDto, USER_NAME);
-        assertEquals(testResponseEntity.getStatusCode(), responseEntity.getStatusCode());
+        assertEquals(responseEntity.getStatusCode(), testResponseEntity.getStatusCode());
     }
 
     private void updateUser(boolean b, ResponseEntity<?> responseEntity) {
         User user = new User();
         user.setUserId(USER_ID);
         Address address = new Address();
-        address.setAddressId(1L);
+        address.setAddressId(ADDRESS_ID);
         user.setUserAddress(address);
         user.setPassword(USER_PASSWORD);
         Role role = new Role();
-        role.setId(1L);
-        role.setRoleName("USER");
+        role.setId(ROLE_ID);
+        role.setRoleName(ROLE_NAME);
         user.setRole(role);
 
         UserDto userDto = new UserDto(user);
@@ -216,6 +220,6 @@ class UserServiceImplTest {
         when(passwordEncoder.matches(any(), any())).thenReturn(b);
 
         ResponseEntity<?> testResponseEntity = tested.updateUser(userDto, OLD_USER_NAME);
-        assertEquals(testResponseEntity.getStatusCode(), responseEntity.getStatusCode());
+        assertEquals(responseEntity.getStatusCode(), testResponseEntity.getStatusCode());
     }
 }

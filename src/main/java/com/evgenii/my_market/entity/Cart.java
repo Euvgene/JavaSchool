@@ -38,7 +38,7 @@ public class Cart {
     public void add(CartItem cartItem) {
         for (CartItem ci : cartItems) {
             if (ci.getProduct().getProductId() == (cartItem.getProduct().getProductId())) {
-                if (cartItem.getQuantity()+ci.getQuantity() < cartItem.getProduct().getProductQuantity()) {
+                if (cartItem.getQuantity() + ci.getQuantity() < cartItem.getProduct().getProductQuantity()) {
                     ci.incrementQuantity(cartItem.getQuantity());
                     recalculate();
                 }

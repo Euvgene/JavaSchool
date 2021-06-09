@@ -25,9 +25,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/registration", "/api/v1/auth", "/cart","/products")
+                .antMatchers("/", "/registration", "/api/v1/auth", "/cart", "/products")
                 .permitAll()
-           /*     .antMatchers("/user-info").hasAuthority("ROLE_USER")
+                .antMatchers("/user-info").hasAuthority("ROLE_USER")
                 .antMatchers("/user-products").hasAuthority("ROLE_USER")
                 .antMatchers("/user-main").hasAuthority("ROLE_USER")
                 .antMatchers("/user-cart").hasAuthority("ROLE_USER")
@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/statistic").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/change-orders").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/admin-main").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/admin-products").hasAuthority("ROLE_ADMIN")*/
+                .antMatchers("/admin-products").hasAuthority("ROLE_ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler())

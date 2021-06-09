@@ -42,7 +42,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @ContextConfiguration(classes = {SpringConfig.class})
 class ProductControllerTest {
-    private final static int PRODUCT_ID = 65;
+
+    private static final int PRODUCT_ID = 65;
+    private static final String PRODUCT_NAME = "Mimi cat";
+    private static final int FIRST_PAGE_NUMBER = 1;
+    private static final byte PRODUCT_IS_OVER_QUANTITY = 0;
+    private static final int INDEX_OF_FIRST_ITEM = 0;
+    private static final int EXPECTED_SIZE_OF_PRODUCT_LIST = 1;
+    private static final BigInteger EXPECTED_COUNT = BigInteger.valueOf(10);
+
+
     @Autowired
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
@@ -64,16 +73,15 @@ class ProductControllerTest {
         mockMvc.perform(get("/api/v1/products/" + PRODUCT_ID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("productTitle", is("Mimi cat")));
+                .andExpect(jsonPath("productTitle", is(PRODUCT_NAME)));
     }
 
-    @SneakyThrows
     @Test
-    void getProductsPage() {
+    void getProductsPage() throws Exception {
         FilterDto filterDto = new FilterDto();
-        filterDto.setName("Mimi cat");
-        filterDto.setPage(1);
-        filterDto.setQuantity((byte) 0);
+        filterDto.setName(PRODUCT_NAME);
+        filterDto.setPage(FIRST_PAGE_NUMBER);
+        filterDto.setQuantity(PRODUCT_IS_OVER_QUANTITY);
         filterDto.setCategory("");
         filterDto.setGender("");
         filterDto.setMaxPrice(BigDecimal.valueOf(Integer.MAX_VALUE));
@@ -93,13 +101,13 @@ class ProductControllerTest {
                 new TypeReference<List<ProductDto>>() {
                 });
 
-        assertEquals(actual.get(0).getProductTitle(), filterDto.getName());
-        assertEquals(actual.size(), 1);
+        assertEquals(actual.get(INDEX_OF_FIRST_ITEM).getProductTitle(), filterDto.getName());
+        assertEquals(EXPECTED_SIZE_OF_PRODUCT_LIST, actual.size());
     }
 
     @Test
     void getProductsCount() {
-        BigInteger expectedCount = BigInteger.valueOf(10);
+        BigInteger expectedCount = EXPECTED_COUNT;
         FilterDto filterDto = new FilterDto();
 
         when(productService.getProductsCount(filterDto)).thenReturn(expectedCount);
@@ -121,9 +129,9 @@ class ProductControllerTest {
         assertEquals(testResponse.getStatusCode(), HttpStatus.OK);
     }
 
-    @SneakyThrows
+
     @Test
-    void saveProductInValid() {
+    void saveProductInValid() throws Exception {
         ProductDto productDto = new ProductDto();
         ObjectMapper mapper = new ObjectMapper();
 
@@ -147,7 +155,7 @@ class ProductControllerTest {
     }
 
     @Test
-    void deleteProductById() throws Exception {
+    void deleteProductById() {
         doNothing().when(productService).deleteProductById(PRODUCT_ID);
         tested.deleteProductById(PRODUCT_ID);
     }

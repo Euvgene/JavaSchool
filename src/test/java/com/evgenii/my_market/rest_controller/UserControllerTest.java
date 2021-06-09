@@ -8,7 +8,6 @@ import com.evgenii.my_market.dto.UserNameDto;
 import com.evgenii.my_market.entity.Address;
 import com.evgenii.my_market.entity.Role;
 import com.evgenii.my_market.entity.User;
-import com.evgenii.my_market.exception_handling.MarketError;
 import com.evgenii.my_market.service.api.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -17,7 +16,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.security.Principal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +35,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -52,6 +51,20 @@ class UserControllerTest {
     private static final String USER_EMAIL = "Deny@mail.com";
     private static final String NEW_USER_EMAIL = "someemail@mail.com";
     private static final ResponseEntity RESPONSE_ENTITY_ACCEPTED = ResponseEntity.ok(HttpStatus.ACCEPTED);
+    private static final String USER_ROLE = "ROLE_USER";
+    private static final long USER_ROLE_ID = 1L;
+    private static final String ADMIN_ROLE = "ROLE_ADMIN";
+    private static final String USER_PASSWORD = "12345678";
+    private static final String NEW_PASSWORD = "11111111";
+    private static final String NEW_PASSWORD_NOT_MATCH = "22222222";
+    private static final String BIRTH_DATE = "1990-11-11";
+    private static final String CITY = "Sin";
+    private static final String STREET_NAME = "Nevskii";
+    private static final String COUNTRY_NAME = "Russia";
+    private static final byte FLAT_NUMBER = 1;
+    private static final int HOUSE_NUMBER = 1;
+    private static final String ZIP = "666666";
+    private static final long ADDRESS_ID = 999L;
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -80,13 +93,13 @@ class UserControllerTest {
 
         ResponseEntity<?> testResponse = tested.saveUser(userDto);
 
-        assertEquals(testResponse.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, testResponse.getStatusCode());
     }
 
     @SneakyThrows
     @Test
     void saveUserAlreadyExist() {
-        UserDto userDto = creatUserDto("ROLE_USER");
+        UserDto userDto = creatUserDto(USER_ROLE);
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -100,7 +113,7 @@ class UserControllerTest {
     @SneakyThrows
     @Test
     void saveUserInvalidUser() {
-        UserDto userDto = creatUserDto("ROLE_ADMIN");
+        UserDto userDto = creatUserDto(ADMIN_ROLE);
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -120,7 +133,7 @@ class UserControllerTest {
 
         UserDto testUser = tested.getCurrentUser(() -> USER_NAME);
 
-        assertEquals(testUser.getFirstName(), expectedUser.getFirstName());
+        assertEquals(expectedUser.getFirstName(), testUser.getFirstName());
 
     }
 
@@ -132,7 +145,7 @@ class UserControllerTest {
 
         ResponseEntity<?> test = tested.updateUser(userDto, () -> USER_NAME);
 
-        assertEquals(test.getStatusCode(), RESPONSE_ENTITY_ACCEPTED.getStatusCode());
+        assertEquals(RESPONSE_ENTITY_ACCEPTED.getStatusCode(), test.getStatusCode());
     }
 
     @Test
@@ -143,16 +156,16 @@ class UserControllerTest {
 
         ResponseEntity<?> test = tested.updatePassword(passwordDto, () -> USER_NAME);
 
-        assertEquals(test.getStatusCode(), RESPONSE_ENTITY_ACCEPTED.getStatusCode());
+        assertEquals(RESPONSE_ENTITY_ACCEPTED.getStatusCode(), test.getStatusCode());
     }
 
     @SneakyThrows
     @Test
     void updatePasswordInValidPassword() {
         UpdatePasswordDto passwordDto = new UpdatePasswordDto();
-        passwordDto.setOldPassword("12345678");
-        passwordDto.setFirstPassword("12345678");
-        passwordDto.setSecondPassword("12369985");
+        passwordDto.setOldPassword(USER_PASSWORD);
+        passwordDto.setFirstPassword(NEW_PASSWORD);
+        passwordDto.setSecondPassword(NEW_PASSWORD_NOT_MATCH);
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -227,25 +240,25 @@ class UserControllerTest {
 
     }
 
-    @SneakyThrows
-    private UserDto creatUserDto(String role) {
+
+    private UserDto creatUserDto(String role) throws ParseException {
         UserDto userDto = new UserDto();
         Address address = creatAddress();
         Role userRole = new Role();
-        userRole.setId(1L);
+        userRole.setId(USER_ROLE_ID);
         userRole.setRoleName(role);
 
         userDto.setFirstName(USER_NAME);
         userDto.setLastName(USER_NAME);
         userDto.setEmail(USER_EMAIL);
-        userDto.setPassword("12345678");
+        userDto.setPassword(USER_PASSWORD);
         userDto.setRole(userRole);
         userDto.setUserAddress(address);
 
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
-        Date date = simpleDateFormat.parse("2018-09-09");
+        Date date = simpleDateFormat.parse(BIRTH_DATE);
 
         userDto.setBirthday(date);
         return userDto;
@@ -253,13 +266,14 @@ class UserControllerTest {
 
     private Address creatAddress() {
         Address address = new Address();
-        address.setAddressId(999L);
-        address.setCity("Sin");
-        address.setStreetName("Nevskii");
-        address.setCountry("country");
-        address.setFlatNumber((byte) 1);
-        address.setHouseNumber(1);
-        address.setPostalCode("1234567");
+        address.setAddressId(ADDRESS_ID);
+        address.setCity(CITY);
+        address.setStreetName(STREET_NAME);
+        address.setCountry(COUNTRY_NAME);
+        address.setFlatNumber(FLAT_NUMBER);
+        address.setHouseNumber(HOUSE_NUMBER);
+        address.setPostalCode(ZIP);
         return address;
     }
+
 }

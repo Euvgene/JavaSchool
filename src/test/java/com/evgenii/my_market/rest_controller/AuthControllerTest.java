@@ -30,9 +30,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {SpringConfig.class})
 class AuthControllerTest {
 
-    private final String USER_NAME = "Evgenii";
-    private final String USER_PASSWORD = "12345678";
-    private final String WRONG_USER_PASSWORD = "200";
+    private static final String USER_NAME = "Evgenii";
+    private static final String USER_PASSWORD = "12345678";
+    private static final String WRONG_USER_PASSWORD = "200";
+    private static final String USER_ROLE = "[ROLE_USER]";
 
     @Autowired
     private WebApplicationContext webApplicationContext;
@@ -57,7 +58,7 @@ class AuthControllerTest {
                 .contentType(
                         MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("userRole", is("[ROLE_USER]")))
+                .andExpect(jsonPath("userRole", is(USER_ROLE)))
                 .andExpect(jsonPath("token").exists())
                 .andExpect(jsonPath("token").isString());
     }

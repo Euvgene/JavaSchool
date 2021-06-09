@@ -100,7 +100,7 @@ public class CartServiceImpl implements CartService {
         }
         if (isValid) {
             return responseEntity;
-        } else{
+        } else {
             return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(),
                     "Your cart is not valid. Quantity of product is not enough or ended. Refreshing cart list"), HttpStatus.CONFLICT);
         }

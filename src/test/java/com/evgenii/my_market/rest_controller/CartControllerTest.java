@@ -10,8 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -26,6 +24,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @ContextConfiguration(classes = {SpringConfig.class})
 class CartControllerTest {
+
+    private static final String PRODUCT_ID = "65";
+    private static final String PRODUCT_ID_NOT_EXIST = "2";
+    private static final String PRODUCT_NAME = "Mimi cat";
+    private static final String CART_UUID = "dbb3cab4-e0e0-402d-b65f-0a89ef3a4092";
+    private static final String CART_UUID_NOT_EXIST = "a0fe8317-0ad9-46cb-acfd-fd1533bd1b6c";
+
     @Autowired
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
@@ -38,33 +43,30 @@ class CartControllerTest {
     @Test
     void addProductToCartSuccess() throws Exception {
 
-        String uuid = getCartForTest();
-
         mockMvc.perform(post("/api/v1/cart/add")
-                .param("uuid", uuid)
-                .param("prod_id", "65"))
+                .param("uuid", CART_UUID)
+                .param("prod_id", PRODUCT_ID))
                 .andExpect(status().isOk());
 
-        mockMvc.perform(get("/api/v1/cart/" + uuid)
+        mockMvc.perform(get("/api/v1/cart/" + CART_UUID)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.items").isArray())
                 .andExpect(jsonPath("$.items", hasSize(1)))
-                .andExpect(jsonPath("$.items[0].productTitle", is("Mimi cat")))
-                .andExpect(jsonPath("$.items[0].price", is(459.00)));
+                .andExpect(jsonPath("$.items[0].productTitle", is(PRODUCT_NAME)));
     }
 
     @Test
     void addProductToCartProductNotFound() throws Exception {
-        String uuid = getCartForTest();
+
         mockMvc.perform(post("/api/v1/cart/add")
-                .param("uuid", uuid)
-                .param("prod_id", "2"))
+                .param("uuid", CART_UUID)
+                .param("prod_id", PRODUCT_ID_NOT_EXIST))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void getCurrentCartDenied() throws Exception {
-        mockMvc.perform(get("/api/v1/cart/{uuid}", "a0fe8317-0ad9-46cb-acfd-fd1533bd1b6c")
+        mockMvc.perform(get("/api/v1/cart/{uuid}", CART_UUID_NOT_EXIST)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
@@ -72,43 +74,34 @@ class CartControllerTest {
 
     @Test
     void clearCartSuccess() throws Exception {
-        String uuid = getCartForTest();
         mockMvc.perform(post("/api/v1/cart/clear")
-                .param("uuid", uuid))
+                .param("uuid", CART_UUID))
                 .andExpect(status().isOk());
     }
 
     @Test
     void clearCartDenied() throws Exception {
-        String uuid = "a0fe8317-0ad9-46cb-acfd-fd1533bd1b6c";
+
         mockMvc.perform(post("/api/v1/cart/clear")
-                .param("uuid", uuid))
+                .param("uuid", CART_UUID_NOT_EXIST))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void clearOldItemsFromCart() throws Exception {
-        String uuid = getCartForTest();
+
         mockMvc.perform(get("/api/v1/cart/clear")
-                .param("uuid", uuid))
+                .param("uuid", CART_UUID))
                 .andExpect(status().isOk());
     }
 
     @Test
     void updateQuantityOrDeleteProductInCartSuccess() throws Exception {
-        String uuid = getCartForTest();
+
         mockMvc.perform(post("/api/v1/cart/clear")
-                .param("uuid", uuid)
+                .param("uuid", CART_UUID)
                 .param("product_id", "1")
                 .param("updateNumber", "1"))
                 .andExpect(status().isOk());
-    }
-
-    private String getCartForTest() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/cart")
-                .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andReturn();
-
-        String uuid = result.getResponse().getContentAsString().replaceAll("\"", "");
-        return uuid;
     }
 }

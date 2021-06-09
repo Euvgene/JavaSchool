@@ -19,7 +19,7 @@ public class CartDaoImpl implements CartDao {
 
     public void delete(Cart cart) {
         entityManager.remove(cart);
-         entityManager.flush();
+        entityManager.flush();
     }
 
     public Cart save(Cart cart) {
@@ -32,11 +32,11 @@ public class CartDaoImpl implements CartDao {
     public Cart findById(UUID id) {
         TypedQuery<Cart> query = entityManager.createQuery(
                 "SELECT c FROM Cart c where c.cartId = :id", Cart.class);
-        try{
-            return  query
+        try {
+            return query
                     .setParameter("id", id)
                     .getSingleResult();
-        } catch (NoResultException e){
+        } catch (NoResultException e) {
             throw new ResourceNotFoundException("Unable to find cart with id: " + id);
         }
     }

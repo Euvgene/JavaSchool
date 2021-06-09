@@ -36,15 +36,26 @@ class OrderServiceImplTest {
     private static final boolean PAYMENT_STATE = true;
     private static final UUID ORDER_UID = UUID.fromString("64fc8473-97b5-46cb-9197-a631e3fb7e57");
     private static final String ADDRESS = "Nevskii";
+    private static final String STATISTIC_NAME = "orders";
+    private static final String PRODUCT_NAME = "cat";
+    private static final String DELIVERY_ADDRESS = "from store";
     private static final String PAYMENT_METHOD_CASH = "cash";
     private static final String PAYMENT_METHOD_CREDIT_CARD = "credit card";
     private static final int PRODUCT_ID = 1;
     private static final BigDecimal PRODUCT_PRICE = BigDecimal.valueOf(100);
     private static final int PRODUCT_QUANTITY_ONE = 1;
     private static final int PRODUCT_QUANTITY_TWO = 2;
+    private static final int PRODUCT_QUANTITY_THREE = 3;
+    private static final int STATISTIC_PRODUCT_PRICE = 122;
     private static final LocalDate FROM_DATE = LocalDate.parse("2021-01-01");
     private static final LocalDate TO_DATE = LocalDate.parse("2021-01-05");
     private static final String STATE = "ACTIVE";
+    private static final int FIRST_PAGE_INDEX = 0;
+    private static final int SECOND_PAGE_INDEX = 8;
+    private static final int FIRST_PAGE = 1;
+    private static final int SECOND_PAGE = 2;
+    private static final int INDEX_OF_FIRST_ITEM = 0;
+    private static final BigInteger EXPECTED_COUNT = BigInteger.valueOf(10);
 
     @Mock
     private OrderDAO orderDAO;
@@ -77,10 +88,10 @@ class OrderServiceImplTest {
 
         List<Order> orderList = createOrderList();
 
-        when(orderDAO.findAllByOwnerUsername(USER_NAME, FROM_DATE, TO_DATE, 0, 8)).thenReturn(orderList);
-        List<OrderDto> orderDtoList = tested.findAllOrdersByOwnerName(USER_NAME, FROM_DATE, TO_DATE, 1);
+        when(orderDAO.findAllByOwnerUsername(USER_NAME, FROM_DATE, TO_DATE, FIRST_PAGE_INDEX, 8)).thenReturn(orderList);
+        List<OrderDto> orderDtoList = tested.findAllOrdersByOwnerName(USER_NAME, FROM_DATE, TO_DATE, FIRST_PAGE);
 
-        assertEquals(orderDtoList.size(), orderList.size());
+        assertEquals(orderList.size(), orderDtoList.size());
 
     }
 
@@ -88,10 +99,10 @@ class OrderServiceImplTest {
     void findAllOrdersByOwnerNameSecondPage() {
         List<Order> orderList = createOrderList();
 
-        when(orderDAO.findAllByOwnerUsername(USER_NAME, FROM_DATE, TO_DATE, 8, 8)).thenReturn(orderList);
-        List<OrderDto> orderDtoList = tested.findAllOrdersByOwnerName(USER_NAME, FROM_DATE, TO_DATE, 2);
+        when(orderDAO.findAllByOwnerUsername(USER_NAME, FROM_DATE, TO_DATE, SECOND_PAGE_INDEX, 8)).thenReturn(orderList);
+        List<OrderDto> orderDtoList = tested.findAllOrdersByOwnerName(USER_NAME, FROM_DATE, TO_DATE, SECOND_PAGE);
 
-        assertEquals(orderDtoList.size(), orderList.size());
+        assertEquals(orderList.size(), orderDtoList.size());
     }
 
 
@@ -104,18 +115,18 @@ class OrderServiceImplTest {
 
         Optional<Order> testOrder = tested.findById(ORDER_UID);
 
-        assertEquals(testOrder.get().getId(), order.getId());
+        assertEquals(order.getId(), testOrder.get().getId());
     }
 
     @Test
     void findAllOrders() {
         List<Order> orderList = createOrderList();
 
-        when(orderDAO.findAlL(FROM_DATE, TO_DATE, 0, STATE, 8)).thenReturn(orderList);
+        when(orderDAO.findAlL(FROM_DATE, TO_DATE, FIRST_PAGE_INDEX, STATE, 8)).thenReturn(orderList);
 
-        List<OrderDto> orderDtoList = tested.findAllOrders(FROM_DATE, TO_DATE, 1, STATE);
+        List<OrderDto> orderDtoList = tested.findAllOrders(FROM_DATE, TO_DATE, FIRST_PAGE, STATE);
 
-        assertEquals(orderDtoList.size(), orderList.size());
+        assertEquals(orderList.size(), orderDtoList.size());
     }
 
     @Test
@@ -131,10 +142,10 @@ class OrderServiceImplTest {
 
         when(orderDAO.findById(ORDER_UID)).thenReturn(Optional.of(order));
 
-        tested.updateOrder(ORDER_UID, "from store", "SHIPPED");
+        tested.updateOrder(ORDER_UID, DELIVERY_ADDRESS, StateEnum.SHIPPED.toString());
 
-        assertEquals(order.getOrderState(), StateEnum.SHIPPED);
-        assertEquals(order.getDeliveryMethode(), "from store");
+        assertEquals(StateEnum.SHIPPED, order.getOrderState());
+        assertEquals(DELIVERY_ADDRESS, order.getDeliveryMethode());
     }
 
 
@@ -151,9 +162,9 @@ class OrderServiceImplTest {
 
         when(orderDAO.findById(ORDER_UID)).thenReturn(Optional.of(order));
 
-        tested.updateOrder(ORDER_UID, "from store", "DELIVERED");
+        tested.updateOrder(ORDER_UID, DELIVERY_ADDRESS, StateEnum.DELIVERED.toString());
 
-        assertEquals(order.getOrderState(), StateEnum.DELIVERED);
+        assertEquals(StateEnum.DELIVERED, order.getOrderState());
         assertTrue(order.isPaymentState());
     }
 
@@ -170,62 +181,62 @@ class OrderServiceImplTest {
 
         when(orderDAO.findById(ORDER_UID)).thenReturn(Optional.of(order));
 
-        tested.updateOrder(ORDER_UID, "from store", "RETURN");
+        tested.updateOrder(ORDER_UID, DELIVERY_ADDRESS, StateEnum.RETURN.toString());
 
-        assertEquals(order.getOrderState(), StateEnum.RETURN);
-        assertEquals(product.getProductQuantity(), PRODUCT_QUANTITY_TWO + 1);
+        assertEquals(StateEnum.RETURN, order.getOrderState());
+        assertEquals(PRODUCT_QUANTITY_THREE, product.getProductQuantity());
     }
 
     @Test
     void getStatistic() {
         List<Object[]> statisticDtoList = new ArrayList<>();
-        Object[] objects = new Object[]{"cat", 1};
+        Object[] objects = new Object[]{PRODUCT_NAME, PRODUCT_QUANTITY_ONE};
         statisticDtoList.add(objects);
 
-        when(orderDAO.getStatistic("orders", FROM_DATE, TO_DATE)).thenReturn(statisticDtoList);
+        when(orderDAO.getStatistic(STATISTIC_NAME, FROM_DATE, TO_DATE)).thenReturn(statisticDtoList);
 
-        List<StatisticDto> statisticDtos = tested.getStatistic("orders",FROM_DATE, TO_DATE);
+        List<StatisticDto> statisticDtos = tested.getStatistic(STATISTIC_NAME, FROM_DATE, TO_DATE);
 
-        assertEquals(statisticDtos.get(0).getName(), "cat");
-        assertEquals(statisticDtos.get(0).getNumber(), 1);
+        assertEquals(PRODUCT_NAME, statisticDtos.get(INDEX_OF_FIRST_ITEM).getName());
+        assertEquals(PRODUCT_QUANTITY_ONE, statisticDtos.get(INDEX_OF_FIRST_ITEM).getNumber());
     }
 
     @Test
     void getProductStatistic() {
         List<Object[]> statisticDtoList = new ArrayList<>();
-        Object[] objects = new Object[]{"cat", 1, 122};
+        Object[] objects = new Object[]{PRODUCT_NAME, PRODUCT_QUANTITY_ONE, STATISTIC_PRODUCT_PRICE};
         statisticDtoList.add(objects);
 
-        when(orderDAO.getProductStatistic( FROM_DATE, TO_DATE)).thenReturn(statisticDtoList);
+        when(orderDAO.getProductStatistic(FROM_DATE, TO_DATE)).thenReturn(statisticDtoList);
 
         List<ProductStatisticDto> statisticDtos = tested.getProductStatistic(FROM_DATE, TO_DATE);
 
-        assertEquals(statisticDtos.get(0).getName(), "cat");
-        assertEquals(statisticDtos.get(0).getNumber(), 1);
+        assertEquals(PRODUCT_NAME, statisticDtos.get(INDEX_OF_FIRST_ITEM).getName());
+        assertEquals(PRODUCT_QUANTITY_ONE, statisticDtos.get(INDEX_OF_FIRST_ITEM).getNumber());
     }
 
     @Test
     void getOrdersCountByOwnerName() {
-        BigInteger bigInteger = BigInteger.valueOf(10);
+        BigInteger bigInteger = EXPECTED_COUNT;
 
-        when(orderDAO.getOrdersCountByOwnerName( USER_NAME, FROM_DATE, TO_DATE)).thenReturn(bigInteger);
+        when(orderDAO.getOrdersCountByOwnerName(USER_NAME, FROM_DATE, TO_DATE)).thenReturn(bigInteger);
 
-        BigInteger testBigInteger = tested.getOrdersCountByOwnerName(USER_NAME,FROM_DATE,TO_DATE);
+        BigInteger testBigInteger = tested.getOrdersCountByOwnerName(USER_NAME, FROM_DATE, TO_DATE);
 
-        assertEquals(testBigInteger, bigInteger);
+        assertEquals(bigInteger, testBigInteger);
 
     }
 
     @Test
     void getOrdersCount() {
 
-        BigInteger bigInteger = BigInteger.valueOf(10);
+        BigInteger bigInteger = EXPECTED_COUNT;
 
-        when(orderDAO.getAllOrderCount(  FROM_DATE, TO_DATE, STATE)).thenReturn(bigInteger);
+        when(orderDAO.getAllOrderCount(FROM_DATE, TO_DATE, STATE)).thenReturn(bigInteger);
 
-        BigInteger testBigInteger = tested.getOrdersCount(FROM_DATE,TO_DATE, STATE);
+        BigInteger testBigInteger = tested.getOrdersCount(FROM_DATE, TO_DATE, STATE);
 
-        assertEquals(testBigInteger, bigInteger);
+        assertEquals(bigInteger, testBigInteger);
     }
 
     private CartItem createCartItem(Product product) {
@@ -279,10 +290,9 @@ class OrderServiceImplTest {
         doNothing().when(messageSender).send(any());
         Order testOrder = tested.createFromUserCart(orderConfirmDto);
 
-        assertEquals(testOrder.getPaymentMethod(), paymentMethod);
-        assertEquals(testOrder.getDeliveryMethode(), ADDRESS);
-        assertEquals(testOrder.getItems().size(), 1);
-        assertEquals(product.getProductQuantity(), 1);
+        assertEquals(paymentMethod, testOrder.getPaymentMethod());
+        assertEquals(ADDRESS, testOrder.getDeliveryMethode());
+        assertEquals(PRODUCT_QUANTITY_ONE, product.getProductQuantity());
     }
 
     private List<Order> createOrderList() {
@@ -299,7 +309,7 @@ class OrderServiceImplTest {
         Order order = new Order();
         order.setId(ORDER_UID);
         order.setOrderState(StateEnum.AWAITING_SHIPMENT);
-        order.setDeliveryMethode("Nevskii");
+        order.setDeliveryMethode(ADDRESS);
         return order;
     }
 }

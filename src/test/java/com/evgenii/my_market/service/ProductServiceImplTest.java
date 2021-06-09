@@ -23,8 +23,14 @@ class ProductServiceImplTest {
 
     private static final int TOTAL_PRODUCTS_IN_PAGE = 8;
     private static final int FIRST_PAGE_NUMBER = 1;
+    private static final int SECOND_PAGE_NUMBER = 2;
+    private static final int FIRST_PAGE_INDEX = 0;
+    private static final int SECOND_PAGE_INDEX = 8;
     private static final int PRODUCT_ID = 1;
     private static final byte PRODUCT_QUANTITY = 3;
+    private static final int INDEX_OF_FIRST_ITEM = 0;
+    private static final int PRODUCT_QUANTITY_AFTER_DELETE = 0;
+    private static final BigInteger EXPECTED_COUNT = BigInteger.valueOf(10);
 
     @Mock
     private ProductDAO productDAO;
@@ -48,12 +54,12 @@ class ProductServiceImplTest {
 
         productList.add(product);
 
-        when(productDAO.getProductsPage(FIRST_PAGE_NUMBER - 1, TOTAL_PRODUCTS_IN_PAGE, filterDto)).thenReturn(productList);
+        when(productDAO.getProductsPage(FIRST_PAGE_INDEX, TOTAL_PRODUCTS_IN_PAGE, filterDto)).thenReturn(productList);
 
         List<ProductDto> testList = tested.getProductsPage(filterDto);
 
-        assertEquals(testList.size(), productList.size());
-        assertEquals(testList.get(0).getProductId(), product.getProductId());
+        assertEquals(productList.size(), testList.size());
+        assertEquals(product.getProductId(), testList.get(INDEX_OF_FIRST_ITEM).getProductId());
 
     }
 
@@ -62,19 +68,19 @@ class ProductServiceImplTest {
         List<Product> productList = new ArrayList<>();
 
         FilterDto filterDto = new FilterDto();
-        filterDto.setPage(2);
+        filterDto.setPage(SECOND_PAGE_NUMBER);
 
         Product product = new Product();
         product.setProductId(PRODUCT_ID);
 
         productList.add(product);
 
-        when(productDAO.getProductsPage(8, TOTAL_PRODUCTS_IN_PAGE, filterDto)).thenReturn(productList);
+        when(productDAO.getProductsPage(SECOND_PAGE_INDEX, TOTAL_PRODUCTS_IN_PAGE, filterDto)).thenReturn(productList);
 
         List<ProductDto> testList = tested.getProductsPage(filterDto);
 
-        assertEquals(testList.size(), productList.size());
-        assertEquals(testList.get(0).getProductId(), product.getProductId());
+        assertEquals(productList.size(), testList.size());
+        assertEquals(product.getProductId(), testList.get(INDEX_OF_FIRST_ITEM).getProductId());
 
     }
 
@@ -89,7 +95,7 @@ class ProductServiceImplTest {
 
         tested.save(productDto);
 
-        assertEquals(product.getProductId(), PRODUCT_ID);
+        assertEquals(PRODUCT_ID, product.getProductId());
     }
 
 
@@ -104,7 +110,7 @@ class ProductServiceImplTest {
 
         Product testProduct = tested.getProductById(PRODUCT_ID);
 
-        assertEquals(testProduct.getProductId(), product.getProductId());
+        assertEquals(product.getProductId(), testProduct.getProductId());
 
     }
 
@@ -131,20 +137,20 @@ class ProductServiceImplTest {
         when(productDAO.findProductById(PRODUCT_ID)).thenReturn(productList);
         tested.deleteProductById(PRODUCT_ID);
 
-        assertEquals(product.getProductQuantity(), 0);
+        assertEquals(PRODUCT_QUANTITY_AFTER_DELETE, product.getProductQuantity());
 
     }
 
     @Test
     void getProductsCount() {
-        BigInteger bigInteger = BigInteger.valueOf(10);
+        BigInteger bigInteger = EXPECTED_COUNT;
         FilterDto filterDto = new FilterDto();
 
         when(productDAO.getProductCount(filterDto)).thenReturn(bigInteger);
 
         BigInteger testBigInteger = tested.getProductsCount(filterDto);
 
-        assertEquals(testBigInteger, bigInteger);
+        assertEquals(bigInteger, testBigInteger);
 
     }
 }

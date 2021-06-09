@@ -21,6 +21,8 @@ import static org.mockito.Mockito.when;
 class CategoryServiceImplTest {
 
     private static final String CATEGORY_OLD_NAME = "Cat";
+    private static final String CATEGORY_NEW_NAME = "Dog";
+    private static final int CATEGORY_ID = 1;
 
     @Mock
     private CategoryDAOImpl categoryDAO;
@@ -35,7 +37,7 @@ class CategoryServiceImplTest {
     @Test
     void save() {
         CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setCategoryName("Cat");
+        categoryDto.setCategoryName(CATEGORY_OLD_NAME);
 
         Category category = new Category(categoryDto);
 
@@ -80,7 +82,7 @@ class CategoryServiceImplTest {
     @Test
     void update() {
         CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setCategoryName("Dog");
+        categoryDto.setCategoryName(CATEGORY_NEW_NAME);
 
         Category category = createCategory();
 
@@ -92,7 +94,7 @@ class CategoryServiceImplTest {
     private Category createCategory() {
         Category category = new Category();
         category.setCategoryName(CATEGORY_OLD_NAME);
-        category.setCategoryId(1);
+        category.setCategoryId(CATEGORY_ID);
         return category;
     }
 

@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.UUID;
 
 
@@ -24,7 +23,7 @@ public class OrderDto {
         this.orderId = order.getId();
         this.totalPrice = order.getPrice();
         this.creationDateTime = order.getCreatedAt().toString();
-        this.address= order.getDeliveryMethode();
+        this.address = order.getDeliveryMethode();
         this.paymentMethod = order.getPaymentMethod();
         this.orderState = order.getOrderState();
 

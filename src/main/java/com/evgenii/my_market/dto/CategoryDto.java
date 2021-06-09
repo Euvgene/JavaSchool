@@ -4,8 +4,6 @@ import com.evgenii.my_market.validator.UniqueCategory;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
 @Data
 @NoArgsConstructor
 public class CategoryDto {

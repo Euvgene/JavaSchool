@@ -1,13 +1,11 @@
 package com.evgenii.my_market.entity;
 
 import com.evgenii.my_market.dto.ProductDto;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 

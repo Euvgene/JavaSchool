@@ -9,7 +9,6 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -59,7 +58,7 @@ public class Order {
 
 
     public Order(Cart cart, User user, Address address,
-                 String deliveryMethode,String paymentMethod,  boolean paymentState,StateEnum orderState ) {
+                 String deliveryMethode, String paymentMethod, boolean paymentState, StateEnum orderState) {
         this.items = new ArrayList<>();
         this.orderState = orderState;
         this.owner = user;

@@ -16,6 +16,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
+
     private final CategoryDAO categoryDAO;
     private final Logger LOGGER = LoggerFactory.getLogger(CategoryService.class);
 

@@ -5,7 +5,6 @@ import com.evgenii.my_market.dto.UserDto;
 import com.evgenii.my_market.dto.UserEmailDto;
 import com.evgenii.my_market.dto.UserNameDto;
 import com.evgenii.my_market.exception_handling.MarketError;
-import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.service.api.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

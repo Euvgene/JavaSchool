@@ -39,6 +39,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {SpringConfig.class})
 class CategoryControllerTest {
 
+    private static final int CATEGORY_ID = 1;
+    private static final String CATEGORY_NAME = "cat";
+    private static final String NEW_CATEGORY_NAME = "woolf";
+
     @Mock
     CategoryService categoryService;
 
@@ -58,8 +62,8 @@ class CategoryControllerTest {
     @Test
     void getAllCategory() {
         Category category = new Category();
-        category.setCategoryId(1);
-        category.setCategoryName("cat");
+        category.setCategoryId(CATEGORY_ID);
+        category.setCategoryName(CATEGORY_NAME);
 
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(category);
@@ -68,7 +72,7 @@ class CategoryControllerTest {
 
         List<Category> testList = tested.getAllCategory();
 
-        assertEquals(testList.get(0).getCategoryName(), "cat");
+        assertEquals(CATEGORY_NAME, testList.get(0).getCategoryName());
     }
 
 
@@ -76,20 +80,20 @@ class CategoryControllerTest {
     @Test
     void saveCategoryValid() {
         CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setCategoryName("bee");
+        categoryDto.setCategoryName(NEW_CATEGORY_NAME);
 
         doNothing().when(categoryService).save(categoryDto);
 
         ResponseEntity<?> responseEntity = tested.saveCategory(categoryDto);
 
-        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
     @SneakyThrows
     @Test
     void saveCategoryInvalid() {
         CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setCategoryName("cat");
+        categoryDto.setCategoryName(CATEGORY_NAME);
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -104,13 +108,13 @@ class CategoryControllerTest {
     @Test
     void changeCategorySuccess() {
         CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setCategoryName("woolf");
+        categoryDto.setCategoryName(NEW_CATEGORY_NAME);
 
-        doNothing().when(categoryService).update(categoryDto, "cat");
+        doNothing().when(categoryService).update(categoryDto, CATEGORY_NAME);
 
-        ResponseEntity<?> responseEntity = tested.changeCategory(categoryDto, "cat");
+        ResponseEntity<?> responseEntity = tested.changeCategory(categoryDto, CATEGORY_NAME);
 
-        assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
     }
 
@@ -119,16 +123,14 @@ class CategoryControllerTest {
     void changeCategoryBadRequest() {
 
         CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setCategoryName("cat");
+        categoryDto.setCategoryName(CATEGORY_NAME);
         ObjectMapper mapper = new ObjectMapper();
 
         String json = mapper.writeValueAsString(categoryDto);
-        String categoryOldName = "woolf";
+
         mockMvc.perform(
-                put("/api/v1/category/" + categoryOldName)
+                put("/api/v1/category/" + NEW_CATEGORY_NAME)
                         .contentType(MediaType.APPLICATION_JSON).content(json))
                 .andExpect(status().isBadRequest());
-
     }
-
 }

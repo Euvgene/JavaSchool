@@ -18,7 +18,7 @@ public class CartController {
 
     @PostMapping
     public UUID createNewCart() {
-            return cartService.getCartForUser(null, null);
+        return cartService.getCartForUser(null, null);
     }
 
     @GetMapping("/{uuid}")
@@ -28,26 +28,25 @@ public class CartController {
     }
 
     @PostMapping("/add")
-    public void addProductToCart(@RequestParam(name = "uuid")  UUID uuid, @RequestParam(name = "prod_id") int productId) {
+    public void addProductToCart(@RequestParam(name = "uuid") UUID uuid, @RequestParam(name = "prod_id") int productId) {
         cartService.addToCart(uuid, productId);
     }
 
     @PostMapping("/clear")
-    public void clearCart(@RequestParam(name = "uuid")  UUID uuid) {
+    public void clearCart(@RequestParam(name = "uuid") UUID uuid) {
         cartService.clearCart(uuid);
     }
 
 
     @GetMapping("/clear")
-    public ResponseEntity<?> clearOldItemsFromCart(@RequestParam(name = "uuid")  UUID uuid) {
-       return cartService.clearOldCartItems(uuid);
-
+    public ResponseEntity<?> clearOldItemsFromCart(@RequestParam(name = "uuid") UUID uuid) {
+        return cartService.clearOldCartItems(uuid);
     }
 
     @PostMapping("/delete")
     public void updateQuantityOrDeleteProductInCart(@RequestParam(name = "uuid") UUID uuid,
                                                     @RequestParam(name = "product_id") int productId,
-                                                    @RequestParam(name = "updateNumber",defaultValue = "0") int number) {
-        cartService.updateQuantityInCart(uuid, productId,number);
+                                                    @RequestParam(name = "updateNumber", defaultValue = "0") int number) {
+        cartService.updateQuantityInCart(uuid, productId, number);
     }
 }
