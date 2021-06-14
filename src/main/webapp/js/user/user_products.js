@@ -6,20 +6,6 @@ let products = null
 let index = null;
 let currentPage = null;
 
-function showButton(role, count, k) {
-
-    if (role === "[ROLE_USER]" && count > 0) {
-        return "<input id='cartButton" + productList[k].productId + "' class=\"btn btn-primary\" type='submit' onclick= \"addToCart(" + productList[k].productId + "," + count + ")\"  value='Add to cart'/> " +
-            "</div>"
-    } else if (count > 0) {
-        return "<input id='cartButton" + productList[k].productId + "' class=\"btn btn-primary\" type='submit' onclick= \"addToCart(" + productList[k].productId + "," + count + ")\"  value='Add to cart'/>" +
-            "</div>"
-    } else {
-        return "<input class=\"btn btn-danger\" type='submit'  value='Not available' disabled style='color: black'/>" +
-            "</div>"
-    }
-}
-
 
 function generatePagesIndexes(startPage, endPage) {
     let arr = [];
@@ -52,14 +38,14 @@ function getProductCount(formData) {
                 }
                 let PaginationArray = generatePagesIndexes(minPageIndex, maxPageIndex)
                 $("#pagination").append("<li class=\"page-item\" >\n" +
-                    "                    <button class=\"page-link\" tabindex=\"-1\" id='prePage' onclick=' getProducts(currentPage - 1)' >Previous</button>\n" +
+                    "                    <button class=\"page-link\" tabindex=\"-1\" id='prePage' onclick=' getProducts(currentPage - 1)' ><<</button>\n" +
                     "                </li>")
                 for (let k = 0; k < PaginationArray.length; k++) {
                     let classOfLi = (currentPage === PaginationArray[k]) ? "page-item active" : "page-item"
                     $("#pagination").append("<li class=\"" + classOfLi + "\"><a class=\"page-link\" onclick=\"getProducts(" + PaginationArray[k] + ")\" id=''>" + PaginationArray[k] + "</a></li>")
                 }
                 $("#pagination").append("  <li class=\"page-item\">" +
-                    "                    <button class=\"page-link\" id='nextPage' onclick=' getProducts(currentPage + 1)'>Next</button  >" +
+                    "                    <button class=\"page-link\" id='nextPage' onclick=' getProducts(currentPage + 1)'>>></button  >" +
                     "                </li>")
                 if (currentPage === 1) {
                     $("#prePage").prop('disabled', true)
@@ -78,64 +64,7 @@ function clearTable() {
     $("#pagination").empty()
 }
 
-function getProducts(pageIndex = 1) {
-    products = new Map();
-    const genderName = document.getElementById("gender");
-    const categoryName = document.getElementById("category");
-    let formData = {
-        page: pageIndex,
-        minPrice: $("#filterMinCost").val() ? $("#filterMinCost").val() : "0",
-        maxPrice: $("#filterMaxCost").val() ? $("#filterMaxCost").val() : Number.MAX_VALUE + "",
-        name: $("#filterTitle").val() ? $("#filterTitle").val() : "",
-        gender: (genderName.options[genderName.selectedIndex].text === "Choose...") ? "" : genderName.options[genderName.selectedIndex].text,
-        category: (categoryName.options[categoryName.selectedIndex].text === "Choose...") ? "" : categoryName.options[categoryName.selectedIndex].text,
-        quantity: $('#available').is(':checked') ? AVAILABLE_PRODUCT : ALL_PRODUCT,
-    }
-    console.log(formData)
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: 'http://localhost:8189/api/v1/products/get',
-        data: JSON.stringify(formData),
-        dataType: 'json',
-        success: function (result) {
-            productList = result;
-            currentPage = pageIndex
-            console.log(result)
 
-            $('#example').empty();
-            $('#currentPage').empty();
-            let rd = $('<div ></div>');
-            if (productList.length > 0) {
-                $('#pagination').show(200);
-                for (let k = 0; k < productList.length; k++) {
-                    if (smallCartList != null) {
-                        console.log(productList[k].productId)
-                        index = smallCartList.findIndex(i => i.productId === productList[k].productId)
-                        if (index >= 0)
-                            productList[k].productQuantity = productList[k].productQuantity - smallCartList[index].quantity
-                    }
-
-                    let button = showButton(localStorage.role, productList[k].productQuantity, k);
-
-                    rd.append('<div class = "block">' +
-                        "<p class=\"page-information\"><img id=\"photoId" + productList[k].productId + "\" src=\"/images/" + productList[k].fotoId + "\" + width=\"150\" height=\"150\"></p>" +
-                        "<p class=\"page-information\"> Name: " + productList[k].productTitle + "</p>" +
-                        "<p class=\"page-information\"> Gender: " + productList[k].parameters.productGender + "</p>" +
-                        "<p class=\"page-information\"> Age: < " + productList[k].parameters.productAge + " year</p>" +
-                        "<p class=\"page-information\"> Lifespan:  " + productList[k].parameters.productLifespan + "</p>" +
-                        "<p class=\"page-information\"> Price:  " + productList[k].productPrice + " $</p>" +
-                        button);
-                    $('#example').append(rd);
-                }
-                getProductCount(formData)
-            } else {
-                clearTable()
-                $('#example').append("<h3>Product list is empty</h3>");
-            }
-        }
-    });
-}
 
 function decrementCount(id) {
 

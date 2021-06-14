@@ -18,7 +18,8 @@ function tryToAuth() {
             localStorage.currentUserName = formData.username;
             localStorage.token = result.token;
             localStorage.role = result.userRole;
-            if (window.location.href.endsWith("/cart")) {
+            let param = window.location.search;
+            if (window.location.href.match("/cart")) {
                 if (localStorage.role === "[ROLE_USER]") {
                     $.ajax({
                         type: "GET",
@@ -26,7 +27,7 @@ function tryToAuth() {
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
                         }, complete: function () {
-                            window.location.href = "user-cart";
+                            window.location.href = "user-cart"+ param;
                         }
                     })
                 } else {
@@ -36,11 +37,11 @@ function tryToAuth() {
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
                         }, complete: function () {
-                            window.location.href = "admin-products";
+                            window.location.href = "admin-products"+ param;
                         }
                     })
                 }
-            } else if (window.location.href.endsWith("/products")) {
+            } else if (window.location.href.match("/products")) {
                 if (localStorage.role === "[ROLE_USER]") {
                     $.ajax({
                         type: "GET",
@@ -48,7 +49,7 @@ function tryToAuth() {
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
                         }, complete: function () {
-                            window.location.href = "user-products";
+                            window.location.href = "user-products"+ param;
                         }
                     })
                 } else {
@@ -58,11 +59,11 @@ function tryToAuth() {
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
                         }, complete: function () {
-                            window.location.href = "admin-products";
+                            window.location.href = "admin-products"+ param;
                         }
                     })
                 }
-            } else if (window.location.href.endsWith("/registration")) {
+            } else if (window.location.href.match("/registration")) {
 
                     $.ajax({
                         type: "GET",
@@ -70,8 +71,7 @@ function tryToAuth() {
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
                         }, complete: function () {
-                            console.log("nen")
-                            window.location.href = "/";
+                            window.location.href = "/"+ param;
                         }
                     })
             }

@@ -1,3 +1,5 @@
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="en-GB">
 <header>
@@ -30,6 +32,82 @@
         </div>
 
     </div>
+    <script type="text/javascript">
+        function showButton(role, count, k) {
+
+            if (role === "[ROLE_USER]" && count > 0) {
+                return "<input id='cartButton" + productList[k].productId + "' class=\"btn btn-primary\" type='submit' onclick= \"addToCart(" + productList[k].productId + "," + count + ")\"  value='<fmt:message key="label.addToCart"/>'/> " +
+                    "</div>"
+            } else if (count > 0) {
+                return "<input id='cartButton" + productList[k].productId + "' class=\"btn btn-primary\" type='submit' onclick= \"addToCart(" + productList[k].productId + "," + count + ")\"  value='<fmt:message key="label.addToCart"/>'/>" +
+                    "</div>"
+            } else {
+                return "<input class=\"btn btn-danger\" type='submit'  value='<fmt:message key="label.NotAvailable"/>' disabled style='color: black'/>" +
+                    "</div>"
+            }
+        }
+
+        function getProducts(pageIndex = 1) {
+            products = new Map();
+            const genderName = document.getElementById("gender");
+            const categoryName = document.getElementById("category");
+            let gender;
+            let formData = {
+                page: pageIndex,
+                minPrice: $("#filterMinCost").val() ? $("#filterMinCost").val() : "0",
+                maxPrice: $("#filterMaxCost").val() ? $("#filterMaxCost").val() : Number.MAX_VALUE + "",
+                name: $("#filterTitle").val() ? $("#filterTitle").val() : "",
+                category: (categoryName.options[categoryName.selectedIndex].text === "Choose..." || categoryName.options[categoryName.selectedIndex].text === "Выберите...") ? "" : categoryName.options[categoryName.selectedIndex].text,
+                gender: (genderName.options[genderName.selectedIndex].text === "Choose..." || genderName.options[genderName.selectedIndex].text === "Выберите...") ? "" : genderName.options[genderName.selectedIndex].id,
+                quantity: $('#available').is(':checked') ? AVAILABLE_PRODUCT : ALL_PRODUCT,
+            }
+            console.log(formData)
+            $.ajax({
+                type: "POST",
+                contentType: "application/json",
+                url: 'http://localhost:8189/api/v1/products/get',
+                data: JSON.stringify(formData),
+                dataType: 'json',
+                success: function (result) {
+                    productList = result;
+                    currentPage = pageIndex
+                    console.log(result)
+
+                    $('#example').empty();
+                    $('#currentPage').empty();
+                    let rd = $('<div ></div>');
+                    if (productList.length > 0) {
+                        $('#pagination').show(200);
+                        for (let k = 0; k < productList.length; k++) {
+                            if (smallCartList != null) {
+                                console.log(productList[k].productId)
+                                index = smallCartList.findIndex(i => i.productId === productList[k].productId)
+                                if (index >= 0)
+                                    productList[k].productQuantity = productList[k].productQuantity - smallCartList[index].quantity
+                            }
+
+                            let button = showButton(localStorage.role, productList[k].productQuantity, k);
+                            gender =  (productList[k].parameters.productGender=== "Female") ? '<fmt:message key="label.female"/>': '<fmt:message key="label.male"/>'
+
+                            rd.append('<div class = "block">' +
+                                "<p class=\"page-information\"><img id=\"photoId" + productList[k].productId + "\" src=\"/images/" + productList[k].fotoId + "\" + width=\"150\" height=\"150\"></p>" +
+                                "<p class=\"page-information\"> <fmt:message key="label.name"/>: " + productList[k].productTitle + "</p>" +
+                                "<p class=\"page-information\"> <fmt:message key="label.gender"/>: " + gender + "</p>" +
+                                "<p class=\"page-information\"> <fmt:message key="label.age"/>: < " + productList[k].parameters.productAge + "</p>" +
+                                "<p class=\"page-information\"> <fmt:message key="label.Lifespan"/>:  " + productList[k].parameters.productLifespan + "</p>" +
+                                "<p class=\"page-information\"> <fmt:message key="label.price"/>:  " + productList[k].productPrice + " $</p>" +
+                                button);
+                            $('#example').append(rd);
+                        }
+                        getProductCount(formData)
+                    } else {
+                        clearTable()
+                        $('#example').append("<h3>Product list is empty</h3>");
+                    }
+                }
+            });
+        }
+    </script>
 </main>
 
 </body>

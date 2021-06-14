@@ -1,11 +1,5 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: julia
-  Date: 17.04.2021
-  Time: 16:54
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="en-GB">
 <header>
@@ -29,21 +23,29 @@
                         </a>
                     </li>
                     <li id="products" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/user-products">Product</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/user-products"><fmt:message key="label.products"/></a>
                     </li>
                     <li id="orders" class="nav-item">
-                        <a class="nav-link active" id="myOrders" aria-current="page" href="http://localhost:8189/user-orders">Orders</a>
+                        <a class="nav-link active" id="myOrders" aria-current="page" href="http://localhost:8189/user-orders"><fmt:message key="label.orders"/></a>
                     </li>
                     <li id="cart" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/user-cart">Cart</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/user-cart"><fmt:message key="label.cart"/></a>
                     </li>
                     <li id="changeAccount" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/user-info">Change info</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/user-info"><fmt:message key="label.changeInfo"/></a>
                     </li>
                 </ul>
+                <div>
+                    <a href="?lang=en">
+                        <img id="EnLang" src="/images/united-states.png" alt="" width="25" height="25">
+                    </a>
+                    <a href="?lang=ru">
+                        <img id="RuLang" src="/images/russia.png" alt="" width="25" height="25">
+                    </a>
+                </div>
                 <form class="d-flex "  id="navLoginSubmit">
                     <input id="exitButton" class="btn btn-outline-success mt-2" style="margin-left: 10px; white-space: nowrap"
-                            type="submit" value="Exit">
+                            type="submit" value="<fmt:message key="label.exit"/>">
 
                 </form>
             </div>

@@ -17,6 +17,12 @@ $(document).ready(function () {
         event.preventDefault();
         logOut()
     });
+    $("#EnLang").click(function (event) {
+       localStorage.lang = "?lang=en"
+    });
 
+    $("#RuLang").click(function (event) {
+        localStorage.lang = "?lang=ru"
+    });
 
 });

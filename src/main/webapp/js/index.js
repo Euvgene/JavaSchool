@@ -16,7 +16,12 @@ requestWithToken = function (){
         headers: {
             "Authorization": "Bearer " + localStorage.token
         },success:function (){
-            window.location.href = "http://localhost:8189/products";
+            if(localStorage.lang){
+                window.location.href = "http://localhost:8189/products"+ localStorage.lang;
+            } else {
+                window.location.href = "http://localhost:8189/products";
+            }
+
         }
     })
 }
