@@ -6,14 +6,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
 @Data
 @NoArgsConstructor
-public class Product implements Serializable {
+public class Product {
 
     @Id
     @Column(name = "product_id")

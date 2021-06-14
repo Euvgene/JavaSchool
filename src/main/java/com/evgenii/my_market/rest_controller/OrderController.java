@@ -23,8 +23,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
-    private final String DEFAULT_VALUE_FROM_DATE = "1990-01-01";
-    private final String DEFAULT_VALUE_TO_DATE = "3000-01-01";
+    private static final String DEFAULT_VALUE_FROM_DATE = "1990-01-01";
+    private static final String DEFAULT_VALUE_TO_DATE = "3000-01-01";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

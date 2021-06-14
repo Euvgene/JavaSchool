@@ -82,7 +82,7 @@ public class ProductDAOImpl implements ProductDAO {
         String gender = filterDto.getGender() + "%";
         String category = "%" + filterDto.getCategory() + "%";
 
-        BigInteger count = (BigInteger) query
+        return (BigInteger) query
                 .setParameter("min_price", filterDto.getMinPrice())
                 .setParameter("max_price", filterDto.getMaxPrice())
                 .setParameter("gender", gender)
@@ -90,7 +90,5 @@ public class ProductDAOImpl implements ProductDAO {
                 .setParameter("quantity", filterDto.getQuantity())
                 .setParameter("name", title)
                 .getSingleResult();
-
-        return count;
     }
 }

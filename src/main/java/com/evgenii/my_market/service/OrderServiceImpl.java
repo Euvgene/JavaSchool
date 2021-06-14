@@ -6,11 +6,7 @@ import com.evgenii.my_market.dto.OrderConfirmDto;
 import com.evgenii.my_market.dto.OrderDto;
 import com.evgenii.my_market.dto.ProductStatisticDto;
 import com.evgenii.my_market.dto.StatisticDto;
-import com.evgenii.my_market.entity.Cart;
-import com.evgenii.my_market.entity.Order;
-import com.evgenii.my_market.entity.StateEnum;
-import com.evgenii.my_market.entity.User;
-import com.evgenii.my_market.entity.OrderItem;
+import com.evgenii.my_market.entity.*;
 import com.evgenii.my_market.exception_handling.ResourceNotFoundException;
 import com.evgenii.my_market.service.api.CartService;
 import com.evgenii.my_market.service.api.OrderService;
@@ -36,8 +32,8 @@ public class OrderServiceImpl implements OrderService {
     private final CartService cartService;
     private final MessageSender messageSender;
     private final UserService userService;
-    private final Logger LOGGER = LoggerFactory.getLogger(OrderService.class);
-    private final int TOTAL_ORDERS_IN_PAGE = 8;
+    private static final Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class);
+    private static final int TOTAL_ORDERS_IN_PAGE = 8;
 
     @Transactional
     public Order createFromUserCart(OrderConfirmDto orderConfirmDto) {
@@ -52,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
                 orderConfirmDto.getPaymentMethod(), paymentState, StateEnum.AWAITING_SHIPMENT));
         cart.getCartItems().forEach(cartItem -> cartItem.getProduct().decrementQuantityProduct(cartItem.getQuantity()));
         cartService.clearCart(UUID.fromString(orderConfirmDto.getCartId()));
-        LOGGER.info("Create order with id " + order.getId());
+        LOGGER.info("Create order with id - {} ", order.getId());
         messageSender.send("update");
         return order;
     }
@@ -81,7 +77,7 @@ public class OrderServiceImpl implements OrderService {
         }
         order.setOrderState(StateEnum.valueOf(orderState));
         order.setDeliveryMethode(orderAddress);
-        LOGGER.info("Update order with  id " + order.getId());
+        LOGGER.info("Update order with  id - {}", order.getId());
     }
 
     private void incrementProducts(List<OrderItem> items) {

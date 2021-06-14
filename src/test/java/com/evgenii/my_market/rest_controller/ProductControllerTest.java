@@ -126,7 +126,7 @@ class ProductControllerTest {
 
         ResponseEntity<?> testResponse = tested.saveProduct(productDto);
 
-        assertEquals(testResponse.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, testResponse.getStatusCode());
     }
 
 
@@ -151,12 +151,7 @@ class ProductControllerTest {
 
         ResponseEntity<?> testResponse = tested.updateProduct(productDto);
 
-        assertEquals(testResponse.getStatusCode(), HttpStatus.OK);
+        assertEquals(HttpStatus.OK, testResponse.getStatusCode());
     }
 
-    @Test
-    void deleteProductById() {
-        doNothing().when(productService).deleteProductById(PRODUCT_ID);
-        tested.deleteProductById(PRODUCT_ID);
-    }
 }

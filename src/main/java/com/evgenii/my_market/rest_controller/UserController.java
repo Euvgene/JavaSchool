@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,22 +22,23 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-    private final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping
     public ResponseEntity<?> saveUser(@Valid @RequestBody UserDto newUsers) {
-        if (userService.findByUsernameAndEmail(newUsers.getFirstName(), newUsers.getEmail()).size() > 0) {
+        if (!userService.findByUsernameAndEmail(newUsers.getFirstName(), newUsers.getEmail()).isEmpty()) {
             return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "This username or email already exist"), HttpStatus.CONFLICT);
         } else {
             userService.save(newUsers);
-            LOGGER.info("Registration new user " + newUsers.getFirstName());
+            LOGGER.info("Registration new user {} ", newUsers.getFirstName());
             return ResponseEntity.ok(HttpStatus.CREATED);
         }
     }
 
     @GetMapping
     public UserDto getCurrentUser(Principal principal) {
-        return new UserDto(userService.findByUsername(principal.getName()).get());
+        return new UserDto(userService.findByUsername(principal.getName())
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", principal.getName()))));
     }
 
     @PutMapping

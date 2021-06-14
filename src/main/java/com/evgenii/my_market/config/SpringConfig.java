@@ -12,9 +12,9 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -44,6 +44,7 @@ public class SpringConfig implements WebMvcConfigurer {
         return viewResolver;
     }
 
+    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("/");
     }
@@ -56,7 +57,7 @@ public class SpringConfig implements WebMvcConfigurer {
         try {
             myDataSource.setDriverClass("com.mysql.jdbc.Driver");
         } catch (PropertyVetoException exc) {
-            throw new RuntimeException(exc);
+            exc.printStackTrace();
         }
 
         myDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
@@ -71,7 +72,7 @@ public class SpringConfig implements WebMvcConfigurer {
         return myDataSource;
     }
 
-    private int getIntProperty(String propName) { /*todo test if null*/
+    private int getIntProperty(String propName) {
 
         String propVal = env.getProperty(propName);
 

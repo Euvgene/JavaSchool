@@ -1,7 +1,6 @@
 package com.evgenii.my_market.config;
 
 
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,11 +30,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String jwt = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
-            try {
-                username = jwtTokenUtil.getUsernameFromToken(jwt);
-            } catch (ExpiredJwtException e) {
+            username = jwtTokenUtil.getUsernameFromToken(jwt);
 
-            }
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

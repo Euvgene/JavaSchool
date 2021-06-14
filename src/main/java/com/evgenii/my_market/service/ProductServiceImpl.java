@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
     private final ProductDAO dao;
-    private final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductServiceImpl.class);
     private static final int TOTAL_PRODUCTS_IN_PAGE = 8;
     private static final int FIRST_PAGE_NUMBER = 1;
 
@@ -39,7 +39,7 @@ public class ProductServiceImpl implements ProductService {
     public void save(ProductDto newProduct) {
         Product product = new Product(newProduct);
         dao.saveNewProduct(product);
-        LOGGER.info("Create product with name " + product.getProductTitle());
+        LOGGER.info("Create product with name {}", product.getProductTitle());
     }
 
     @Transactional
@@ -51,14 +51,14 @@ public class ProductServiceImpl implements ProductService {
     public void update(ProductDto product) {
         Product updateProduct = new Product(product);
         dao.update(updateProduct);
-        LOGGER.info("Update product with name " + updateProduct.getProductTitle());
+        LOGGER.info("Update product with name {}", updateProduct.getProductTitle());
     }
 
     @Transactional
     public void deleteProductById(int id) {
         Product product = dao.findProductById(id).get(0);
         product.setProductQuantity((byte) 0);
-        LOGGER.info("Set product quantity 0 " + product.getProductTitle());
+        LOGGER.info("Set product quantity 0 to {}", product.getProductTitle());
     }
 
     public BigInteger getProductsCount(FilterDto filterDto) {

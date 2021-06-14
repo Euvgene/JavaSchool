@@ -100,7 +100,7 @@ class CartServiceTest {
 
         tested.addToCart(FIRST_CART_UID, PRODUCT_ID);
 
-        assertEquals(expectedCart.getCartItems().get(FIRST_PRODUCT_ITEM_INDEX).getProduct().getProductId(), PRODUCT_ID);
+        assertEquals(PRODUCT_ID, expectedCart.getCartItems().get(FIRST_PRODUCT_ITEM_INDEX).getProduct().getProductId());
 
     }
 
@@ -116,7 +116,7 @@ class CartServiceTest {
 
         tested.addToCart(FIRST_CART_UID, PRODUCT_ID);
 
-        assertEquals(expectedCart.getCartItems().get(FIRST_PRODUCT_ITEM_INDEX).getProduct().getProductQuantity(), PRODUCT_QUANTITY_TWO);
+        assertEquals(PRODUCT_QUANTITY_TWO, expectedCart.getCartItems().get(FIRST_PRODUCT_ITEM_INDEX).getProduct().getProductQuantity());
     }
 
 
@@ -126,9 +126,7 @@ class CartServiceTest {
 
         when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
 
-        Assertions.assertThrows(Exception.class, () -> {
-            tested.addToCart(FIRST_CART_UID, PRODUCT_ID);
-        });
+        Assertions.assertThrows(Exception.class, () -> tested.addToCart(FIRST_CART_UID, PRODUCT_ID));
     }
 
 
@@ -143,7 +141,7 @@ class CartServiceTest {
         when(cartDao.findById(FIRST_CART_UID)).thenReturn(expectedCart);
 
         tested.clearCart(FIRST_CART_UID);
-        assertEquals(expectedCart.getCartItems().size(), EMPTY_CART_LIST_SIZE);
+        assertEquals(EMPTY_CART_LIST_SIZE, expectedCart.getCartItems().size());
 
     }
 
@@ -223,7 +221,7 @@ class CartServiceTest {
 
         UUID uuid = tested.getCartForUser(USERNAME, FIRST_CART_UID);
 
-        assertEquals(uuid, FIRST_CART_UID);
+        assertEquals(FIRST_CART_UID, uuid);
 
     }
 
@@ -237,7 +235,7 @@ class CartServiceTest {
 
         UUID uuid = tested.getCartForUser(null, null);
 
-        assertEquals(uuid, FIRST_CART_UID);
+        assertEquals(FIRST_CART_UID, uuid);
 
     }
 
@@ -261,7 +259,7 @@ class CartServiceTest {
 
         UUID uuid = tested.getCartForUser(USERNAME, FIRST_CART_UID);
 
-        assertEquals(uuid, FIRST_CART_UID);
+        assertEquals(FIRST_CART_UID, uuid);
 
     }
 
@@ -280,7 +278,7 @@ class CartServiceTest {
 
         tested.updateQuantityInCart(FIRST_CART_UID, PRODUCT_ID, DELETE_PRODUCT_FROM_CART);
 
-        assertEquals(expectedCart.getPrice(), EMPTY_CART_PRICE);
+        assertEquals(EMPTY_CART_PRICE, expectedCart.getPrice());
     }
 
     @Test
@@ -297,7 +295,7 @@ class CartServiceTest {
 
         tested.updateQuantityInCart(FIRST_CART_UID, PRODUCT_ID, DECREMENT_PRODUCT_IN_CART);
 
-        assertEquals(expectedCart.getCartItems().get(FIRST_PRODUCT_ITEM_INDEX).getQuantity(), PRODUCT_QUANTITY_ONE);
+        assertEquals(PRODUCT_QUANTITY_ONE, expectedCart.getCartItems().get(FIRST_PRODUCT_ITEM_INDEX).getQuantity());
     }
 
     @Test
@@ -313,7 +311,7 @@ class CartServiceTest {
 
         tested.updateQuantityInCart(FIRST_CART_UID, PRODUCT_ID, DECREMENT_PRODUCT_IN_CART);
 
-        assertEquals(expectedCart.getCartItems().get(FIRST_PRODUCT_ITEM_INDEX).getQuantity(), PRODUCT_QUANTITY_ONE);
+        assertEquals(PRODUCT_QUANTITY_ONE, expectedCart.getCartItems().get(FIRST_PRODUCT_ITEM_INDEX).getQuantity());
     }
 
     private CartItem createCartItem(Product product) {

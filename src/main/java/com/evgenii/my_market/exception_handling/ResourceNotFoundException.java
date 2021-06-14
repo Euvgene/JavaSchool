@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {
         super(message);
-        Logger LOGGER = LoggerFactory.getLogger(ResourceNotFoundException.class);
-        LOGGER.error(message);
+        Logger logger = LoggerFactory.getLogger(ResourceNotFoundException.class);
+        logger.error(message);
     }
 }

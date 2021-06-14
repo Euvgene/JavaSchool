@@ -18,7 +18,7 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryDAO categoryDAO;
-    private final Logger LOGGER = LoggerFactory.getLogger(CategoryService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryServiceImpl.class);
 
     @Transactional
     public List<Category> getAllCategory() {
@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
     public void save(CategoryDto newCategory) {
         Category category = new Category(newCategory);
         categoryDAO.saveNewCategory(category);
-        LOGGER.info("Creat new category with name " + category.getCategoryName());
+        LOGGER.info("Creat new category with name {}", category.getCategoryName());
     }
 
     @Transactional
@@ -45,6 +45,6 @@ public class CategoryServiceImpl implements CategoryService {
     public void update(CategoryDto newCategory, String categoryOldName) {
         Category category = categoryDAO.getActiveCategory(categoryOldName);
         category.setCategoryName(newCategory.getCategoryName());
-        LOGGER.info("Update category " + categoryOldName + " to " + newCategory.getCategoryName());
+        LOGGER.info("Update category {} to {} ", categoryOldName, newCategory.getCategoryName());
     }
 }

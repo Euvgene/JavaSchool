@@ -20,6 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtRequestFilter jwtRequestFilter;
 
+    private static final String USER_ROLE = "ROLE_USER";
+    private static final String ADMIN_ROLE = "ROLE_ADMIN";
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -27,19 +30,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/registration", "/api/v1/auth", "/cart", "/products")
                 .permitAll()
-                .antMatchers("/user-info").hasAuthority("ROLE_USER")
-                .antMatchers("/user-products").hasAuthority("ROLE_USER")
-                .antMatchers("/user-main").hasAuthority("ROLE_USER")
-                .antMatchers("/user-cart").hasAuthority("ROLE_USER")
-                .antMatchers("/order-confirmation").hasAuthority("ROLE_USER")
-                .antMatchers("/orders-result").hasAuthority("ROLE_USER")
-                .antMatchers("/user-orders").hasAuthority("ROLE_USER")
-                .antMatchers("/change-password").hasAuthority("ROLE_USER")
-                .antMatchers("/add-products").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/statistic").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/change-orders").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/admin-main").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/admin-products").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/user-info").hasAuthority(USER_ROLE)
+                .antMatchers("/user-products").hasAuthority(USER_ROLE)
+                .antMatchers("/user-main").hasAuthority(USER_ROLE)
+                .antMatchers("/user-cart").hasAuthority(USER_ROLE)
+                .antMatchers("/order-confirmation").hasAuthority(USER_ROLE)
+                .antMatchers("/orders-result").hasAuthority(USER_ROLE)
+                .antMatchers("/user-orders").hasAuthority(USER_ROLE)
+                .antMatchers("/change-password").hasAuthority(USER_ROLE)
+                .antMatchers("/add-products").hasAuthority(ADMIN_ROLE)
+                .antMatchers("/statistic").hasAuthority(ADMIN_ROLE)
+                .antMatchers("/change-orders").hasAuthority(ADMIN_ROLE)
+                .antMatchers("/admin-main").hasAuthority(ADMIN_ROLE)
+                .antMatchers("/admin-products").hasAuthority(ADMIN_ROLE)
                 .anyRequest().permitAll()
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler())

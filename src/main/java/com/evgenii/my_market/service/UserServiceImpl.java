@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     public Optional<User> findByUsername(String username) {
         return userDAO.findByUsername(username);
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
             user.setUserId(oldUser.getUserId());
             user.setRole(oldUser.getRole());
             userDAO.update(user);
-            LOGGER.info("User " + user.getFirstName() + " update user info");
+            LOGGER.info("User {} update user info", user.getFirstName());
             return ResponseEntity.ok(HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "Wrong password"), HttpStatus.CONFLICT);
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
         if (passwordEncoder.matches(passwordDto.getOldPassword(), user.getPassword())) {
             user.setPassword(passwordEncoder.encode(passwordDto.getFirstPassword()));
             userDAO.update(user);
-            LOGGER.info("User " + user.getFirstName() + " update password");
+            LOGGER.info("User {} update password", user.getFirstName());
             return ResponseEntity.ok(HttpStatus.ACCEPTED);
         } else
             return new ResponseEntity<>(new MarketError(HttpStatus.CONFLICT.value(), "Wrong old password"), HttpStatus.CONFLICT);

@@ -53,28 +53,23 @@ public class OrderDAOImpl implements OrderDAO {
 
     public List<Order> findAlL(LocalDate fromDate, LocalDate toDate, int page, String state, int total) {
         String myQuery;
-        switch (state) {
-            case "Active":
-                myQuery = "SELECT o FROM Order o WHERE" +
-                        " o.createdAt >= :from_date and o.createdAt <= :to_date and o.orderState <> 'DELIVERED'" +
-                        " and o.orderState <> 'RETURN'" +
-                        " order by o.createdAt desc";
-                break;
-            case "Delivered":
-                myQuery = "SELECT o FROM Order o WHERE" +
-                        " o.createdAt >= :from_date and o.createdAt <= :to_date and o.orderState = 'DELIVERED'" +
-                        " order by o.createdAt desc";
-                break;
-            case "Return":
-                myQuery = "SELECT o FROM Order o WHERE" +
-                        " o.createdAt >= :from_date and o.createdAt <= :to_date and o.orderState = 'RETURN'" +
-                        " order by o.createdAt desc";
-                break;
-            default:
-                myQuery = "SELECT o FROM Order o WHERE" +
-                        " o.createdAt >= :from_date and o.createdAt <= :to_date" +
-                        " order by o.createdAt desc ";
-                break;
+        if ("Active".equals(state)) {
+            myQuery = "SELECT o FROM Order o WHERE" +
+                    " o.createdAt >= :from_date and o.createdAt <= :to_date and o.orderState <> 'DELIVERED'" +
+                    " and o.orderState <> 'RETURN'" +
+                    " order by o.createdAt desc";
+        } else if ("Delivered".equals(state)) {
+            myQuery = "SELECT o FROM Order o WHERE" +
+                    " o.createdAt >= :from_date and o.createdAt <= :to_date and o.orderState = 'DELIVERED'" +
+                    " order by o.createdAt desc";
+        } else if ("Return".equals(state)) {
+            myQuery = "SELECT o FROM Order o WHERE" +
+                    " o.createdAt >= :from_date and o.createdAt <= :to_date and o.orderState = 'RETURN'" +
+                    " order by o.createdAt desc";
+        } else {
+            myQuery = "SELECT o FROM Order o WHERE" +
+                    " o.createdAt >= :from_date and o.createdAt <= :to_date" +
+                    " order by o.createdAt desc ";
         }
         TypedQuery<Order> query = entityManager.createQuery(
                 myQuery, Order.class)
@@ -137,25 +132,20 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     public BigInteger getAllOrderCount(LocalDate fromDate, LocalDate toDate, String state) {
-        String myQuery = null;
-        switch (state) {
-            case "Active":
-                myQuery = " SELECT COUNT(*) FROM  orders o where" +
-                        "  o.created_at >= :from_date and o.created_at <= :to_date and o.order_state <> 'DELIVERED'" +
-                        "  and o.order_state <> 'RETURN'";
-                break;
-            case "Delivered":
-                myQuery = " SELECT COUNT(*) FROM  orders o where" +
-                        "  o.created_at >= :from_date and o.created_at <= :to_date and o.order_state = 'DELIVERED'";
-                break;
-            case "Return":
-                myQuery = " SELECT COUNT(*) FROM  orders o where" +
-                        "  o.created_at >= :from_date and o.created_at <= :to_date and o.order_state = 'RETURN'";
-                break;
-            default:
-                myQuery = "SELECT COUNT(*) FROM orders o WHERE" +
-                        " o.created_at >= :from_date and o.created_at <= :to_date";
-                break;
+        String myQuery;
+        if ("Active".equals(state)) {
+            myQuery = " SELECT COUNT(*) FROM  orders o where" +
+                    "  o.created_at >= :from_date and o.created_at <= :to_date and o.order_state <> 'DELIVERED'" +
+                    "  and o.order_state <> 'RETURN'";
+        } else if ("Delivered".equals(state)) {
+            myQuery = " SELECT COUNT(*) FROM  orders o where" +
+                    "  o.created_at >= :from_date and o.created_at <= :to_date and o.order_state = 'DELIVERED'";
+        } else if ("Return".equals(state)) {
+            myQuery = " SELECT COUNT(*) FROM  orders o where" +
+                    "  o.created_at >= :from_date and o.created_at <= :to_date and o.order_state = 'RETURN'";
+        } else {
+            myQuery = "SELECT COUNT(*) FROM orders o WHERE" +
+                    " o.created_at >= :from_date and o.created_at <= :to_date";
         }
         Query query = entityManager.createNativeQuery(
                 myQuery);

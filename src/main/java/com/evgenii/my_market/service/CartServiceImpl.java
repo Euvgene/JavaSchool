@@ -31,7 +31,7 @@ public class CartServiceImpl implements CartService {
     private final UserService userService;
     private final CartItemDAO cartItemDAO;
 
-    private final Logger LOGGER = LoggerFactory.getLogger(CartServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CartServiceImpl.class);
 
     @Transactional
     public Cart save(Cart cart) {
@@ -86,15 +86,13 @@ public class CartServiceImpl implements CartService {
             if (itemQuantity == 0) {
                 cartItemDAO.deleteCartItem(cartItem.getId());
                 cart.recalculate();
-                LOGGER.warn(product.getProductTitle()
-                        + " is over but user try to order it");
+                LOGGER.warn("{} is over but user try to order it", product.getProductTitle());
                 isValid = false;
             } else if (productQuantity < itemQuantity) {
                 cartItem.setQuantity(productQuantity);
                 cartItem.recalculate();
                 cart.recalculate();
-                LOGGER.warn(product.getProductTitle()
-                        + " quantity is not enough for user order");
+                LOGGER.warn("{} quantity is not enough for user order", product.getProductTitle());
                 isValid = false;
             }
         }
@@ -140,14 +138,10 @@ public class CartServiceImpl implements CartService {
         Cart cart = findById(cartId);
         CartItem cartItem = cart.getItemByProductId(productId);
         Product p = productService.getProductById(productId);
-        if (number != 0) {
-            cart.deleteProduct(p);
-            cartItemDAO.deleteCartItem(cartItem.getId());
-            cart.recalculate();
-        } else if (cartItem.getQuantity() > 1) {
+        if (cartItem.getQuantity() > 1) {
             cartItem.decrementQuantity();
             cart.recalculate();
-        } else {
+        } else if (number != 0 || cartItem.getQuantity() <= 1) {
             cart.deleteProduct(p);
             cartItemDAO.deleteCartItem(cartItem.getId());
             cart.recalculate();

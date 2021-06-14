@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
-    private final Logger LOGGER = LoggerFactory.getLogger(CustomGlobalExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomGlobalExceptionHandler.class);
 
     @ExceptionHandler
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException e) {

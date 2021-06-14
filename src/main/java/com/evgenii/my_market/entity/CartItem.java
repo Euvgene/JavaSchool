@@ -65,10 +65,6 @@ public class CartItem {
         price = BigDecimal.valueOf(quantity * pricePerProduct.doubleValue());
     }
 
-    public void decrementQuantityProduct() {
-        byte prodQuantity = this.product.getProductQuantity();
-        this.product.setProductQuantity(prodQuantity--);
-    }
 
     public void recalculate() {
         price = BigDecimal.valueOf(quantity * pricePerProduct.doubleValue());

@@ -125,6 +125,8 @@ class ProductServiceImplTest {
         doNothing().when(productDAO).update(product);
         tested.update(productDto);
 
+        assertEquals(PRODUCT_ID, product.getProductId());
+
     }
 
     @Test
