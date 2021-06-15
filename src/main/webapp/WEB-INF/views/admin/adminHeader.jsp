@@ -1,13 +1,7 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: julia
-  Date: 17.04.2021
-  Time: 16:54
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
-<html lang="en-GB">
+<html>
 <header>
     <meta charset="utf-8" >
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -30,21 +24,29 @@
                         </a>
                     </li>
                     <li id="products" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/admin-products">Product</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/admin-products"><fmt:message key="label.products"/></a>
                     </li>
-                    <li id="addProduct" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/add-products">Add product</a>
+                    <li id="addProduct" class="nav-item" >
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/add-products"><fmt:message key="label.addProduct"/></a>
                     </li>
                     <li id="changeOrder" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/change-orders">Change Orders</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/change-orders"><fmt:message key="label.changeOrders"/></a>
                     </li>
                     <li id="statistic" class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/statistic">Orders Statistic</a>
+                        <a class="nav-link active" aria-current="page" href="http://localhost:8189/statistic"><fmt:message key="label.ordersStatistic"/></a>
                     </li>
                 </ul>
+                <div>
+                    <a href="?lang=en">
+                        <img id="EnLang" src="/images/united-states.png" alt="" width="25" height="25">
+                    </a>
+                    <a href="?lang=ru">
+                        <img id="RuLang" src="/images/russia.png" alt="" width="25" height="25">
+                    </a>
+                </div>
                 <form class="d-flex "  id="navLoginSubmit">
                     <button id="exitButton" class="btn btn-outline-success mt-2" style="margin-left: 10px; white-space: nowrap"
-                            type="submit">Exit
+                            type="submit"><fmt:message key="label.exit"/>
                     </button>
                 </form>
             </div>

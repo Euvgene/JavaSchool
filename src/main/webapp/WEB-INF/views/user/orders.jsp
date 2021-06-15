@@ -1,11 +1,5 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: julia
-  Date: 26.04.2021
-  Time: 20:47
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="en-GB">
 <header>
@@ -23,11 +17,11 @@
     <div class="col-md-6" style="margin: auto">
         <div class="form-group row" style="margin-top: 100px;">
             <div class="form-group col-md-3">
-                <label for="firstDate">From date</label>
+                <label for="firstDate"><fmt:message key="label.FromDate" /></label>
                 <input class="form-control" type="date" id="firstDate">
             </div>
             <div class="form-group col-md-3">
-                <label for="secondDate">To date</label>
+                <label for="secondDate"><fmt:message key="label.ToDate" /></label>
                 <input class="form-control" type="date" id="secondDate" >
             </div>
         </div>
@@ -48,7 +42,87 @@
                 <tbody id="example"></tbody>
             </table>
         </div>
+        <script type="text/javascript">
 
+            showOrders = function (pageIndex = 1) {
+                $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8189/api/v1/orders",
+                    headers: {
+                        "Authorization": "Bearer " + localStorage.token
+                    },
+                    data: {
+                        page: pageIndex,
+                        first_date: $("#firstDate").val() ? $("#firstDate").val() : null,
+                        second_date: $("#secondDate").val() ? $("#secondDate").val() : null,
+                    },
+                    success: function (response) {
+                        let paymentMethod;
+                        let delivery;
+                        currentPage = pageIndex
+                        let order = response;
+                        let orderState;
+                        if (order.length > 0) {
+                            clearTable();
+                            $('#cartHead').append(
+                                "<tr>" +
+                                "<td align='center' style='white-space: nowrap'><fmt:message key="label.OrderNumber" /></td>" +
+                                "<td align='center' style='white-space: nowrap'><fmt:message key="label.OrderPrice" /></td>" +
+                                "<td align='center' style='white-space: nowrap'><fmt:message key="label.DeliveryAddress" /></td>" +
+                                "<td align='center' style='white-space: nowrap'><fmt:message key="label.PaymentMethod" /></td>" +
+                                "<td align='center' style='white-space: nowrap'><fmt:message key="label.State" /></td>" +
+                                "<td align='center' style='white-space: nowrap'><fmt:message key="label.OrderDate" /></td>" +
+                                "</tr>");
+
+                            $('#cartHeader').append("<fmt:message key="label.OrderList" />");
+                            $('#currentPage').empty();
+
+                            for (let k = 0; k < order.length; k++) {
+                                switch (order[k].orderState) {
+                                    case "AWAITING_PAYMENT":
+                                        orderState = "<fmt:message key="label.AwaitingShipment" />";
+                                        break;
+                                    case "AWAITING_SHIPMENT":
+                                        orderState = "<fmt:message key="label.AwaitingShipment" />"
+                                        break;
+                                    case "SHIPPED":
+                                        orderState = "<fmt:message key="label.Shipped" />"
+                                        break;
+                                    case "DELIVERED":
+                                        orderState = "<fmt:message key="label.Delivered" />"
+                                        break;
+                                    case "RETURN":
+                                        orderState = "<fmt:message key="label.Return" />"
+                                        break;
+                                }
+                                let rd = $('<tr class=""></tr>');
+                                paymentMethod =( order[k].paymentMethod === "cash")?"<fmt:message key="label.Cash" />" : "<fmt:message key="label.Card" />"
+                                delivery = (order[k].address === "from store" )? "<fmt:message key="label.Delivery" />" : order[k].address;
+                                rd.append(
+                                    "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
+                                    "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
+                                    "font-weight: bold \" >" +
+                                    "<input type='submit' class='btn btn-info'" +
+                                    " onclick= \"goToOrder(" + "'" + order[k].orderId + "'" + ")\" " +
+                                    " value='" + order[k].orderId.substring(0, 8) + "' />" +
+                                    "<td align='center' class=\"justify-content-md-center\" >"
+                                    + order[k].totalPrice + ' $' + " </td>" +
+                                    "<td align='center' > " + delivery + "</td>" +
+                                    "<td align='center' > " + paymentMethod + "</td>" +
+                                    "<td align='center' > " + orderState + "</td>" +
+                                    "<td align='center' > " + order[k].creationDateTime.substring(0, 10) + '</td>');
+                                $('#example').append(rd);
+                            }
+                            getProductCount()
+                        } else {
+                            clearTable();
+                            $('#cartHeader').append("<fmt:message key="label.OrderIsEmpty" />");
+                        }
+                    }
+                });
+            }
+
+        </script>
 
     </div>
 </main>

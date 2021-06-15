@@ -87,11 +87,13 @@ public class OrderDAOImpl implements OrderDAO {
             case "User":
                 myQuery = "SELECT first_name name,sum(price) as count " +
                         "FROM orders o INNER JOIN users u ON o.owner_id = u.user_id where  o.created_at >= :from_date and o.created_at <= :to_date " +
+                        "and o.order_state <> 'RETURN' " +
                         "GROUP BY owner_id asc limit 10;";
                 break;
             case "Proceeds":
                 myQuery = "SELECT payment_method name, sum(price) as count " +
-                        " FROM orders o where payment_state = 1 and o.created_at >= :from_date and o.created_at <= :to_date  group by payment_method asc;";
+                        " FROM orders o where payment_state = 1 and o.created_at >= :from_date and o.created_at <= :to_date " +
+                        " and o.order_state <> 'RETURN' group by payment_method asc;";
                 break;
         }
 

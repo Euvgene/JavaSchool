@@ -102,7 +102,7 @@
                         getProductCount(formData)
                     } else {
                         clearTable()
-                        $('#example').append("<h3>Product list is empty</h3>");
+                        $('#example').append("<h3><fmt:message key="label.productListIsEmpty"/></h3>");
                     }
                 }
             });

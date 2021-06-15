@@ -80,60 +80,7 @@ function getProductCount(formData) {
 }
 
 
-function getProducts(pageIndex = 1) {
-    const genderName = document.getElementById("gender");
-    const categoryName = document.getElementById("category");
-    let formData = {
-        page: pageIndex,
-        minPrice: $("#filterMinCost").val() ? $("#filterMinCost").val() : "0",
-        maxPrice: $("#filterMaxCost").val() ? $("#filterMaxCost").val() : Number.MAX_VALUE + "",
-        name: $("#filterTitle").val() ? $("#filterTitle").val() : "",
-        gender: (genderName.options[genderName.selectedIndex].text === "Choose...") ? "" : genderName.options[genderName.selectedIndex].text,
-        category: (categoryName.options[categoryName.selectedIndex].text === "Choose...") ? "" : categoryName.options[categoryName.selectedIndex].text,
-        quantity: $('#available').is(':checked') ? AVAILABLE_PRODUCT : ALL_PRODUCT,
-        notAvailable: $('#notAvailable').is(':checked') ? AVAILABLE_PRODUCT : ALL_PRODUCT,
-    }
-    console.log(formData)
-    $.ajax({
-        type: "POST",
-        contentType: "application/json",
-        url: 'http://localhost:8189/api/v1/products/get',
-        data: JSON.stringify(formData),
-        dataType: 'json',
-        success: function (result) {
-            currentPage = pageIndex
-            productList = result;
-            console.log(result)
-            $('#example').empty();
-            $('#currentPage').empty();
-            let rd = $('<div ></div>');
-            if (productList.length > 0) {
-                for (let k = 0; k < productList.length; k++) {
-                    rd.append('<div  class = "block" >' +
-                        "<p class=\"page-information\"><img id=\"photoId" + productList[k].productId + "\" src=\"/images/" + productList[k].fotoId + "\" + width=\"130\" height=\"130\"></p>" +
-                        "<p class=\"page-information\"> Name: " + productList[k].productTitle + "</p>" +
-                        "<p class=\"page-information\"> Gender: " + productList[k].parameters.productGender + "</p>" +
-                        "<p class=\"page-information\"> Age: <  " + productList[k].parameters.productAge + " year</p>" +
-                        "<p class=\"page-information\"> Lifespan:  " + productList[k].parameters.productLifespan + "</p>" +
-                        "<p class=\"page-information\"> Price:  " + productList[k].productPrice + " $</p>" +
-                        "<p class=\"page-information\" id=\"quantity" + productList[k].productId + "\"> Quantity:  " + productList[k].productQuantity + "</p>" +
-                        "<input class=\"btn btn-primary\" type='button' onclick= \"changeProduct(" + productList[k].productId + ")\"  value='Change product'/>" +
-                        "<input class=\"btn btn-danger\" type='button' id=\'buttonDelete" + productList[k].productId + "\' onclick= \"deleteProduct(" + productList[k].productId + ")\"  value='Delete product'/>" +
-                        "</div>");
-                    $('#example').append(rd);
-                    if (productList[k].productQuantity === 0) {
-                        $("#buttonDelete" + productList[k].productId).hide();
-                        $("#quantity" + productList[k].productId).css("color", "red");
-                    }
-                }
-                getProductCount(formData)
-            } else {
-                clearTable()
-                $('#example').append("<h3>Product list is empty</h3>");
-            }
-        }
-    });
-}
+
 
 
 changeProduct = function (id) {
@@ -173,5 +120,6 @@ $(document).ready(function () {
     $("#addButton").click(function (event) {
         addToCart(1)
     });
+
 });
 

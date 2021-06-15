@@ -30,10 +30,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = {SpringConfig.class})
 class AuthControllerTest {
 
-    private static final String USER_NAME = "Evgenii";
+    private static final String USER_NAME = "guest";
     private static final String USER_PASSWORD = "12345678";
     private static final String WRONG_USER_PASSWORD = "200";
-    private static final String USER_ROLE = "[ROLE_USER]";
+    private static final String USER_ROLE = "[ROLE_GUEST]";
 
     @Autowired
     private WebApplicationContext webApplicationContext;

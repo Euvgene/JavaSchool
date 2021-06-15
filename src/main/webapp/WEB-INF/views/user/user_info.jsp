@@ -1,5 +1,6 @@
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="en-GB">
 
@@ -22,83 +23,80 @@
 
         <div class="row g-5" style="justify-content: center">
             <div class="col-md-8 col-lg-8" style="justify-content: center">
-                <h4 class="mb-3" style="margin-top: 100px;">Change info</h4>
+                <h4 class="mb-3" style="margin-top: 100px;"><fmt:message key="label.changeInfo" /></h4>
                 <form  id="form" >
                     <div class="row g-3">
                         <div class="col-sm-3">
-                            <label for="name" class="form-label">First Name/Username</label>
-                            <input type="text"  class="form-control" id="name" placeholder="First Name/Username"  name="firstname">
+                            <label for="name" class="form-label"><fmt:message key="label.firstName" /></label>
+                            <input type="text"  class="form-control" id="name" placeholder="<fmt:message key="label.firstName" />"  name="firstname">
                         </div>
 
                         <div class="col-sm-3">
-                            <label for="lastName" class="form-label">Last name</label>
-                            <input type="text" class="form-control" id="lastName" placeholder="Last Name"  name="lastname" >
+                            <label for="lastName" class="form-label"><fmt:message key="label.lastName" /></label>
+                            <input type="text" class="form-control" id="lastName" placeholder="<fmt:message key="label.lastName" />"  name="lastname" >
 
                         </div>
 
                         <div class="col-sm-3">
-                            <label for="userPassword" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="userPassword" placeholder="Password" name="password"  >
+                            <label for="userPassword" class="form-label"><fmt:message key="label.password" /></label>
+                            <input type="password" class="form-control" id="userPassword" placeholder="<fmt:message key="label.password" />" name="password"  >
                         </div>
 
 
                         <div class="col-sm-3">
-                            <label for="userPasswordButton" class="form-label">Change Password</label>
+                            <label for="userPasswordButton" class="form-label"><fmt:message key="label.changePassword" /></label>
                             <button class="btn btn-primary" type="submit" id="userPasswordButton" style="width: 100%;" >
-                                Change Password
+                                <fmt:message key="label.changePassword" />
                             </button>
                         </div>
 
                         <div class="col-sm-3">
-                            <label for="birthday" class="form-label">Birthday</label>
+                            <label for="birthday" class="form-label"><fmt:message key="label.birthday" /></label>
                             <input type="date" class="form-control" id="birthday" name="birthday"  >
 
                         </div>
 
                         <div class="col-9">
-                            <label for="email" class="form-label">Email </label>
+                            <label for="email" class="form-label"><fmt:message key="label.email" /> </label>
                             <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com" >
                         </div>
 
                         <div class="row g-3" style="margin-top: 0">
                             <div class="col-md-7" style="white-space: nowrap">
-                                <label for="street" class="form-label">Street name</label>
-                                <input  type="text" class="form-control" id="street" name= "street" placeholder="Street name"  >
+                                <label for="street" class="form-label"><fmt:message key="label.streetName" /></label>
+                                <input  type="text" class="form-control" id="street" name= "street" placeholder="<fmt:message key="label.streetName" />"  >
                             </div>
 
                             <div class="col-md-3">
-                                <label for="house_number" class="form-label">House number</label>
-                                <input type="number" class="form-control" id="house_number" name="house" placeholder="House number" >
+                                <label for="house_number" class="form-label"><fmt:message key="label.houseNumber" /></label>
+                                <input type="number" class="form-control" id="house_number" name="house" placeholder="<fmt:message key="label.houseNumber" />" >
                             </div>
 
                             <div class="col-md-2">
-                                <label for="flat" class="form-label">Flat</label>
-                                <input type="number" class="form-control" id="flat" placeholder="flat number" name="flat" style="min-width: 140px">
+                                <label for="flat" class="form-label"><fmt:message key="label.flat" /></label>
+                                <input type="number" class="form-control" id="flat" placeholder="<fmt:message key="label.flat" />" name="flat" style="min-width: 140px">
                             </div>
                         </div>
 
                         <div class="col-md-5">
-                            <label for="country" class="form-label">Country</label>
-                            <input type="text" class="form-control" id="country" name="country" placeholder="Country" >
-                            <div class="invalid-feedback">
-                                Please select a valid country.
-                            </div>
+                            <label for="country" class="form-label"><fmt:message key="label.country" /></label>
+                            <input type="text" class="form-control" id="country" name="country" placeholder="<fmt:message key="label.country" />" >
                         </div>
 
                         <div class="col-md-4">
-                            <label for="city" class="form-label">City</label>
-                            <input type="text" class="form-control" id="city" name="city" placeholder="City" >
+                            <label for="city" class="form-label"><fmt:message key="label.city" /></label>
+                            <input type="text" class="form-control" id="city" name="city" placeholder="<fmt:message key="label.city" />" >
                         </div>
 
                         <div class="col-md-3">
-                            <label for="zip" class="form-label">Zip</label>
-                            <input type="text" class="form-control" id="zip" name="zip" placeholder="Zip" >
+                            <label for="zip" class="form-label"><fmt:message key="label.zip" /></label>
+                            <input type="text" class="form-control" id="zip" name="zip" placeholder="<fmt:message key="label.zip" />" >
                         </div>
                     </div>
 
                     <hr class="my-4">
 
-                    <button class="w-100 btn btn-primary btn-lg" type="button" id="changeUser">Confirm changes</button>
+                    <button class="w-100 btn btn-primary btn-lg" type="button" id="changeUser"><fmt:message key="label.confirmChanges" /></button>
                 </form>
                 <div id="validName" >
                 </div>

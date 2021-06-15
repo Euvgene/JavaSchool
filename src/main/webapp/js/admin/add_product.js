@@ -10,30 +10,7 @@ appendMessage = function (response) {
         " value='" + response + "'>")
 }
 
-function loadCategory() {
-    hideInputForm()
-    $('#category').empty();
-    $.ajax({
-        type: "GET",
-        url: 'http://localhost:8189/api/v1/category',
-        success: function (result) {
-            $('#category').append('   <option value="">Choose...</option>');
-            localStorage.setItem("categories", JSON.stringify(result));
-            for (let i = 0; i < result.length; i++) {
-                $('#category').append('<option>' + result[i].categoryName + '</option>');
-            }
-            if (newNameCategory !== null) {
-                $('#category').val(newNameCategory)
-            } else if (newCategoryName !== null) {
-                $('#category').val(newCategoryName)
-            }
-            checkCategory()
-            return result
-        }, error: function (response) {
 
-        }
-    });
-}
 
 function showNewCategoryForm() {
     $("#newCategoryDiv").show(100);
@@ -46,6 +23,7 @@ function hideInputForm() {
 }
 
 changeCategory = function () {
+    $('#errorMassage').empty();
     let categories = JSON.parse(localStorage.getItem("categories"));
     let cat = categories.find(item => item.categoryName === $("#category").val())
     let newName = $("#changeCategory").val();
@@ -72,6 +50,7 @@ changeCategory = function () {
 }
 
 function createNewCategory() {
+    $('#errorMassage').empty();
     let newName = $("#newCategory").val();
     if ($("#newCategoryForm").valid()) {
         const formData = {
@@ -111,7 +90,7 @@ function createProduct(methode) {
             category: categories.find(item => item.categoryName === $("#category").val()),
             parameters: {
                 parametersId: localStorage.parametersId,
-                productGender: e.options[e.selectedIndex].text,
+                productGender: e.options[e.selectedIndex].id,
                 productAge: $("#age").val(),
                 productWeight: $("#weight").val(),
                 productLifespan: $("#lifespan").val(),
@@ -146,37 +125,11 @@ function createProduct(methode) {
     }
 }
 
-function getProduct(productId) {
-    $.ajax({
-        type: "GET",
-        url: 'http://localhost:8189/api/v1/products/' + productId,
-        headers: {
-            "Authorization": "Bearer " + localStorage.token
-        }, success: function (result) {
-            console.log(result)
-            localStorage.parametersId = result.productParams.parametersId
-            $('#productName').val(result.productTitle)
-            $('#category').val(result.category.categoryName)
-            $('#gender').val(result.productParams.productGender.valueOf())
-            $('#age').val(result.productParams.productAge)
-            $('#weight').val(result.productParams.productWeight)
-            $('#price').val(result.productPrice)
-            $('#count').val(result.productQuantity)
-            $('#lifespan').val(result.productParams.productLifespan)
-            $("#gender option:contains(" + result.productParams.productGender.valueOf() + ")").prop('selected', true)
-            $('#fileName').val(result.fotoId)
-            $('#divFoto').append("<p class=\"page-information\"><img src=\"/images/" + $('#fileName').val() + "\" + width=\"150\" height=\"150\"></p>");
-            $('#createProduct').val("Update product")
-            delete localStorage.productId
-            methodeName = "PUT";
-            checkCategory();
-        }
-    })
-}
+
 
 function checkCategory() {
     const e = document.getElementById("category");
-    if (e.options[e.selectedIndex].text === "Choose...") {
+    if (e.options[e.selectedIndex].text === "Choose..." || e.options[e.selectedIndex].text === "Выберите...") {
         $("#showNewCategoryForm").css('display', 'block')
         $("#showChangeCategoryForm").css('display', 'none')
     } else {
@@ -222,6 +175,9 @@ $(document).ready(function () {
     $("#showChangeCategoryForm").click(function (event) {
         event.preventDefault();
         showChangeCategoryDiv()
+    });
+    $("#addProduct").click(function (event) {
+        delete localStorage.productId
     });
 });
 

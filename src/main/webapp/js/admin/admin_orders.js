@@ -41,7 +41,7 @@ function getOrderCount() {
         data: {
             first_date: $("#firstDate").val() ? $("#firstDate").val() : null,
             second_date: $("#secondDate").val() ? $("#secondDate").val() : null,
-            state: e.options[e.selectedIndex].text
+            state: e.options[e.selectedIndex].id
         },
         success: function (response) {
             console.log(response)
@@ -61,14 +61,14 @@ function getOrderCount() {
                 let PaginationArray = generatePagesIndexes(minPageIndex, maxPageIndex)
 
                 $("#pagination").append("<li class=\"page-item\" >\n" +
-                    "                    <button class=\"page-link\" tabindex=\"-1\" id='prePage' onclick=' getAllOrders(currentPage - 1)' >Previous</button>\n" +
+                    "                    <button class=\"page-link\" tabindex=\"-1\" id='prePage' onclick=' getAllOrders(currentPage - 1)' ><<</button>\n" +
                     "                </li>")
                 for (let k = 0; k < PaginationArray.length; k++) {
                     let classOfLi = (currentPage === PaginationArray[k]) ? "page-item active" : "page-item"
                     $("#pagination").append("<li class=\"" + classOfLi + "\"><a class=\"page-link\" onclick=\"getAllOrders(" + PaginationArray[k] + ")\" id=''>" + PaginationArray[k] + "</a></li>")
                 }
                 $("#pagination").append("  <li class=\"page-item\">" +
-                    "                    <button class=\"page-link\" id='nextPage' onclick=' getAllOrders(currentPage + 1)'>Next</button  >" +
+                    "                    <button class=\"page-link\" id='nextPage' onclick=' getAllOrders(currentPage + 1)'>>></button  >" +
                     "                </li>")
                 if (currentPage === 1) {
                     $("#prePage").prop('disabled', true)
@@ -110,99 +110,6 @@ changeOrder = function (orderName, id) {
 }
 
 
-function getAllOrders(pageIndex = 1) {
-    const e = document.getElementById("state");
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8189/api/v1/orders/all",
-        headers: {
-            "Authorization": "Bearer " + localStorage.token
-        },
-        data: {
-            page: pageIndex,
-            first_date: $("#firstDate").val() ? $("#firstDate").val() : null,
-            second_date: $("#secondDate").val() ? $("#secondDate").val() : null,
-            state: e.options[e.selectedIndex].text
-        },
-        success: function (response) {
-            currentPage = pageIndex;
-            let elementsNumber = ELEMENTS_NUMBER_PER_LINE;
-            let order = response;
-            console.log(response)
-            if (order.length > 0) {
-                clearTable();
-                $('#cartHead').append(
-                    "                    <tr>" +
-                    "                        <td align='center' style='white-space: nowrap'>Order number</td>" +
-                    "                        <td align='center' style='white-space: nowrap'>Order price</td>" +
-                    "                        <td align='center' style='white-space: nowrap'>Delivery address</td>" +
-                    "                        <td align='center' style='white-space: nowrap'>Payment method</td>" +
-                    "                        <td align='center' style='white-space: nowrap'>State</td>" +
-                    "                        <td align='center' style='white-space: nowrap'>Order date</td>" +
-                    "                    </tr>");
-
-                $('#cartHeader').append("Orders");
-                $('#currentPage').empty();
-
-                $('#example').empty();
-
-                for (let k = 0; k < order.length; k++) {
-
-                    switch (order[k].orderState) {
-                        case "AWAITING_SHIPMENT":
-                            orderState = "<option value=\"AWAITING_SHIPMENT\">awaiting shipment</option>" +
-                                "         <option value=\"SHIPPED\">shipped</option>" +
-                                "         <option value=\"DELIVERED\">delivered</option>" +
-                                "         <option value=\"RETURN\">return</option>";
-                            break;
-                        case "SHIPPED":
-                            orderState = "<option value=\"SHIPPED\">shipped</option>" +
-                                "         <option value=\"DELIVERED\">delivered</option>" +
-                                "         <option value=\"RETURN\">return</option>";
-                            break;
-                        case "DELIVERED":
-                            orderState = "<option value=\"DELIVERED\">delivered</option>" +
-                                "         <option value=\"RETURN\">return</option>";
-                            break;
-                        case "RETURN":
-                            orderState = " <option value=\"RETURN\">return</option>";
-                            break;
-                    }
-                    let rd = $('<tr class=""></tr>');
-                    rd.append(
-                        "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
-                        "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
-                        "font-weight: bold \"  align='center' > " + order[k].orderId.substring(0, 8) + "" +
-                        "<button type='button' class='btn btn-info' style='display: none' id='confirm" + order[k].orderId.substring(0, 8) + "'" +
-                        " onclick= \"changeOrder('" + order[k].orderId.substring(0, 8) + "','" + order[k].orderId + "')\"><svg width=\"1em\" height=\"1em\" viewBox=\"0 0 16 16\" class=\"bi bi-check2\" fill=\"currentColor\" xmlns=\"http://www.w3.org/2000/svg\">\n" +
-                        "  <path fill-rule=\"evenodd\" d=\"M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z\"/>" +
-                        "</svg></button></td>" +
-                        "<td align='center' class=\"justify-content-md-center\" >"
-                        + order[k].totalPrice + ' $' + " </td>" +
-                        "<td>" +
-                        " <input class=\"form-control\" type=\"text\"  value='" + order[k].address + "'  id='address" + order[k].orderId.substring(0, 8) + "'" +
-                        "onchange=\"showConfirmButton('" + order[k].orderId.substring(0, 8) + "')\" name='address'></td>" +
-                        "<td align='center' > " + order[k].paymentMethod + "</td>" +
-                        "<td> " +
-                        "                <select class=\"form-select\" id='state" + order[k].orderId.substring(0, 8) + "' required=\"\" onchange=\"showConfirmButton('" + order[k].orderId.substring(0, 8) + "')\">" +
-                        orderState +
-                        "                </select>" +
-                        "                <div class=\"invalid-feedback\">\n" +
-                        "                    Please provide a valid state.\n" +
-                        "                </div>" +
-
-                        "</td>" +
-                        "<td align='center' > " + order[k].creationDateTime.substring(0, 10) + '</td>');
-                    $('#example').append(rd);
-                }
-                getOrderCount();
-            } else {
-                clearTable()
-                $('#cartHeader').append("Order list is empty");
-            }
-        }
-    })
-}
 
 $(document).ready(function () {
     getAllOrders()

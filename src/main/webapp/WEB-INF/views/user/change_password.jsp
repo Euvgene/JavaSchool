@@ -1,4 +1,5 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!doctype html>
 <html lang="en-GB">
 <head>
@@ -17,26 +18,26 @@
 
 <main class="form-signin" style="width:100%; max-width: 330px; padding: 15px; margin: auto">
     <form id="form">
-        <h1 class="h3 mb-3 fw-normal">Change you password</h1>
+        <h1 class="h3 mb-3 fw-normal"><fmt:message key="label.changePassword"/></h1>
 
         <div  style="margin-top: 15px">
-            <label for="oldPassword">Old Password</label>
+            <label for="oldPassword"><fmt:message key="label.oldPassword"/></label>
             <input type="password" class="form-control" id="oldPassword" name="password" >
 
         </div>
         <div  style="margin-top: 15px">
-            <label for="firstPassword">New Password</label>
+            <label for="firstPassword"><fmt:message key="label.newPassword"/></label>
             <input type="password" class="form-control" id="firstPassword" name="password1">
 
         </div>
 
         <div  style="margin-top: 15px">
-            <label for="secondPassword">New Password</label>
+            <label for="secondPassword"><fmt:message key="label.repeatNewPassword"/></label>
             <input type="password" class="form-control"  id="secondPassword" name="password2">
         </div>
 
 
-        <button class="w-100 btn btn-lg btn-primary" type="submit" id="submitChanges" style="margin-top: 10px">Submit changes</button>
+        <button class="w-100 btn btn-lg btn-primary" type="submit" id="submitChanges" style="margin-top: 10px"><fmt:message key="label.confirmChanges"/></button>
     </form>
 
     <div id="errorMassage" >

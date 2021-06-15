@@ -34,8 +34,8 @@ public class OrderController {
         return new OrderDto(newOrder);
     }
 
-    @GetMapping("/{uuid}")
-    public OrderResultDto getOrderById(@PathVariable UUID uuid) {
+    @GetMapping("/result")
+    public OrderResultDto getOrderById(@RequestParam(name = "uuid") UUID uuid) {
         Order order = orderService.findById(uuid).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
         return new OrderResultDto(order);
     }

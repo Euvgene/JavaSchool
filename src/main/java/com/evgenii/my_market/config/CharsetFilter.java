@@ -1,3 +1,4 @@
+/*
 package com.evgenii.my_market.config;
 
 import javax.servlet.*;
@@ -25,4 +26,4 @@ public class CharsetFilter implements Filter {
     public void destroy() {
         code = null;
     }
-}
+}*/
