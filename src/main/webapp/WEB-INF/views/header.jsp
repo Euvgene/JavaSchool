@@ -31,12 +31,12 @@
                             </svg>
                         </a>
                     </li>
-                    <li id="products" class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page"
                            href="http://localhost:8189/products"><fmt:message key="label.products"/></a>
                     </li>
 
-                    <li id="cart" class="nav-item">
+                    <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="http://localhost:8189/cart"><fmt:message
                                 key="label.cart"/></a>
                     </li>

@@ -19,6 +19,7 @@ requestWithToken = function (){
             if(localStorage.lang){
                 window.location.href = "http://localhost:8189/products"+ localStorage.lang;
             } else {
+                localStorage.lang = "?lang=en"
                 window.location.href = "http://localhost:8189/products";
             }
 

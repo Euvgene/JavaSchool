@@ -14,11 +14,9 @@ function tryToAuth() {
         data: JSON.stringify(formData),
         dataType: 'json',
         success: function (result) {
-
             localStorage.currentUserName = formData.username;
             localStorage.token = result.token;
             localStorage.role = result.userRole;
-            let param = window.location.search;
             if (window.location.href.match("/cart")) {
                 if (localStorage.role === "[ROLE_USER]") {
                     $.ajax({
@@ -27,7 +25,7 @@ function tryToAuth() {
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
                         }, complete: function () {
-                            window.location.href = "user-cart"+ param;
+                            window.location.href = "http://localhost:8189/user-cart" + localStorage.lang;
                         }
                     })
                 } else {
@@ -37,7 +35,7 @@ function tryToAuth() {
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
                         }, complete: function () {
-                            window.location.href = "admin-products"+ param;
+                            window.location.href = "http://localhost:8189/admin-products" + localStorage.lang;
                         }
                     })
                 }
@@ -49,7 +47,7 @@ function tryToAuth() {
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
                         }, complete: function () {
-                            window.location.href = "user-products"+ param;
+                            window.location.href = "http://localhost:8189/user-products" + localStorage.lang;
                         }
                     })
                 } else {
@@ -59,7 +57,7 @@ function tryToAuth() {
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
                         }, complete: function () {
-                            window.location.href = "admin-products"+ param;
+                            window.location.href = "http://localhost:8189/admin-products" + localStorage.lang;
                         }
                     })
                 }
@@ -71,7 +69,7 @@ function tryToAuth() {
                         headers: {
                             "Authorization": "Bearer " + localStorage.token
                         }, complete: function () {
-                            window.location.href = "/"+ param;
+                            window.location.href = "/";
                         }
                     })
             }
@@ -94,7 +92,7 @@ function isUserLoggedIn() {
                 headers: {
                     "Authorization": "Bearer " + localStorage.token
                 }, complete: function () {
-                    window.location.href = "user-products";
+                    window.location.href = "http://localhost:8189/user-products" + localStorage.lang;
                 }
             })
 
@@ -105,7 +103,7 @@ function isUserLoggedIn() {
                 headers: {
                     "Authorization": "Bearer " + localStorage.token
                 }, complete: function () {
-                    window.location.href = "admin-products";
+                    window.location.href = "http://localhost:8189/admin-products" + localStorage.lang;
                 }
             })
         }
@@ -129,7 +127,9 @@ function auth() {
 }
 
 $(document).ready(function () {
-
+    if(!localStorage.lang){
+        localStorage.lang = "?lang=en"
+    }
     isUserLoggedIn();
 
     $("#logIn").click(function (event) {

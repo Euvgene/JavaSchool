@@ -46,7 +46,6 @@
                 <form class="d-flex "  id="navLoginSubmit">
                     <input id="exitButton" class="btn btn-outline-success mt-2" style="margin-left: 10px; white-space: nowrap"
                             type="submit" value="<fmt:message key="label.exit"/>">
-
                 </form>
             </div>
         </div>

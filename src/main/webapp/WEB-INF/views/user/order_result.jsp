@@ -84,8 +84,17 @@
                     }
                        const delay = 10000;
                        setTimeout(function () {
-                           delete localStorage.orderUuid;
-                           location.assign("http://localhost:8189/user-products")
+                           $.ajax({
+                               type: "GET",
+                               url: 'http://localhost:8189/',
+                               headers: {
+                                   "Authorization": "Bearer " + localStorage.token
+                               }, complete: function () {
+                                   delete localStorage.orderUuid;
+                                   location.assign("http://localhost:8189/user-products")
+                               }
+                           })
+
                        }, delay);
                 }
             });
