@@ -32,11 +32,6 @@ function checkValidCount(isChecked) {
     });
 }
 
-
-
-
-
-
 createOrder = function () {
 
     const order = {

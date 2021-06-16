@@ -1,6 +1,5 @@
 package com.evgenii.my_market.controller;
 
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -10,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class MainController {
 
     @GetMapping("/user-info")
-    @Secured(value = {"ROLE_USER"})
     public String changeUserInfo() {
         return "user/user_info";
     }
@@ -56,7 +54,6 @@ public class MainController {
     }
 
     @GetMapping("/user-cart")
-    @Secured(value = {"ROLE_USER"})
     public String getUserCartPage() {
         return "user/user_cart";
     }

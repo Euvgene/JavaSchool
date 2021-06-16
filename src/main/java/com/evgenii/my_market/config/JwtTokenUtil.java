@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Component
 @PropertySource({"classpath:secured.properties"})
 public class JwtTokenUtil {
-
+    private static final int LIFECYCLE_TOKEN = 50 * 600 * 1000;
     @Value("${jwt.secret}")
     private String secret;
 
@@ -31,11 +31,12 @@ public class JwtTokenUtil {
         claims.put("roles", rolesList);
 
         Date issuedDate = new Date();
-
+        Date expiredDate = new Date(issuedDate.getTime() + LIFECYCLE_TOKEN);
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(issuedDate)
+                .setExpiration(expiredDate)
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }

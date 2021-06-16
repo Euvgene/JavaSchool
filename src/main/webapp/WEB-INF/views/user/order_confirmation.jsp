@@ -104,7 +104,9 @@
             $.ajax({
                 type: "GET",
                 url: 'http://localhost:8189/api/v1/cart/' + localStorage.marketCartUuid,
-
+                headers: {
+                    "Authorization": "Bearer " + localStorage.token
+                },
                 success: function (result) {
                     cartList = result.items;
                     let count = 0;

@@ -41,7 +41,6 @@
             **/dto/**,
             **/entity/**,
             **/exception_handling/**,
-
         </sonar.coverage.exclusions>
     </properties>
 
@@ -316,8 +315,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
         </plugins>
 
 
