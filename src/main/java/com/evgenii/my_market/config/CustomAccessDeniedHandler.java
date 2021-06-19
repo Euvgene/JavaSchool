@@ -8,11 +8,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Custom error 403 (access denied) handler for both authorized and unauthorized users.
+ * @author Boznyakov Evgenii
+ *
+ */
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomAccessDeniedHandler.class);

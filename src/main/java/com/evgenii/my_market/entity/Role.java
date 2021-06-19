@@ -8,6 +8,11 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 
+/**
+ * Entity class for roles.
+ *
+ * @author Boznyakov Evgenii
+ */
 @Entity
 @Table(name = "roles")
 @Data

@@ -2,11 +2,9 @@ package com.evgenii.my_market.config;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import lombok.RequiredArgsConstructor;
+import org.flywaydb.core.Flyway;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -31,6 +29,11 @@ import java.beans.PropertyVetoException;
 import java.util.Locale;
 import java.util.Properties;
 
+/**
+ * Web configuration class.
+ *
+ * @author Boznyakov Evgenii
+ */
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
@@ -38,9 +41,18 @@ import java.util.Properties;
 @PropertySource({"classpath:application.properties"})
 @RequiredArgsConstructor
 public class SpringConfig implements WebMvcConfigurer {
-
+    /**
+     * Creates an instance of this class using constructor-based dependency injection.
+     */
     private final Environment env;
 
+    /**
+     * Configures {@linkplain org.springframework.web.servlet.ViewResolver ViewResolver} for .jsp
+     * pages.
+     *
+     * @return configured instance of {@linkplain org.springframework.web.servlet.ViewResolver
+     * ViewResolver}
+     */
     @Bean
     public ViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -51,11 +63,20 @@ public class SpringConfig implements WebMvcConfigurer {
         return viewResolver;
     }
 
+    /**
+     * Add a resource handler for serving static resources
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("/");
     }
 
+    /**
+     * Configures {@linkplain com.mchange.v2.c3p0.ComboPooledDataSource} for data source
+     *
+     * @return configured instance of
+     * {@linkplain com.mchange.v2.c3p0.ComboPooledDataSource}
+     */
     @Bean
     public DataSource myDataSource() {
 
@@ -87,7 +108,13 @@ public class SpringConfig implements WebMvcConfigurer {
         return Integer.parseInt(propVal);
     }
 
+    /**
+     * Configures {@linkplain org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean}
+     *
+     * @return configured instance of {@linkplain org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean}
+     */
     @Bean
+    @DependsOn("flyway")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em
                 = new LocalContainerEntityManagerFactoryBean();
@@ -101,7 +128,11 @@ public class SpringConfig implements WebMvcConfigurer {
         return em;
     }
 
-
+    /**
+     * Configures {@linkplain org.springframework.orm.jpa.JpaTransactionManager}
+     *
+     * @return configured instance of {@linkplain  org.springframework.orm.jpa.JpaTransactionManager}
+     */
     @Bean
     public PlatformTransactionManager transactionManager() {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
@@ -118,7 +149,12 @@ public class SpringConfig implements WebMvcConfigurer {
         return properties;
     }
 
-
+    /**
+     * Configures {@linkplain org.springframework.web.servlet.i18n.SessionLocaleResolver}
+     * set default language us
+     *
+     * @return configured instance of {@linkplain  org.springframework.web.servlet.i18n.SessionLocaleResolver}
+     */
     @Bean
     public LocaleResolver localeResolver() {
         SessionLocaleResolver slr = new SessionLocaleResolver();
@@ -126,6 +162,12 @@ public class SpringConfig implements WebMvcConfigurer {
         return slr;
     }
 
+    /**
+     * Configure {@linkplain org.springframework.web.servlet.i18n.LocaleChangeInterceptor}
+     * set param name
+     *
+     * @return configured instance of {@linkplain org.springframework.web.servlet.i18n.LocaleChangeInterceptor}
+     */
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor lci = new LocaleChangeInterceptor();
@@ -138,15 +180,34 @@ public class SpringConfig implements WebMvcConfigurer {
         registry.addInterceptor(localeChangeInterceptor());
     }
 
+    /**
+     * Configure {@linkplain org.springframework.context.support.ReloadableResourceBundleMessageSource}
+     * Set a single basename, following the basic ResourceBundle convention of not specifying file extension or language codes.
+     * Set the default charset to use for parsing properties files.
+     *
+     * @return {@linkplain org.springframework.context.support.ReloadableResourceBundleMessageSource} singleton instance
+     */
     @Bean(name = "messageSource")
-    public MessageSource getMessageResource()  {
-        ReloadableResourceBundleMessageSource messageResource= new ReloadableResourceBundleMessageSource();
-
-        // Read i18n/messages_xxx.properties file.
-        // For example: i18n/messages_en.properties
-
+    public MessageSource getMessageResource() {
+        ReloadableResourceBundleMessageSource messageResource = new ReloadableResourceBundleMessageSource();
         messageResource.setBasename("classpath:messages");
         messageResource.setDefaultEncoding("UTF-8");
         return messageResource;
+    }
+
+    /**
+     * Configure {@linkplain org.flywaydb.core.Flyway}
+     * Set location of script file and data source
+     *
+     * @return configured instance of {@linkplain org.flywaydb.core.Flyway}
+     */
+    @Bean(initMethod = "migrate")
+    Flyway flyway() {
+        Flyway flyway = new Flyway();
+        flyway.setBaselineOnMigrate(true);
+        flyway.setLocations("db/migration");
+        flyway.setDataSource("jdbc:mysql://localhost:3306/my_store", "root", "root");
+        flyway.migrate();
+        return flyway;
     }
 }

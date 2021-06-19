@@ -9,6 +9,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 
+
+/**
+ * Entity class for parameters.
+ *
+ * @author Boznyakov Evgenii
+ */
 @Entity
 @Table(name = "parameters")
 @Data

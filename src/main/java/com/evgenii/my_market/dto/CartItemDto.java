@@ -6,7 +6,11 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-
+/**
+ * DTO for entity {@linkplain com.evgenii.my_market.entity.CartItem CartItem}.
+ * @author Boznyakov Evgenii
+ *
+ */
 @NoArgsConstructor
 @Data
 public class CartItemDto {
@@ -17,7 +21,10 @@ public class CartItemDto {
     private BigDecimal price;
     private String fotoId;
 
-
+    /**
+     * Constructor for creating new instance of this class.
+     * @param cartItem an instance of {@linkplain com.evgenii.my_market.entity.CartItem CartItem}
+     */
     public CartItemDto(CartItem cartItem) {
         this.fotoId = cartItem.getProduct().getFotoId();
         this.productId = cartItem.getProduct().getProductId();

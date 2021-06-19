@@ -13,6 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Entity class for order.
+ *
+ * @author Boznyakov Evgenii
+ */
 @NoArgsConstructor
 @Data
 @Entity
@@ -56,7 +61,17 @@ public class Order {
     @Column(name = "created_at")
     private LocalDate createdAt;
 
-
+    /**
+     * Constructor for creating new instance of this class.
+     *
+     * @param cart an instance of {@linkplain com.evgenii.my_market.entity.Cart }
+     * @param user an instance of {@linkplain com.evgenii.my_market.entity.User }
+     * @param address an instance of {@linkplain com.evgenii.my_market.entity.Address }
+     * @param deliveryMethode delivery method
+     * @param paymentMethod payment method
+     * @param paymentState payment state
+     * @param orderState  an instance of {@linkplain com.evgenii.my_market.entity.StateEnum }
+     */
     public Order(Cart cart, User user, Address address,
                  String deliveryMethode, String paymentMethod, boolean paymentState, StateEnum orderState) {
         this.items = new ArrayList<>();

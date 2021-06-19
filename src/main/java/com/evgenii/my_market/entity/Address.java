@@ -8,6 +8,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+/**
+ * Entity class for address.
+ *
+ * @author Boznyakov Evgenii
+ */
 @Entity
 @Table(name = "address")
 @Data

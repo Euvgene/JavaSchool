@@ -7,6 +7,12 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+
+/**
+ * DTO for update password request.
+ * @author Boznyakov Evgenii
+ *
+ */
 @NoArgsConstructor
 @Data
 @FieldMatch(first = "firstPassword", second = "secondPassword", errorMessage = "Passwords do not match!")

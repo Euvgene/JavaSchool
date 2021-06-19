@@ -8,7 +8,11 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-
+/**
+ * DTO for entity {@linkplain com.evgenii.my_market.entity.Order Order}.
+ * @author Boznyakov Evgenii
+ *
+ */
 @NoArgsConstructor
 @Data
 public class OrderDto {
@@ -19,6 +23,10 @@ public class OrderDto {
     private String paymentMethod;
     private StateEnum orderState;
 
+    /**
+     * Constructor for creating new instance of this class.
+     * @param order an instance of {@linkplain com.evgenii.my_market.entity.Order Order}
+     */
     public OrderDto(Order order) {
         this.orderId = order.getId();
         this.totalPrice = order.getPrice();

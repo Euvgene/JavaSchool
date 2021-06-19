@@ -8,6 +8,11 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Entity class for order item.
+ *
+ * @author Boznyakov Evgenii
+ */
 @NoArgsConstructor
 @Data
 @Entity
@@ -43,6 +48,12 @@ public class OrderItem {
     @Enumerated(EnumType.STRING)
     private StateEnum orderState;
 
+    /**
+     * Constructor for creating new instance of this class.
+     *
+     * @param cartItem an instance of {@linkplain com.evgenii.my_market.entity.CartItem }
+     * @param orderState  an instance of {@linkplain com.evgenii.my_market.entity.StateEnum }
+     */
     public OrderItem(CartItem cartItem, StateEnum orderState) {
         this.product = cartItem.getProduct();
         this.quantity = cartItem.getQuantity();

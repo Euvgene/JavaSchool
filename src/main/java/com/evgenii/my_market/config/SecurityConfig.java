@@ -13,11 +13,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * Spring Security configuration class.
+ *
+ * @author Boznyakov Evgenii
+ *
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    /**
+     * Creates an instance of this class using constructor-based dependency injection.
+     */
     private final JwtRequestFilter jwtRequestFilter;
 
     @Override
@@ -72,6 +81,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AccessDeniedHandler accessDeniedHandler() {
         return new CustomAccessDeniedHandler();
     }
-
-
 }

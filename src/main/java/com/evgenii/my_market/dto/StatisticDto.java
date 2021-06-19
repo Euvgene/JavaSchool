@@ -3,6 +3,11 @@ package com.evgenii.my_market.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * DTO for statistic response.
+ *
+ * @author Boznyakov Evgenii
+ */
 @NoArgsConstructor
 @Data
 public class StatisticDto {
@@ -12,8 +17,13 @@ public class StatisticDto {
     String name;
     int number;
 
-    public StatisticDto(Object[] o) {
-        this.name = o[STATISTIC_OBJECT_NAME].toString();
-        this.number = (int) o[STATISTIC_OBJECT_COUNT];
+    /**
+     * Constructor for creating new instance of this class.
+     *
+     * @param objects array of objects contains statistic data
+     */
+    public StatisticDto(Object[] objects) {
+        this.name = objects[STATISTIC_OBJECT_NAME].toString();
+        this.number = (int) objects[STATISTIC_OBJECT_COUNT];
     }
 }

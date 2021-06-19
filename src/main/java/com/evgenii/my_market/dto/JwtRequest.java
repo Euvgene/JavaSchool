@@ -4,6 +4,12 @@ import lombok.Data;
 
 import java.util.UUID;
 
+
+/**
+ * DTO for jwt request.
+ * @author Boznyakov Evgenii
+ *
+ */
 @Data
 public class JwtRequest {
     private String username;

@@ -6,6 +6,11 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Pattern;
 
+/**
+ * DTO for order confirm request.
+ * @author Boznyakov Evgenii
+ *
+ */
 @NoArgsConstructor
 @Data
 public class OrderConfirmDto {
@@ -17,6 +22,13 @@ public class OrderConfirmDto {
     @ValidPaymentMethod
     private String paymentMethod;
 
+    /**
+     * Constructor for creating new instance of this class.
+     *
+     *@param cartId id cart which contains order
+     *@param address delivery address
+     *@param paymentMethod payment method
+     */
     public OrderConfirmDto(String cartId, String address, String paymentMethod) {
         this.cartId = cartId;
         this.address = address;

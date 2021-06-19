@@ -1,14 +1,32 @@
 package com.evgenii.my_market.dao.api;
 
 import com.evgenii.my_market.entity.Category;
+
 import java.util.List;
 
-
+/**
+ * Interface for basic CRUD operations in Category entity.
+ *
+ * @author Boznyakov Evgenii
+ */
 public interface CategoryDAO {
 
-     List<Category> findAll();
+    /**
+     * Find all entity from database.
+     */
+    List<Category> findAll();
 
-     void saveNewCategory(Category newCategory);
+    /**
+     * Save entity to database.
+     *
+     * @param newCategory entity object to save
+     */
+    void saveNewCategory(Category newCategory);
 
-     Category getActiveCategory(String value);
+    /**
+     * Get entity from database.
+     *
+     * @param value category name to return entity
+     */
+    Category getActiveCategory(String value);
 }

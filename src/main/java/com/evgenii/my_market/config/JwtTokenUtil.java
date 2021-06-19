@@ -16,13 +16,23 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * JwtTokenUtil base class that generate token for user, get user from token and get user role.
+ * @author Boznyakov Evgenii
+ *
+ */
 @Component
 @PropertySource({"classpath:secured.properties"})
 public class JwtTokenUtil {
-    private static final int LIFECYCLE_TOKEN = 50 * 600 * 1000;
+    private static final int LIFECYCLE_TOKEN = 50 * 600 * 10000;
     @Value("${jwt.secret}")
     private String secret;
 
+    /**
+     * This method generate token for user
+     *@param userDetails user name
+     *
+     */
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         List<String> rolesList = userDetails.getAuthorities().stream()
@@ -41,10 +51,20 @@ public class JwtTokenUtil {
                 .compact();
     }
 
+    /**
+     * This method get user name from token
+     *@param token token from request header "Authorization"
+     *
+     */
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
+    /**
+     * This method get roles  from token
+     *@param token token from request header "Authorization"
+     *
+     */
     public List<String> getRoles(String token) {
         return getClaimFromToken(token, (Function<Claims, List<String>>) claims -> claims.get("roles", List.class));
     }

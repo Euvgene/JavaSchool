@@ -6,6 +6,11 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ * DTO for filter request.
+ * @author Boznyakov Evgenii
+ *
+ */
 @AllArgsConstructor
 @Data
 @NoArgsConstructor

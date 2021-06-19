@@ -11,6 +11,11 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Entity class for carts.
+ *
+ * @author Boznyakov Evgenii
+ */
 @Entity
 @Table(name = "carts")
 @Getter
@@ -34,7 +39,11 @@ public class Cart {
     @JoinColumn(name = "owner_id")
     private User user;
 
-
+    /**
+     * Add cart item to List<CartItem> cartItems.
+     *
+     * @param cartItem  {@linkplain com.evgenii.my_market.entity.CartItem CartItem}
+     */
     public void add(CartItem cartItem) {
         for (CartItem ci : cartItems) {
             if (ci.getProduct().getProductId() == (cartItem.getProduct().getProductId())) {
@@ -50,6 +59,9 @@ public class Cart {
         recalculate();
     }
 
+    /**
+     * Recalculate price of cart item.
+     */
     public void recalculate() {
         price = BigDecimal.valueOf(0);
         for (CartItem ci : cartItems) {
@@ -57,6 +69,9 @@ public class Cart {
         }
     }
 
+    /**
+     * Delete cart item from List<CartItem> cartItems.
+     */
     public void clear() {
         for (CartItem ci : cartItems) {
             ci.setCart(null);
@@ -65,6 +80,11 @@ public class Cart {
         recalculate();
     }
 
+    /**
+     * Get cart item from List<CartItem> cartItems by product id.
+     *
+     * @param productId  id of product
+     */
     public CartItem getItemByProductId(int productId) {
         for (CartItem ci : cartItems) {
             if (ci.getProduct().getProductId() == productId) {
@@ -74,15 +94,25 @@ public class Cart {
         return null;
     }
 
+    /**
+     * Merge cart item from one cart to another.
+     *
+     * @param another   {@linkplain com.evgenii.my_market.entity.Cart Cart}
+     */
     public void merge(Cart another) {
         for (CartItem ci : another.cartItems) {
             add(ci);
         }
     }
 
-    public void deleteProduct(Product p) {
+    /**
+     * Delete product from List<CartItem> cartItems
+     *
+     * @param product  {@linkplain com.evgenii.my_market.entity.Product Product}
+     */
+    public void deleteProduct(Product product) {
         for (CartItem ci : cartItems) {
-            if (ci.getProduct().getProductId() == p.getProductId()) {
+            if (ci.getProduct().getProductId() == product.getProductId()) {
                 ci.setCart(null);
                 ci.setPrice(BigDecimal.valueOf(0));
             }

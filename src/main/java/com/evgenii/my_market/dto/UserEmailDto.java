@@ -6,6 +6,11 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 
+/**
+ * DTO for email request.
+ *
+ * @author Boznyakov Evgenii
+ */
 @NoArgsConstructor
 @Data
 public class UserEmailDto {

@@ -13,6 +13,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
+
+/**
+ * DTO for entity {@linkplain com.evgenii.my_market.entity.Product Product}.
+ * @author Boznyakov Evgenii
+ *
+ */
 @NoArgsConstructor
 @Data
 public class ProductDto {
@@ -37,6 +43,10 @@ public class ProductDto {
     @Min(value = 0)
     private byte productQuantity;
 
+    /**
+     * Constructor for creating new instance of this class.
+     * @param product an instance of {@linkplain com.evgenii.my_market.entity.Product Product}
+     */
     public ProductDto(Product product) {
         this.productId = product.getProductId();
         this.fotoId = product.getFotoId();

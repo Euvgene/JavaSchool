@@ -18,10 +18,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Exception handler to return ResponseEntity to user page.
+ *
+ * @author Boznyakov Evgenii
+ */
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(CustomGlobalExceptionHandler.class);
 
+    /**
+     * Handler for ResourceNotFoundException exception. This method logs given exception and return
+     * ResponseEntity with status code NOT FOUND.
+     *
+     * @return ResponseEntity
+     */
     @ExceptionHandler
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException e) {
         MarketError err = new MarketError(HttpStatus.NOT_FOUND.value(), e.getMessage());
@@ -29,6 +40,12 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handler for MethodArgumentNotValidException exception. This method logs given exception and return
+     * ResponseEntity with body of exception, headers and status.
+     *
+     * @return ResponseEntity
+     */
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers,

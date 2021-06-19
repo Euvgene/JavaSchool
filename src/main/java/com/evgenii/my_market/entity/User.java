@@ -8,6 +8,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Entity class for users.
+ *
+ * @author Boznyakov Evgenii
+ */
 @Entity
 @Table(name = "users")
 @Data
@@ -43,6 +48,11 @@ public class User {
     @JoinColumn(name = "user_roles")
     private Role role;
 
+    /**
+     * Constructor for creating new instance of this class.
+     *
+     * @param userDto an instance of {@linkplain com.evgenii.my_market.dto.UserDto }
+     */
     public User(UserDto userDto) {
         this.firstName = userDto.getFirstName();
         this.lastName = userDto.getLastName();

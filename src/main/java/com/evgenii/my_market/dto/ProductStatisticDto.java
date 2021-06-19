@@ -3,6 +3,12 @@ package com.evgenii.my_market.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
+/**
+ * DTO for product statistic response.
+ * @author Boznyakov Evgenii
+ *
+ */
 @NoArgsConstructor
 @Data
 public class ProductStatisticDto {
@@ -14,11 +20,15 @@ public class ProductStatisticDto {
     int number;
     int pricePerProduct;
 
-
-    public ProductStatisticDto(Object[] o) {
-        this.name = o[STATISTIC_PRODUCT_NAME].toString();
-        this.number = (int) o[STATISTIC_PRODUCT_COUNT];
-        this.pricePerProduct = (int) o[STATISTIC_PRODUCT_PRICE_PER_PRODUCT];
+    /**
+     * Constructor for creating new instance of this class.
+     *
+     * @param objects array of objects contains statistic data
+     */
+    public ProductStatisticDto(Object[] objects) {
+        this.name = objects[STATISTIC_PRODUCT_NAME].toString();
+        this.number = (int) objects[STATISTIC_PRODUCT_COUNT];
+        this.pricePerProduct = (int) objects[STATISTIC_PRODUCT_PRICE_PER_PRODUCT];
     }
 
 }

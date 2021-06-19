@@ -7,6 +7,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
+/**
+ * Entity class for category.
+ *
+ * @author Boznyakov Evgenii
+ */
 @Entity
 @Table(name = "category")
 @Data
@@ -22,7 +27,11 @@ public class Category {
     @NotEmpty(message = "Please provide a category name")
     private String categoryName;
 
-
+    /**
+     * Constructor for creating new instance of this class.
+     *
+     * @param newCategory an instance of {@linkplain com.evgenii.my_market.dto.CategoryDto }
+     */
     public Category(CategoryDto newCategory) {
         this.categoryName = newCategory.getCategoryName();
     }

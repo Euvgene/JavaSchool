@@ -20,6 +20,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller class for logging in.
+ *
+ * @author Boznyakov Evgenii
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/v1")
@@ -30,6 +35,17 @@ public class AuthController {
     private final CartServiceImpl cartService;
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthController.class);
 
+    /**
+     * Method responsible for calling Spring Security authentication procedures.
+     * If auth success:
+     * generate token for user
+     * get cart for user.
+     * If auth not success
+     * return {@linkplain com.evgenii.my_market.exception_handling.MarketError}
+     * with status UNAUTHORIZED
+     *
+     * @return {@linkplain com.evgenii.my_market.dto.JwtResponse}
+     */
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
         try {

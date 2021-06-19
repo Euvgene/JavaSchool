@@ -15,6 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+/**
+ *  Jwt Filter base class that aims to guarantee a single execution per request.
+ * @author Boznyakov Evgenii
+ *
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtRequestFilter extends OncePerRequestFilter {

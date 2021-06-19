@@ -12,7 +12,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.Date;
 
-
+/**
+ * DTO for entity {@linkplain com.evgenii.my_market.entity.User User}.
+ * @author Boznyakov Evgenii
+ *
+ */
 @NoArgsConstructor
 @Data
 public class UserDto {
@@ -41,6 +45,10 @@ public class UserDto {
     @ValidRole
     private Role role;
 
+    /**
+     * Constructor for creating new instance of this class.
+     * @param user an instance of {@linkplain com.evgenii.my_market.entity.User User}
+     */
     public UserDto(User user) {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();

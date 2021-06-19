@@ -17,6 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.security.Principal;
 
+/**
+ * Rest controller for all possible actions with user.
+ *
+ * @author Boznyakov Evgenii
+ */
 @RestController
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor
@@ -24,6 +29,12 @@ public class UserController {
     private final UserService userService;
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
+    /**
+     * Method responsible for save new user
+     *
+     * @param newUsers {@linkplain com.evgenii.my_market.dto.UserDto}
+     * @return {@linkplain org.springframework.http.ResponseEntity}
+     */
     @PostMapping
     public ResponseEntity<?> saveUser(@Valid @RequestBody UserDto newUsers) {
         if (!userService.findByUsernameAndEmail(newUsers.getFirstName(), newUsers.getEmail()).isEmpty()) {
@@ -35,28 +46,60 @@ public class UserController {
         }
     }
 
+    /**
+     * Method responsible for getting current user
+     *
+     * @param principal {@linkplain java.security.Principal}
+     * @return {@linkplain  com.evgenii.my_market.dto.UserDto}
+     */
     @GetMapping
     public UserDto getCurrentUser(Principal principal) {
         return new UserDto(userService.findByUsername(principal.getName())
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User '%s' not found", principal.getName()))));
     }
 
+    /**
+     * Method responsible for updating  user
+     *
+     * @param user      {@linkplain com.evgenii.my_market.dto.UserDto}
+     * @param principal {@linkplain java.security.Principal}
+     * @return {@linkplain org.springframework.http.ResponseEntity}
+     */
     @PutMapping
     public ResponseEntity<?> updateUser(@Valid @RequestBody UserDto user, Principal principal) {
         return userService.updateUser(user, principal.getName());
     }
 
+    /**
+     * Method responsible for updating  password
+     *
+     * @param passwordDto {@linkplain com.evgenii.my_market.dto.UpdatePasswordDto}
+     * @param principal   {@linkplain java.security.Principal}
+     * @return {@linkplain org.springframework.http.ResponseEntity}
+     */
     @PostMapping("/password")
     public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordDto passwordDto,
                                             Principal principal) {
         return userService.updatePassword(passwordDto, principal.getName());
     }
 
+    /**
+     * Method responsible for checking if username exist in database
+     *
+     * @param name {@linkplain com.evgenii.my_market.dto.UserNameDto}
+     * @return {@linkplain org.springframework.http.ResponseEntity}
+     */
     @PostMapping("/name")
     public ResponseEntity<?> checkUserName(@Valid @RequestBody UserNameDto name) {
         return ResponseEntity.ok(HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Method responsible for checking if email exist in database
+     *
+     * @param email {@linkplain com.evgenii.my_market.dto.UserEmailDto}
+     * @return {@linkplain org.springframework.http.ResponseEntity}
+     */
     @PostMapping("/email")
     public ResponseEntity<?> checkUserEmail(@Valid @RequestBody UserEmailDto email) {
         return ResponseEntity.ok(HttpStatus.ACCEPTED);

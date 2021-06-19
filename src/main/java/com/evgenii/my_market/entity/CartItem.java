@@ -9,6 +9,11 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * Entity class for cart item.
+ *
+ * @author Boznyakov Evgenii
+ */
 @NoArgsConstructor
 @Getter
 @Setter
@@ -41,7 +46,11 @@ public class CartItem {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-
+    /**
+     * Constructor for creating new instance of this class.
+     *
+     * @param product an instance of {@linkplain com.evgenii.my_market.entity.Product Product}
+     */
     public CartItem(Product product) {
         this.product = product;
         this.quantity = 1;
@@ -49,23 +58,33 @@ public class CartItem {
         this.price = this.pricePerProduct;
     }
 
+    /**
+     * Increment quantity and price of cart item by one.
+     */
     public void incrementQuantity() {
         quantity++;
         price = BigDecimal.valueOf(quantity * pricePerProduct.doubleValue());
     }
 
+    /**
+     * Increment quantity and price of cart item by amount.
+     */
     public void incrementQuantity(int amount) {
         quantity += amount;
         price = BigDecimal.valueOf(quantity * pricePerProduct.doubleValue());
     }
 
-
+    /**
+     * Decrement quantity and price of cart item by amount.
+     */
     public void decrementQuantity() {
         quantity--;
         price = BigDecimal.valueOf(quantity * pricePerProduct.doubleValue());
     }
 
-
+    /**
+     * Recalculate price of cart item.
+     */
     public void recalculate() {
         price = BigDecimal.valueOf(quantity * pricePerProduct.doubleValue());
 
