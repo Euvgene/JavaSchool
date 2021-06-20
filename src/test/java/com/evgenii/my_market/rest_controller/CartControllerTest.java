@@ -28,7 +28,7 @@ class CartControllerTest {
     private static final String PRODUCT_ID = "65";
     private static final String PRODUCT_ID_NOT_EXIST = "2";
     private static final String PRODUCT_NAME = "Mimi cat";
-    private static final String CART_UUID = "dbb3cab4-e0e0-402d-b65f-0a89ef3a4092";
+    private static final String CART_UUID = "a9c93b66-a3f6-4e57-80b2-407ecb2062bb";
     private static final String CART_UUID_NOT_EXIST = "a0fe8317-0ad9-46cb-acfd-fd1533bd1b6c";
 
     @Autowired

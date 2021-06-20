@@ -86,4 +86,52 @@ $(document).ready(function () {
         })
     });
 
+    $("#adminProducts").click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: 'http://localhost:8189/',
+            headers: {
+                "Authorization": "Bearer " + localStorage.token
+            }, complete: function () {
+                window.location.href = "http://localhost:8189/admin-products";
+            }
+        })
+    });
+    $("#addProduct").click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: 'http://localhost:8189/',
+            headers: {
+                "Authorization": "Bearer " + localStorage.token
+            }, complete: function () {
+                window.location.href = "http://localhost:8189/add-products";
+            }
+        })
+    });
+    $("#changeOrder").click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: 'http://localhost:8189/',
+            headers: {
+                "Authorization": "Bearer " + localStorage.token
+            }, complete: function () {
+                window.location.href = "http://localhost:8189/change-orders";
+            }
+        })
+    });
+    $("#statistic").click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: "GET",
+            url: 'http://localhost:8189/',
+            headers: {
+                "Authorization": "Bearer " + localStorage.token
+            }, complete: function () {
+                window.location.href = "http://localhost:8189/statistic";
+            }
+        })
+    });
 });

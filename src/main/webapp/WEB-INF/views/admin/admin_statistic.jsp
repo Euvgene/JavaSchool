@@ -30,11 +30,11 @@
             </div>
             <div class="form-group col-md-2">
                 <label for="firstDate"><fmt:message key="label.FromDate"/></label>
-                <input class="form-control" type="date" id="firstDate">
+                <input class="form-control" type="date" id="firstDate" >
             </div>
             <div class="form-group col-md-2">
                 <label for="secondDate"><fmt:message key="label.ToDate"/></label>
-                <input class="form-control" type="date" id="secondDate">
+                <input class="form-control" type="date" id="secondDate" >
             </div>
 
 
@@ -123,11 +123,11 @@
             success: function (response) {
                 let order = response;
                 clearTable();
+                console.log(response)
                 $('#cartHead').append(
                     "<tr>" +
                     "<td align='center' style='white-space: nowrap'><fmt:message key="label.name"/></td>" +
                     "<td align='center' style='white-space: nowrap'><fmt:message key="label.Quantity"/></td>" +
-                    "<td align='center' style='white-space: nowrap'><fmt:message key="label.price"/></td>" +
                     "<td align='center' style='white-space: nowrap'><fmt:message key="label.Total"/></td>" +
                     "</tr>");
                 let count = 0;
@@ -141,8 +141,7 @@
                             rd.append(
                                 "<td align='center' > " + order[k].name + " </td>" +
                                 "<td align='center' > " + order[k].number + '' + '</td>' +
-                                "<td align='center' >" + order[k].pricePerProduct + "" + " $" + "</td>" +
-                                "<td align='center' >" + order[k].pricePerProduct * order[k].number + "" + " $" + "</td>");
+                                "<td align='center' >" + order[k].pricePerProduct  + "" + " $" + "</td>");
                             $('#example').append(rd);
                         }
                     }

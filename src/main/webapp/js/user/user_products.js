@@ -103,7 +103,6 @@ addToCart = function (id, count) {
 }
 
 $(document).ready(function () {
-
     getSmallCartProducts()
     getProducts()
     if (!localStorage.pageIndx) {

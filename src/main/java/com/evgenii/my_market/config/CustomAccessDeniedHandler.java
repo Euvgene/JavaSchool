@@ -14,8 +14,8 @@ import java.io.IOException;
 
 /**
  * Custom error 403 (access denied) handler for both authorized and unauthorized users.
- * @author Boznyakov Evgenii
  *
+ * @author Boznyakov Evgenii
  */
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
@@ -29,7 +29,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
 
-            LOGGER.info("User '{}' attempted to access the URL: {}",authentication.getName(),
+            LOGGER.info("User '{}' attempted to access the URL: {}", authentication.getName(),
                     request.getRequestURI());
         }
         response.sendRedirect(request.getContextPath() + "/access-denied");
