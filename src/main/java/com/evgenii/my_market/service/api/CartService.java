@@ -26,7 +26,7 @@ public interface CartService {
      * Find cart from database by id.
      *
      * @param id cart id
-     * @return {@linkplain com.evgenii.my_market.entity.Cart Car}
+     * @return {@linkplain com.evgenii.my_market.entity.Cart Cart}
      */
     Cart findById(UUID id);
 

@@ -23,9 +23,17 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Implementation of {@link CartService} interface.
+ *
+ * @author Boznyakov Evgenii
+ */
 @Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
+    /**
+     * Creates an instance of this class using constructor-based dependency injection.
+     */
     private final CartDao cartDao;
     private final ProductService productService;
     private final UserService userService;
@@ -33,11 +41,23 @@ public class CartServiceImpl implements CartService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CartServiceImpl.class);
 
+    /**
+     * Save new cart to database.
+     *
+     * @param cart {@linkplain com.evgenii.my_market.entity.Cart Car} to be saved
+     * @return {@linkplain com.evgenii.my_market.entity.Cart Car}
+     */
     @Transactional
     public Cart save(Cart cart) {
         return cartDao.save(cart);
     }
 
+    /**
+     * Find cart from database by id.
+     *
+     * @param id cart id
+     * @return {@linkplain com.evgenii.my_market.entity.Cart Cart}
+     */
     @Transactional
     public Cart findById(UUID id) {
         Cart cart = cartDao.findById(id);
@@ -49,6 +69,14 @@ public class CartServiceImpl implements CartService {
         return cart;
     }
 
+    /**
+     * Add to cart product by id. Check if product exist in cart.
+     * If product exist than increment count of product and recalculate price.
+     * If not exist than create new cart item.
+     *
+     * @param cartId    cart id
+     * @param productId product id
+     */
     @Transactional
     public void addToCart(UUID cartId, int productId) {
         Cart cart = findById(cartId);
@@ -66,12 +94,24 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    /**
+     * Delete cart items from cart
+     *
+     * @param cartId cart id
+     */
     @Transactional
     public void clearCart(UUID cartId) {
         Cart cart = findById(cartId);
         cart.clear();
     }
 
+    /**
+     * Check product quantity of cart item  and decrement it if cart item quantity greater than product quantity.
+     * Delete cart item if product quantity in database is zero.
+     *
+     * @param cartId cart id
+     * @return {@linkplain org.springframework.http.ResponseEntity}
+     */
     @Transactional
     public ResponseEntity<?> clearOldCartItems(UUID cartId) {
         boolean isValid = true;
@@ -104,12 +144,26 @@ public class CartServiceImpl implements CartService {
         }
     }
 
+    /**
+     * Find cart by user id
+     *
+     * @param id user id
+     * @return List<Cart>
+     */
     @Transactional
     public List<Cart> findByUserId(int id) {
         return cartDao.findByUserId(id);
     }
 
 
+    /**
+     * This method create cart for user if cart not exist, and merge old cart and new cart if old cart exist.
+     * If user is not auth create new cart fo quest.
+     *
+     * @param username user name
+     * @param cartUuid cart id
+     * @return UUID
+     */
     @Transactional
     public UUID getCartForUser(String username, UUID cartUuid) {
         if (username != null && cartUuid != null) {
@@ -133,6 +187,14 @@ public class CartServiceImpl implements CartService {
         return cart.get(0).getCartId();
     }
 
+    /**
+     * Decrement cart item quantity if quantity greater than one.
+     * Delete cart item if cart item quantity equal to one
+     *
+     * @param cartId cart id
+     * @param productId product id
+     * @param number action number (1 - delete, 0 - decrement)
+     */
     @Transactional
     public void updateQuantityInCart(UUID cartId, int productId, int number) {
         Cart cart = findById(cartId);
