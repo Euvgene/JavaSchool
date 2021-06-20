@@ -78,11 +78,11 @@
                 $('#cartHead').append(
                     "<tr>" +
                     "<td align='center' style='white-space: nowrap'><fmt:message key="label.name"/></td>" +
-                    "<td align='center' style='white-space: nowrap'><fmt:message key="label.Quantity"/></td>" +
+                    "<td align='center' style='white-space: nowrap'><fmt:message key="label.Total"/></td>" +
                     "</tr>");
                 $('#example').empty();
                 if (order.length > 0) {
-                    $('#cartHeader').append(name + " statistic");
+
                     for (let k = 0; k < order.length; k++) {
                         total = total + order[k].number;
                         let rd = $('<tr class=""></tr>');
@@ -92,12 +92,15 @@
                         $('#example').append(rd);
                     }
                     if (name === "Proceeds") {
+                        $('#cartHeader').append("<fmt:message key="label.proceeds"/>");
                         $('#example').append("<tr>" +
                             "<td style=\"justify-content:center; margin: auto;font-family:'Lucida Sans', " +
                             "'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;" +
                             "font-weight: bold \" align='center' ><fmt:message key="label.Total"/></td>" +
                             "<td align='center' >" + total + "" + " $" + "</td>" +
                             "</tr>");
+                    } else {
+                        $('#cartHeader').append("<fmt:message key="label.userStatistic"/>");
                     }
                 } else {
                     clearTable()

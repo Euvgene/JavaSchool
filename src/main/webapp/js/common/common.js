@@ -44,7 +44,7 @@ $(document).ready(function () {
             headers: {
                 "Authorization": "Bearer " + localStorage.token
             }, complete: function () {
-                window.location.href = "http://localhost:8189/user-products";
+                window.location.href = "http://localhost:8189/user-products" + localStorage.lang;
             }
         })
     });
@@ -57,7 +57,7 @@ $(document).ready(function () {
             headers: {
                 "Authorization": "Bearer " + localStorage.token
             }, complete: function () {
-                window.location.href = "http://localhost:8189/user-orders";
+                window.location.href = "http://localhost:8189/user-orders" + localStorage.lang;
             }
         })
     });
@@ -69,7 +69,7 @@ $(document).ready(function () {
             headers: {
                 "Authorization": "Bearer " + localStorage.token
             }, complete: function () {
-                window.location.href = "http://localhost:8189/user-cart";
+                window.location.href = "http://localhost:8189/user-cart" + localStorage.lang;
             }
         })
     });
@@ -81,7 +81,7 @@ $(document).ready(function () {
             headers: {
                 "Authorization": "Bearer " + localStorage.token
             }, complete: function () {
-                window.location.href = "http://localhost:8189/user-info";
+                window.location.href = "http://localhost:8189/user-info" + localStorage.lang;
             }
         })
     });
@@ -94,7 +94,7 @@ $(document).ready(function () {
             headers: {
                 "Authorization": "Bearer " + localStorage.token
             }, complete: function () {
-                window.location.href = "http://localhost:8189/admin-products";
+                window.location.href = "http://localhost:8189/admin-products" + localStorage.lang;
             }
         })
     });
@@ -106,7 +106,7 @@ $(document).ready(function () {
             headers: {
                 "Authorization": "Bearer " + localStorage.token
             }, complete: function () {
-                window.location.href = "http://localhost:8189/add-products";
+                window.location.href = "http://localhost:8189/add-products" + localStorage.lang;
             }
         })
     });
@@ -118,7 +118,7 @@ $(document).ready(function () {
             headers: {
                 "Authorization": "Bearer " + localStorage.token
             }, complete: function () {
-                window.location.href = "http://localhost:8189/change-orders";
+                window.location.href = "http://localhost:8189/change-orders" + localStorage.lang;
             }
         })
     });
@@ -130,7 +130,7 @@ $(document).ready(function () {
             headers: {
                 "Authorization": "Bearer " + localStorage.token
             }, complete: function () {
-                window.location.href = "http://localhost:8189/statistic";
+                window.location.href = "http://localhost:8189/statistic" + localStorage.lang;
             }
         })
     });
