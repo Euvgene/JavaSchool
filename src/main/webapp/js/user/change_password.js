@@ -29,13 +29,7 @@ changePassword = function () {
                 }, delay);
             }, error: function (response) {
                 console.log(response)
-                if (response.responseJSON.message.length > 1) {
-                    for (let k = 0; k < response.responseJSON.message.length; k++) {
-                        appendMessage( response.responseJSON.message[k])
-                    }
-                } else {
                     appendMessage(response.responseJSON.message)
-                }
             }
         });
     }

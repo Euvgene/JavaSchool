@@ -101,7 +101,15 @@ function getUserCartProducts() {
 }
 
 goToOrderSubmit = function () {
-    location.assign("http://localhost:8189/order-confirmation")
+    $.ajax({
+        type: "GET",
+        url: 'http://localhost:8189/',
+        headers: {
+            "Authorization": "Bearer " + localStorage.token
+        }, complete: function () {
+            window.location.href = "http://localhost:8189/order-confirmation" + localStorage.lang;
+        }
+    })
 }
 
 clearTable = function () {
